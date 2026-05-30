@@ -1,0 +1,38 @@
+name: Process Video
+
+on:
+  repository_dispatch:
+    types: [new_video]
+
+jobs:
+  process-video:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RECRUIT_TOKEN }}
+
+      - name: Debug payload
+        run: |
+          echo "=== DEBUG: RAW CLIENT PAYLOAD ==="
+          echo '${{ toJson(github.event.client_payload) }}'
+          echo "=== DEBUG: FIELD BY FIELD ==="
+          echo "title: ${{ github.event.client_payload.title }}"
+          echo "uploader: ${{ github.event.client_payload.uploader }}"
+          echo "url: ${{ github.event.client_payload.url }}"
+
+      - name: Process video
+        run: |
+          python3 scripts/process-video.py \
+            "${{ github.event.client_payload.title }}" \
+            "${{ github.event.client_payload.uploader }}" \
+            "${{ github.event.client_payload.url }}"
+
+      - name: Commit and push
+        run: |
+          git config user.email "teamthrow-bot@users.noreply.github.com"
+          git config user.name "Team Throw Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.RECRUIT_TOKEN }}@github.com/abduznik/teamthrow.online.git
+          git add videos.json
+          git commit -m "🎬 Video: ${{ github.event.client_payload.title }} by ${{ github.event.client_payload.uploader }}" || echo "Nothing to commit"
+          git push
