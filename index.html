@@ -1707,17 +1707,17 @@
       <div class="modal-body" id="modalFormView">
         <div class="form-view active" id="formView">
           <p style="color: #888; margin-bottom: 1.5rem; font-size: 0.9rem; letter-spacing: 1px;">
-            COMMISSION APPLICATION — All fields required. Failure is optional.
+            COMMISSION APPLICATION — <span style="color:var(--red);">*</span> required &middot; leave blank for randomized shame
           </p>
 
           <div class="form-group">
-            <label for="f-gamerTag">Gamer Tag</label>
+            <label for="f-gamerTag">Gamer Tag <span style="color:var(--red);">*</span></label>
             <input type="text" id="f-gamerTag" placeholder="xX_YourTag_Xx" required />
             <div class="help-text">Must be at least mildly embarrassing.</div>
           </div>
 
           <div class="form-group">
-            <label for="f-role">Role / Hero Pool</label>
+            <label for="f-role">Role / Hero Pool <span style="color:var(--red);">*</span></label>
             <select id="f-role" required>
               <option value="">Select your worst role...</option>
               <option value="DPS">DPS — I can't aim but I lock Widow anyway</option>
@@ -1729,7 +1729,7 @@
           </div>
 
           <div class="form-group">
-            <label>Main Hero</label>
+            <label>Main Hero <span style="color:var(--red);">*</span></label>
             <div class="hero-selector" id="heroSelector">
               <div class="hero-search-bar">
                 <input type="text" id="f-heroSearch" placeholder="Search heroes..." autocomplete="off" />
@@ -1745,13 +1745,13 @@
           </div>
 
           <div class="form-group">
-            <label for="f-sr">Current SR</label>
+            <label for="f-sr">Current SR <span style="color:var(--red);">*</span></label>
             <input type="text" id="f-sr" placeholder="e.g., Bronze 5 (be honest...)" required />
             <div class="help-text">We have ways of verifying. Just kidding. We don't care.</div>
           </div>
 
           <div class="form-group">
-            <label for="f-hours">Hours Played</label>
+            <label for="f-hours">Hours Played <span style="color:var(--red);">*</span></label>
             <input type="text" id="f-hours" placeholder="e.g., 2,000+ hours of feeding" required />
             <div class="help-text">Total career hours. Mentally subtract 80% for queue time.</div>
           </div>
@@ -1804,7 +1804,7 @@
           </div>
 
           <div class="form-group">
-            <label for="f-story">Your Worst Throw</label>
+            <label for="f-story">Your Worst Throw <span style="color:var(--red);">*</span></label>
             <textarea id="f-story" placeholder="Tell us about the time you ulted into a wall, walked your Symmetra teleporter off the cliff, or blamed your team so hard they all reported you. We want details. We want pain. We want art." required></textarea>
             <div class="help-text">The more embarrassing, the better your chances.</div>
           </div>
