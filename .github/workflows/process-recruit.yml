@@ -18,12 +18,16 @@ jobs:
           echo '${{ toJson(github.event.client_payload) }}'
           echo "=== DEBUG: FIELD BY FIELD ==="
           echo "battletag: ${{ github.event.client_payload.battletag }}"
+          echo "role: ${{ github.event.client_payload.role }}"
           echo "hero: ${{ github.event.client_payload.hero }}"
-          echo "winRate: ${{ github.event.client_payload.winRate }}"
           echo "winrate: ${{ github.event.client_payload.winrate }}"
+          echo "deaths: ${{ github.event.client_payload.deaths }}"
+          echo "kda: ${{ github.event.client_payload.kda }}"
+          echo "bonusStat: ${{ github.event.client_payload.bonusStat }}"
+          echo "bonusLabel: ${{ github.event.client_payload.bonusLabel }}"
+          echo "specialty: ${{ github.event.client_payload.specialty }}"
           echo "story: ${{ github.event.client_payload.story }}"
           echo "timestamp: ${{ github.event.client_payload.timestamp }}"
-          echo "role: ${{ github.event.client_payload.role }}"
 
       - name: Append recruit to roster
         run: |
@@ -33,23 +37,33 @@ jobs:
           fi
 
           BATTLETAG="${{ github.event.client_payload.battletag }}"
+          ROLE="${{ github.event.client_payload.role }}"
           HERO="${{ github.event.client_payload.hero }}"
           WINRATE="${{ github.event.client_payload.winrate }}"
+          DEATHS="${{ github.event.client_payload.deaths }}"
+          KDA="${{ github.event.client_payload.kda }}"
+          BONUSSTAT="${{ github.event.client_payload.bonusStat }}"
+          BONUSLABEL="${{ github.event.client_payload.bonusLabel }}"
+          SPECIALTY="${{ github.event.client_payload.specialty }}"
           STORY="${{ github.event.client_payload.story }}"
           TIMESTAMP="${{ github.event.client_payload.timestamp }}"
 
-          # Map form fields to roster-card fields + enrich with random stats
+          # Build hero image path
+          SAFE_HERO=$(echo "$HERO" | sed 's/[^a-zA-Z0-9]//g')
+          HEROIMG="assets/heroes/render/render_${SAFE_HERO}.webp"
+
+          # Map form fields to roster-card fields
           PAYLOAD=$(jq -n \
             --arg tag "$BATTLETAG" \
             --arg hero "$HERO" \
-            --arg role "DPS" \
-            --arg heroImg "assets/heroes/render/render_${HERO}.webp" \
+            --arg role "$ROLE" \
+            --arg heroImg "$HEROIMG" \
             --arg winRate "$WINRATE" \
-            --arg deaths "$(echo $((RANDOM % 16 + 10)))" \
-            --arg kda "0.0$(echo $((RANDOM % 9 + 1)))" \
-            --arg bonusStat "???" \
-            --arg bonusLabel "Stat" \
-            --arg specialty "$STORY" \
+            --arg deaths "$DEATHS" \
+            --arg kda "$KDA" \
+            --arg bonusStat "$BONUSSTAT" \
+            --arg bonusLabel "$BONUSLABEL" \
+            --arg specialty "$SPECIALTY" \
             --arg timestamp "$TIMESTAMP" \
             '{tag:$tag,hero:$hero,role:$role,heroImg:$heroImg,winRate:$winRate,deaths:$deaths,kda:$kda,bonusStat:$bonusStat,bonusLabel:$bonusLabel,specialty:$specialty,timestamp:$timestamp}')
 

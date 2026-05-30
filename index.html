@@ -1648,9 +1648,6 @@
       <div style="text-align:center;margin-top:2rem;">
         <a href="recruits.html" class="cta" style="display:inline-block;padding:0.8rem 2.5rem;background:var(--red);color:var(--white);font-family:var(--font-display);font-size:1.1rem;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;">VIEW FULL ROSTER</a>
       </div>
-
-      <!-- Recruited players container (appended by GitHub Action) -->
-      <div id="recruitedPlayers" class="roster-grid" style="margin-top:1rem;display:none;"></div>
     </div>
   </section>
 
@@ -2135,6 +2132,16 @@
       btn.disabled = true;
       btn.textContent = 'THROWING...';
 
+      // Auto-fill empty optional stats with random funny values
+      var bonusLabels = ['Headshots (Career)','Flashbang Hit Rate','Riptire Suicide Rate','I Need Healing Spam','TP to Cliff/Game','Seconds on Point','Teammate Avoids','Match Chat Bans','Ultimates Wasted','Times Blamed Supports','Suicides per Game','Walls Bumped Into','Ults into Walls','GG EZ After Loss'];
+      var specialties = ['Fresh meat, still learning to feed','Promising thrower, needs seasoning','Natural talent for underperformance','Consistently inconsistent','Master of the accidental feed','Ultimate economy: always wasted','Positionally challenged','Professional stagger artist','Gold damage (to his own team)','World record: most deaths per minute'];
+      if (!winRate) winRate = (Math.floor(Math.random() * 5) + 1) + '%';
+      if (!deaths) deaths = String(Math.floor(Math.random() * 15) + 10);
+      if (!kda) kda = (Math.random() * 0.3).toFixed(2);
+      if (!bonusStat) bonusStat = '???';
+      if (!bonusLabel) bonusLabel = bonusLabels[Math.floor(Math.random() * bonusLabels.length)];
+      if (!specialty) specialty = specialties[Math.floor(Math.random() * specialties.length)];
+
       var xhr = new XMLHttpRequest();
       xhr.open('POST', WORKER_URL, true);
       xhr.setRequestHeader('Content-Type', 'application/json');
@@ -2154,9 +2161,7 @@
           battletag: tag,
           role: role,
           hero: hero,
-          sr: sr,
-          hours: hours,
-          winRate: winRate,
+          winrate: winRate,
           deaths: deaths,
           kda: kda,
           bonusStat: bonusStat,
@@ -2330,7 +2335,6 @@
       function renderRoster(recruits) {
         if (!recruits || !recruits.length) return;
         var grid = document.getElementById('rosterGrid');
-        var extraContainer = document.getElementById('recruitedPlayers');
 
         var recent = recruits.slice(-6).reverse();
         recent.forEach(function(r) { grid.appendChild(renderRecruitCard(r, false)); });
@@ -2338,15 +2342,6 @@
         setTimeout(function() {
           grid.querySelectorAll('.fade-in').forEach(function(el) { el.classList.add('visible'); });
         }, 50);
-
-        var extras = recruits.slice(0, -6);
-        if (extras.length && extraContainer) {
-          extraContainer.style.display = '';
-          extras.reverse().forEach(function(r) { extraContainer.appendChild(renderRecruitCard(r, true)); });
-          setTimeout(function() {
-            extraContainer.querySelectorAll('.fade-in').forEach(function(el) { el.classList.add('visible'); });
-          }, 100);
-        }
       }
     })();
   </script>
