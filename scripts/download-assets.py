@@ -7,7 +7,7 @@ HEROES_RENDERS = {
     "Ana": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/5e/OW2_Ana.png/revision/latest?cb=20241102141052",
     "Ashe": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/89/OW2_Ashe.png/revision/latest?cb=20250329135344",
     "Baptiste": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/00/OW2_Baptiste.png/revision/latest?cb=20241108201237",
-    "Bastion": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/OW2_Bastion.png/revision/latest?cb=20221005165909",
+    "Bastion": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/4/47/OW2-Bastion.png/revision/latest?cb=20241108201208",
     "Brigitte": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/83/OW2_Brigitte.png/revision/latest?cb=20220930191642",
     "Cassidy": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a0/OW2_Cassidy.png/revision/latest?cb=20241108201305",
     "D.Va": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1a/OW2_Dva.png/revision/latest?cb=20241108201346",
@@ -42,6 +42,18 @@ HEROES_RENDERS = {
     "Winston": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/39/OW2_Winston.png/revision/latest?cb=20241102142153",
     "Zarya": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/02/OW2_Zarya.png/revision/latest?cb=20241108201623",
     "Zenyatta": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/4/44/OW2_Zenyatta.png/revision/latest?cb=20260324055645",
+    "Anran": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/07/OW2_Anran.png/revision/latest?cb=20260216113236",
+    "Domina": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/d7/OW2_Domina.png/revision/latest?cb=20260213022447",
+    "Emre": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/c/c7/OW2_Emre.png/revision/latest?cb=20260213003055",
+    "Jetpack Cat": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/27/OW2_Jetpack_Cat.png/revision/latest?cb=20260206154545",
+    "Lúcio": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/4/44/OW2_L%C3%BAcio.png/revision/latest?cb=20241102140611",
+    "Mizuki": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/83/OW2_Mizuki.png/revision/latest?cb=20260215135742",
+    "Moira": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/5a/OW2_Moira.png/revision/latest?cb=20240404082150",
+    "Pharah": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/b/b3/OW2_Pharah.png/revision/latest?cb=20241108201144",
+    "Sierra": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1c/OW2_Sierra.png/revision/latest?cb=20260415005653",
+    "Vendetta": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/9/96/OW2_Vendetta.png/revision/latest?cb=20260304090759",
+    "Wrecking Ball": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/03/OW2_Wrecking_Ball.png/revision/latest?cb=20260304093441",
+    "Wuyang": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/d4/OW2_Wuyang.png/revision/latest?cb=20260305234200",
 }
 
 ICONS = {
@@ -83,6 +95,18 @@ ICONS = {
     "Winston": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f8/Icon-Winston.png/revision/latest?cb=20221005161721",
     "Zarya": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/75/Icon-Zarya.png/revision/latest?cb=20221005161732",
     "Zenyatta": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f7/Icon-Zenyatta.png/revision/latest?cb=20221005160943",
+    "Anran": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/07/Icon-Anran.png/revision/latest?cb=20260418122337",
+    "Domina": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/76/Icon-Domina.png/revision/latest?cb=20260210210928",
+    "Emre": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/34/Icon-Emre.png/revision/latest?cb=20260210210951",
+    "Jetpack Cat": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/12/Icon-Jetpack_Cat.png/revision/latest?cb=20260210211110",
+    "Lúcio": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/Icon-L%C3%BAcio.png/revision/latest?cb=20221004204914",
+    "Mizuki": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/36/Icon-Mizuki.png/revision/latest?cb=20260210211030",
+    "Moira": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/55/Icon-Moira.png/revision/latest?cb=20221005160935",
+    "Pharah": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/29/Icon-Pharah.png/revision/latest?cb=20221005170211",
+    "Sierra": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/32/Icon-Sierra.png/revision/latest?cb=20260414184738",
+    "Vendetta": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/dd/Icon-Vendetta.png/revision/latest?cb=20251127231802",
+    "Wrecking Ball": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/c/ca/Icon-Wrecking_Ball.png/revision/latest?cb=20221005161727",
+    "Wuyang": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/6/6c/Icon-Wuyang.png/revision/latest?cb=20250826195208",
 }
 
 RENDER_DIR = "F:/Coding/teamthrow.online/assets/heroes/render"
