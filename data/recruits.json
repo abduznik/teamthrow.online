@@ -96,5 +96,18 @@
     "bonusLabel": "Stat",
     "specialty": "",
     "timestamp": "2026-05-30T10:04:43.308Z"
+  },
+  {
+    "tag": "",
+    "hero": "",
+    "role": "",
+    "heroImg": "assets/heroes/render/render_.webp",
+    "winRate": "",
+    "deaths": "",
+    "kda": "",
+    "bonusStat": "",
+    "bonusLabel": "",
+    "specialty": "",
+    "timestamp": "2026-05-30T10:08:58.348Z"
   }
 ]
