@@ -70,5 +70,18 @@
     "bonusStat": "100%",
     "bonusLabel": "I Need Healing Spam",
     "specialty": "Blading into 1v6, blaming supports"
+  },
+  {
+    "tag": "",
+    "hero": "",
+    "role": "DPS",
+    "heroImg": "assets/heroes/render/render_.webp",
+    "winRate": "",
+    "deaths": "25",
+    "kda": "0.04",
+    "bonusStat": "???",
+    "bonusLabel": "Stat",
+    "specialty": "",
+    "timestamp": "2026-05-30T09:56:11.007Z"
   }
 ]
