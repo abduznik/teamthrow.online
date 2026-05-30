@@ -4,11 +4,11 @@ import json
 import os
 
 script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-json_path = os.path.join(script_dir, "data", "recruits.json")
+json_path = os.path.join(script_dir, "data", "recruits.jsonl")
 html_path = os.path.join(script_dir, "roster.html")
 
 with open(json_path) as f:
-    recruits = json.load(f)
+    recruits = [json.loads(line) for line in f if line.strip()]
 
 if not recruits:
     print("No recruits yet, nothing to render")

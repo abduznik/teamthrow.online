@@ -72,19 +72,6 @@
     "specialty": "Blading into 1v6, blaming supports"
   },
   {
-    "tag": "Test",
-    "hero": "Ana",
-    "role": "Support",
-    "heroImg": "assets/heroes/render/render_Ana.webp",
-    "winRate": "4%",
-    "deaths": "17",
-    "kda": "0.12",
-    "bonusStat": "???",
-    "bonusLabel": "Teammate Avoids",
-    "specialty": "Natural talent for underperformance",
-    "timestamp": "2026-05-30T11:09:06.343Z"
-  },
-  {
     "tag": "Arbuznik",
     "hero": "Roadhog",
     "role": "Tank",

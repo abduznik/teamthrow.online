@@ -155,11 +155,17 @@
       }
 
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'data/recruits.json?v=' + Date.now(), true);
+      xhr.open('GET', 'data/recruits.jsonl?v=' + Date.now(), true);
       xhr.onload = function() {
         var recruits = null;
         if (xhr.status === 200) {
-          try { recruits = JSON.parse(xhr.responseText); } catch(e) {}
+          try {
+            var lines = xhr.responseText.trim().split('\n').filter(Boolean);
+            recruits = [];
+            for (var i = 0; i < lines.length; i++) {
+              try { recruits.push(JSON.parse(lines[i])); } catch(e) {}
+            }
+          } catch(e) {}
         }
         renderAll(recruits || FALLBACK_RECRUITS);
       };
