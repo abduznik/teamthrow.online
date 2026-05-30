@@ -214,15 +214,11 @@
         showFanartError();
       };
       xhr.send(JSON.stringify({
-        event_type: 'new_fanart',
-        client_payload: {
-          title: title,
-          artist: artist,
-          artistLink: artistLink,
-          description: desc,
-          image: imageUrl,
-          timestamp: new Date().toISOString()
-        }
+        title: title,
+        artist: artist,
+        artistLink: artistLink,
+        description: desc,
+        image: imageUrl
       }));
 
       // Rate limit: 10 second cooldown

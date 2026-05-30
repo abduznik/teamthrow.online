@@ -2156,20 +2156,16 @@
         showDispatchError();
       };
       xhr.send(JSON.stringify({
-        event_type: 'new_recruit',
-        client_payload: {
-          battletag: tag,
-          role: role,
-          hero: hero,
-          winrate: winRate,
-          deaths: deaths,
-          kda: kda,
-          bonusStat: bonusStat,
-          bonusLabel: bonusLabel,
-          specialty: specialty,
-          story: story,
-          timestamp: new Date().toISOString()
-        }
+        battletag: tag,
+        role: role,
+        hero: hero,
+        winrate: winRate,
+        deaths: deaths,
+        kda: kda,
+        bonusStat: bonusStat,
+        bonusLabel: bonusLabel,
+        specialty: specialty,
+        story: story
       }));
 
       // Rate limit: disable button for 10 seconds
