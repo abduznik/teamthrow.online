@@ -98,6 +98,15 @@ if __name__ == "__main__":
     artist = sys.argv[3]
     description = sys.argv[4] if len(sys.argv) > 4 else ""
     artist_link = sys.argv[5] if len(sys.argv) > 5 else ""
+
+    # Debug: dump all args
+    print(f"DEBUG: received {len(sys.argv)} args:")
+    for i, a in enumerate(sys.argv):
+        print(f"  sys.argv[{i}] = {repr(a)}")
+
+    if not image_url:
+        print("ERROR: image URL is empty! Check that the Worker is forwarding the 'image' field in client_payload.")
+        sys.exit(1)
     
     result = process_fanart(image_url, title, artist, description, artist_link)
     if result:
