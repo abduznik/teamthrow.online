@@ -13,15 +13,15 @@ deaths = int(sys.argv[4]) if len(sys.argv) > 4 else random.randint(12, 26)
 kda = float(sys.argv[5]) if len(sys.argv) > 5 else round(random.random() * 0.3, 2)
 
 heroes = [
-    {"name":"Baptiste","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/fb/Icon-Baptiste.png/revision/latest?cb=20221005160910"},
-    {"name":"Orisa","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/11/Icon-Orisa.png/revision/latest?cb=20221005161652"},
-    {"name":"Mei","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/9/99/Icon-Mei.png/revision/latest?cb=20221005170206"},
-    {"name":"Hanzo","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/71/Icon-Hanzo.png/revision/latest?cb=20221005165925"},
-    {"name":"Mercy","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/03/Icon-Mercy.png/revision/latest?cb=20221005160926"},
-    {"name":"Reinhardt","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/83/Icon-Reinhardt.png/revision/latest?cb=20221005161659"},
-    {"name":"Sombra","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/70/Icon-Sombra.png/revision/latest?cb=20221005170556"},
-    {"name":"Tracer","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/29/Icon-Tracer.png/revision/latest?cb=20221005170620"},
-    {"name":"Zenyatta","img":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f7/Icon-Zenyatta.png/revision/latest?cb=20221005160943"},
+    {"name":"Baptiste","img":"assets/heroes/render/render_Baptiste.webp"},
+    {"name":"Orisa","img":"assets/heroes/render/render_Orisa.webp"},
+    {"name":"Mei","img":"assets/heroes/render/render_Mei.webp"},
+    {"name":"Hanzo","img":"assets/heroes/render/render_Hanzo.webp"},
+    {"name":"Mercy","img":"assets/heroes/render/render_Mercy.webp"},
+    {"name":"Reinhardt","img":"assets/heroes/render/render_Reinhardt.webp"},
+    {"name":"Sombra","img":"assets/heroes/render/render_Sombra.webp"},
+    {"name":"Tracer","img":"assets/heroes/render/render_Tracer.webp"},
+    {"name":"Zenyatta","img":"assets/heroes/render/render_Zenyatta.webp"},
 ]
 pick = random.choice(heroes)
 
