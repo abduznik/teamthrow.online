@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RECRUIT_TOKEN }}
 
       - name: Append recruit to roster
         run: |
@@ -25,6 +27,7 @@ jobs:
         run: |
           git config user.email "teamthrow-bot@users.noreply.github.com"
           git config user.name "Team Throw Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.RECRUIT_TOKEN }}@github.com/abduznik/teamthrow.online.git
           git add recruits.json
           git commit -m "🎮 New recruit: ${{ github.event.client_payload.battletag }}" || echo "Nothing to commit"
           git push
