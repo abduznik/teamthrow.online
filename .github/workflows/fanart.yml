@@ -5,38 +5,29 @@ on:
     types: [new_fanart]
 
 jobs:
-  process-fanart:
+  add-fanart:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.RECRUIT_TOKEN }}
 
-      - name: Install Pillow
-        run: pip install Pillow
-
-      - name: Save image data
+      - name: Append fanart to fanarts.json
         run: |
           PAYLOAD='${{ toJson(github.event.client_payload) }}'
-          echo "$PAYLOAD" > /tmp/fanart_payload.json
-          echo "$PAYLOAD" | jq -r '.image' > image_data.txt
-          echo "Image data saved ($(wc -c < image_data.txt) bytes)"
+          if [ ! -f fanarts.json ] || [ ! -s fanarts.json ]; then
+            echo "[]" > fanarts.json
+          fi
+          echo "$PAYLOAD" > /tmp/new_fanart.json
+          jq ". += [$(cat /tmp/new_fanart.json)]" fanarts.json > tmp.json && mv tmp.json fanarts.json
+          rm -f /tmp/new_fanart.json tmp.json
+          echo "Fanart added: $(jq '.[-1].title' fanarts.json) by $(jq '.[-1].artist' fanarts.json)"
 
-      - name: Process fanart
-        run: |
-          TITLE=$(cat /tmp/fanart_payload.json | jq -r '.title')
-          ARTIST=$(cat /tmp/fanart_payload.json | jq -r '.artist')
-          DESC=$(cat /tmp/fanart_payload.json | jq -r '.description')
-          LINK=$(cat /tmp/fanart_payload.json | jq -r '.artistLink')
-          python3 scripts/process-fanart.py \
-            image_data.txt \
-            "$TITLE" "$ARTIST" "$DESC" "$LINK"
-
-      - name: Commit and push
+      - name: Commit new fanart
         run: |
           git config user.email "teamthrow-bot@users.noreply.github.com"
           git config user.name "Team Throw Bot"
           git remote set-url origin https://x-access-token:${{ secrets.RECRUIT_TOKEN }}@github.com/abduznik/teamthrow.online.git
-          git add fanarts.json assets/fanart/
+          git add fanarts.json
           git commit -m "🎨 Fanart: ${{ github.event.client_payload.title }} by ${{ github.event.client_payload.artist }}" || echo "Nothing to commit"
           git push
