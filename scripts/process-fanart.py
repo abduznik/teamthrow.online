@@ -1,37 +1,41 @@
 #!/usr/bin/env python3
-"""Process fanart submission: compress image to .jpg and save to assets/fanart/"""
+"""Process fanart submission: download from Imgur URL, compress to .jpg, save locally"""
 import json
 import os
 import sys
-from PIL import Image
-from io import BytesIO
-import base64
 import re
 import uuid
+from PIL import Image
+from io import BytesIO
+import urllib.request
 
-def process_fanart(image_data_url, title, artist, description, artist_link=""):
-    """Compress a base64 image to .jpg and save metadata to fanarts.json"""
+def process_fanart(image_url, title, artist, description, artist_link=""):
+    """Download an image from a URL, compress to JPEG, save to assets/fanart/"""
     
-    dst_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "fanart")
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dst_dir = os.path.join(script_dir, "assets", "fanart")
     os.makedirs(dst_dir, exist_ok=True)
     
-    # Decode base64 image
-    match = re.match(r'data:image/(\w+);base64,(.+)', image_data_url)
-    if not match:
-        print("ERROR: Invalid image data URL")
+    # Download image from URL
+    try:
+        req = urllib.request.Request(image_url, headers={"User-Agent": "Mozilla/5.0 (Team Throw Bot)"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            image_bytes = r.read()
+            print(f"Downloaded {len(image_bytes)/1024:.0f}KB from {image_url}")
+    except Exception as e:
+        print(f"ERROR: Failed to download image: {e}")
         return None
     
-    ext = match.group(1)
-    base64_data = match.group(2)
-    image_bytes = base64.b64decode(base64_data)
-    
     # Open with Pillow
-    img = Image.open(BytesIO(image_bytes))
+    try:
+        img = Image.open(BytesIO(image_bytes))
+    except Exception as e:
+        print(f"ERROR: Failed to open image: {e}")
+        return None
     
     # Convert to RGB (saving as JPEG)
     if img.mode in ('RGBA', 'LA', 'P'):
-        # Create white background for transparency
-        background = Image.new('RGB', img.size, (13, 13, 13))  # near-black to match site
+        background = Image.new('RGB', img.size, (13, 13, 13))
         if img.mode == 'RGBA':
             background.paste(img, mask=img.split()[3])
         else:
@@ -50,15 +54,13 @@ def process_fanart(image_data_url, title, artist, description, artist_link=""):
     img.save(filepath, 'JPEG', quality=85, optimize=True)
     
     file_size_kb = os.path.getsize(filepath) / 1024
-    print(f"Saved: {filename} ({filepath}) - {file_size_kb:.1f}KB")
-    print(f"  Original size: {img.size}")
-    print(f"  Mode: {img.mode}")
+    print(f"Saved: {filename} ({file_size_kb:.1f}KB) - original size: {img.size}")
     
     # Build relative URL for the site
     relative_url = f"assets/fanart/{filename}"
     
     # Update fanarts.json
-    json_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fanarts.json")
+    json_path = os.path.join(script_dir, "fanarts.json")
     
     try:
         with open(json_path) as f:
@@ -85,21 +87,19 @@ def process_fanart(image_data_url, title, artist, description, artist_link=""):
 
 
 if __name__ == "__main__":
-    # CLI usage: python3 process-fanart.py <image_base64_file> <title> <artist> [description] [artist_link]
+    # CLI usage: python3 process-fanart.py <image_url> <title> <artist> [description] [artist_link]
     if len(sys.argv) < 4:
-        print("Usage: python3 process-fanart.py <image_base64_file> <title> <artist> [description] [artist_link]")
-        print("  image_base64_file: path to file containing the base64 data URL")
+        print("Usage: python3 process-fanart.py <image_url> <title> <artist> [description] [artist_link]")
+        print("  image_url: direct link to image (e.g. https://i.imgur.com/abcd123.jpg)")
         sys.exit(1)
     
-    with open(sys.argv[1]) as f:
-        image_data = f.read().strip()
-    
+    image_url = sys.argv[1]
     title = sys.argv[2]
     artist = sys.argv[3]
     description = sys.argv[4] if len(sys.argv) > 4 else ""
     artist_link = sys.argv[5] if len(sys.argv) > 5 else ""
     
-    result = process_fanart(image_data, title, artist, description, artist_link)
+    result = process_fanart(image_url, title, artist, description, artist_link)
     if result:
         print(f"\nDone! Artwork '{title}' by {artist} added.")
     else:
