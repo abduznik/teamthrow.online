@@ -191,10 +191,16 @@
     }
 
     // ============================================================
-    // SUBMIT FANART
+    // SUBMIT FANART — via repository_dispatch
     // ============================================================
-    var GITHUB_REPO_OWNER = 'abduznik';
-    var GITHUB_REPO_NAME  = 'teamthrow.online';
+    /*
+     * GitHub Token Info:
+     * Type: Fine-grained personal access token
+     * Scope: abduznik/teamthrow.online ONLY (single repo)
+     * Permissions: Actions (read/write), Contents (read/write)
+     */
+    var GH_PAT = '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';
+    var GH_PAT_FANART = GH_PAT;
 
     function submitFanart(e) {
       e.preventDefault();
@@ -226,77 +232,54 @@
       var reader = new FileReader();
       reader.onload = function(ev) {
         var imageData = ev.target.result;
-        var token = localStorage.getItem('gh_token');
 
-        var body = '## Fanart Submission\n\n'
-          + '| Field | Value |\n'
-          + '|-------|-------|\n'
-          + '| **Title** | ' + title + ' |\n'
-          + '| **Artist** | ' + artist + ' |\n'
-          + (artistLink ? '| **Link** | ' + artistLink + ' |\n' : '')
-          + (desc ? '| **Description** | ' + desc + ' |\n' : '')
-          + '\n---\n'
-          + '![Art](' + imageData + ')\n'
-          + '\n_Submitted via teamthrow.online/fanart_';
+        var payload = {
+          event_type: 'new_fanart',
+          client_payload: {
+            title: title,
+            artist: artist,
+            artistLink: artistLink,
+            description: desc,
+            image: imageData,
+            timestamp: new Date().toISOString()
+          }
+        };
 
-        if (token) {
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', 'https://api.github.com/repos/' + GITHUB_REPO_OWNER + '/' + GITHUB_REPO_NAME + '/issues', true);
-          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
-          xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 300) {
-              showFanartSuccess(title);
-            } else {
-              showFanartDemoSuccess(title, imageData, artist, desc, artistLink);
-            }
-          };
-          xhr.onerror = function() {
-            showFanartDemoSuccess(title, imageData, artist, desc, artistLink);
-          };
-          xhr.send(JSON.stringify({
-            title: 'Fanart: ' + title + ' by ' + artist,
-            body: body,
-            labels: ['fanart']
-          }));
-        } else {
-          showFanartDemoSuccess(title, imageData, artist, desc, artistLink);
-        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'https://api.github.com/repos/abduznik/teamthrow.online/dispatches', true);
+        xhr.setRequestHeader('Authorization', 'token ' + GH_PAT_FANART);
+        xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+          if (xhr.status === 204) {
+            showFanartSuccess(title, imageData, artist, desc, artistLink);
+          } else {
+            showFanartError();
+          }
+        };
+        xhr.onerror = function() {
+          showFanartError();
+        };
+        xhr.send(JSON.stringify(payload));
+
+        // Rate limit: 10 second cooldown
+        setTimeout(function() {
+          btn.disabled = false;
+          btn.textContent = 'THROW YOUR ART';
+        }, 10000);
       };
       reader.readAsDataURL(file);
     }
 
-    function showFanartSuccess(title) {
+    function showFanartSuccess(title, imageData, artist, desc, artistLink) {
       var btn = document.getElementById('fanartSubmitBtn');
       btn.textContent = '\u2705 THROWN!';
       btn.style.background = '#27ae60';
       document.getElementById('fanartForm').reset();
       document.getElementById('fileLabel').textContent = '\u{1F444} Choose your art file...';
       document.getElementById('previewContainer').innerHTML = '';
-      setTimeout(function() {
-        btn.textContent = 'THROW YOUR ART';
-        btn.style.background = '';
-        btn.disabled = false;
-      }, 3000);
-    }
 
-    function showFanartDemoSuccess(title, imageData, artist, desc, artistLink) {
-      showFanartSuccess(title);
-
-      // Save to localStorage for demo persistence
-      var existing = JSON.parse(localStorage.getItem('tt_fanarts') || '[]');
-      existing.push({
-        title: title,
-        artist: artist,
-        artistLink: artistLink,
-        description: desc,
-        image: imageData,
-        date: new Date().toISOString()
-      });
-      localStorage.setItem('tt_fanarts', JSON.stringify(existing));
-
-      // Add to gallery immediately
+      // Add to gallery immediately for preview
       var grid = document.getElementById('fanartGrid');
       var empty = grid.querySelector('.empty-gallery');
       if (empty) empty.remove();
@@ -312,13 +295,35 @@
         + '</div>';
       grid.insertBefore(card, grid.firstChild);
 
-      // Notification
+      // Notification banner
       var banner = document.createElement('div');
       banner.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:#27ae60;color:white;padding:1rem 1.5rem;z-index:3000;font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.9rem;animation:modalIn 0.3s ease-out;border:1px solid rgba(255,255,255,0.1);';
-      banner.innerHTML = '\u2705 FANART SUBMITTED!<br/><span style="font-family:Bebas Neue;font-size:1.1rem;letter-spacing:2px;">' + title + '</span>';
+      banner.innerHTML = '\u2705 FANART THROWN!<br/><span style="font-family:Bebas Neue;font-size:1.1rem;letter-spacing:2px;">' + title + '</span><br/><span style="font-size:0.75rem;opacity:0.8;">Processing via GitHub Actions...</span>';
       document.body.appendChild(banner);
       setTimeout(function() { banner.style.opacity = '0'; banner.style.transition = 'opacity 0.5s'; }, 5000);
       setTimeout(function() { banner.remove(); }, 6000);
+
+      setTimeout(function() {
+        btn.textContent = 'THROW YOUR ART';
+        btn.style.background = '';
+      }, 3000);
+    }
+
+    function showFanartError() {
+      var btn = document.getElementById('fanartSubmitBtn');
+      btn.textContent = 'THROW FAILED';
+      btn.style.background = '#555';
+      setTimeout(function() {
+        btn.textContent = 'THROW YOUR ART';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 5000);
+
+      var banner = document.createElement('div');
+      banner.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:#555;color:white;padding:1rem 1.5rem;z-index:3000;font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.9rem;animation:modalIn 0.3s ease-out;border:1px solid rgba(255,255,255,0.1);';
+      banner.innerHTML = '\u26A0\uFE0F SUBMISSION THREW<br/><span style="font-size:0.75rem;opacity:0.8;">Even our form throws sometimes. Try again.</span>';
+      document.body.appendChild(banner);
+      setTimeout(function() { banner.remove(); }, 5000);
     }
 
     // ============================================================

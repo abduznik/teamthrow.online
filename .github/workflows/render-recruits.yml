@@ -1,0 +1,25 @@
+name: Render Recruit Roster
+
+on:
+  workflow_run:
+    workflows: ["Process New Recruit"]
+    types:
+      - completed
+
+jobs:
+  render-roster:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate static roster HTML
+        run: python3 scripts/generate-roster.py
+
+      - name: Commit roster page
+        run: |
+          git config user.email "teamthrow-bot@users.noreply.github.com"
+          git config user.name "Team Throw Bot"
+          git add roster.html
+          git commit -m "📋 Update roster.html ($(jq length recruits.json) recruits)" || echo "Nothing to commit"
+          git push

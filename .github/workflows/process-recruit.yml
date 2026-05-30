@@ -1,0 +1,30 @@
+name: Process New Recruit
+
+on:
+  repository_dispatch:
+    types: [new_recruit]
+
+jobs:
+  add-recruit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Append recruit to roster
+        run: |
+          PAYLOAD='${{ toJson(github.event.client_payload) }}'
+          if [ ! -f recruits.json ] || [ ! -s recruits.json ]; then
+            echo "[]" > recruits.json
+          fi
+          echo "$PAYLOAD" > /tmp/new_recruit.json
+          jq ". += [$(cat /tmp/new_recruit.json)]" recruits.json > tmp.json && mv tmp.json recruits.json
+          rm -f /tmp/new_recruit.json tmp.json
+          echo "Recruit added: $(jq '.[-1].battletag' recruits.json)"
+
+      - name: Commit new recruit
+        run: |
+          git config user.email "teamthrow-bot@users.noreply.github.com"
+          git config user.name "Team Throw Bot"
+          git add recruits.json
+          git commit -m "🎮 New recruit: ${{ github.event.client_payload.battletag }}" || echo "Nothing to commit"
+          git push

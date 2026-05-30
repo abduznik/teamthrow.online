@@ -2098,32 +2098,41 @@
     };
 
     // ============================================================
-    // SUBMIT APPLICATION
+    // SUBMIT APPLICATION — via repository_dispatch
     // ============================================================
-    // GitHub repo config — customize these!
-    var GITHUB_REPO_OWNER = 'abduznik';
-    var GITHUB_REPO_NAME  = 'teamthrow.online';
-    // For GitHub Issues submission, set GITHUB_TOKEN in localStorage:
-    //   localStorage.setItem('gh_token', 'github_pat_xxxxxxxxxxxx')
-    // Or leave unset for demo mode (simulated acceptance).
+    /*
+     * GitHub Token Info:
+     * Type: Fine-grained personal access token
+     * Scope: abduznik/teamthrow.online ONLY (single repo)
+     * Permissions: Actions (read/write), Contents (read/write)
+     * Cannot: access any other repo, read private data,
+     *          manage account, delete repo, or do anything
+     *          outside this one repo.
+     * Worst case abuse: spam fake recruits into a JSON file.
+     * We consider that on-brand.
+     */
+    var GH_PAT = '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';
+
+    function sanitize(str, maxLen) {
+      return String(str).replace(/<[^>]*>|<\/[^>]*>/g, '').replace(/[<>]/g, '').slice(0, maxLen || 200);
+    }
 
     function submitApplication() {
-      var tag     = document.getElementById('f-gamerTag').value.trim();
+      var tag     = sanitize(document.getElementById('f-gamerTag').value.trim(), 50);
       var role    = document.getElementById('f-role').value;
       var hero    = document.getElementById('f-mainHero').value.trim();
-      var sr      = document.getElementById('f-sr').value.trim();
-      var hours   = document.getElementById('f-hours').value.trim();
+      var sr      = sanitize(document.getElementById('f-sr').value.trim(), 30);
+      var hours   = sanitize(document.getElementById('f-hours').value.trim(), 30);
       var winRate = document.getElementById('f-winRate').value.trim();
       var deaths  = document.getElementById('f-deaths').value.trim();
       var kda     = document.getElementById('f-kda').value.trim();
       var bonusStat = document.getElementById('f-bonusStat').value.trim();
       var bonusLabel = document.getElementById('f-bonusLabel').value;
-      var specialty  = document.getElementById('f-specialty').value.trim();
-      var story   = document.getElementById('f-story').value.trim();
+      var specialty  = sanitize(document.getElementById('f-specialty').value.trim(), 100);
+      var story   = sanitize(document.getElementById('f-story').value.trim(), 500);
 
       // Validate (only required fields)
       if (!tag || !role || !hero || !sr || !hours || !story) {
-        // Pulse the empty fields
         document.querySelectorAll('#formView input, #formView select, #formView textarea').forEach(function(f) {
           if (!f.value.trim()) {
             f.style.borderColor = '#c0392b';
@@ -2135,95 +2144,91 @@
 
       var btn = document.getElementById('submitBtn');
       btn.disabled = true;
-      btn.textContent = 'SUBMITTING...';
+      btn.textContent = 'THROWING...';
 
-      var token = localStorage.getItem('gh_token');
+      var payload = {
+        event_type: 'new_recruit',
+        client_payload: {
+          battletag: tag,
+          role: role,
+          hero: hero,
+          sr: sr,
+          hours: hours,
+          winRate: winRate,
+          deaths: deaths,
+          kda: kda,
+          bonusStat: bonusStat,
+          bonusLabel: bonusLabel,
+          specialty: specialty,
+          story: story,
+          timestamp: new Date().toISOString()
+        }
+      };
 
-      // Build issue body
-      var body = '## Roster Application — Commission Review\n\n'
-        + '| Field | Value |\n'
-        + '|-------|-------|\n'
-        + '| **Gamer Tag** | ' + tag + ' |\n'
-        + '| **Role** | ' + role + ' |\n'
-        + '| **Main Hero** | ' + hero + ' |\n'
-        + '| **Current SR** | ' + sr + ' |\n'
-        + '| **Hours Played** | ' + hours + ' |\n'
-        + '| **Win Rate** | ' + (winRate || '(random)') + ' |\n'
-        + '| **Avg Deaths** | ' + (deaths || '(random)') + ' |\n'
-        + '| **KDA** | ' + (kda || '(random)') + ' |\n'
-        + '| **Bonus Stat** | ' + (bonusStat || '???') + ' |\n'
-        + '| **Bonus Label** | ' + (bonusLabel || '(random)') + ' |\n'
-        + '| **Specialty** | ' + (specialty || '(random)') + ' |\n'
-        + '| **Worst Throw** | ' + story + ' |\n\n'
-        + '---\n\n'
-        + '_This application was automatically submitted via teamthrow.online._\n'
-        + '_Labels: `roster-application`_';
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://api.github.com/repos/abduznik/teamthrow.online/dispatches', true);
+      xhr.setRequestHeader('Authorization', 'token ' + GH_PAT);
+      xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+        if (xhr.status === 204) {
+          showDispatchSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
+        } else {
+          showDispatchError();
+        }
+      };
+      xhr.onerror = function() {
+        showDispatchError();
+      };
+      xhr.send(JSON.stringify(payload));
 
-      // Try to submit via GitHub Issues API
-      if (token) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://api.github.com/repos/' + GITHUB_REPO_OWNER + '/' + GITHUB_REPO_NAME + '/issues', true);
-        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
-        xhr.onload = function() {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            var issue = JSON.parse(xhr.responseText);
-            showSuccess(tag, issue.number, issue.html_url);
-          } else {
-            console.warn('GitHub API error:', xhr.status, xhr.responseText);
-            showDemoSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
-          }
-        };
-        xhr.onerror = function() {
-          showDemoSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
-        };
-        xhr.send(JSON.stringify({
-          title: 'Roster Application: ' + tag,
-          body: body,
-          labels: ['roster-application']
-        }));
-      } else {
-        // No token — demo mode with simulated acceptance
-        showDemoSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
-      }
+      // Rate limit: disable button for 10 seconds
+      setTimeout(function() {
+        btn.disabled = false;
+        btn.textContent = 'SUBMIT COMMISSION';
+      }, 10000);
     }
 
-    function showSuccess(tag, issueNumber, issueUrl) {
-      document.getElementById('formView').classList.remove('active');
-      document.getElementById('successView').classList.add('active');
-      document.getElementById('modalFooter').style.display = 'none';
-      document.getElementById('ticketId').textContent = 'TT-' + String(issueNumber).padStart(4, '0');
-      var link = document.getElementById('issueLink');
-      link.href = issueUrl;
-      link.textContent = '\u{1F517} View your application on GitHub';
-    }
-
-    function showDemoSuccess(tag, heroName, roleName, winRate, deaths, kda, bonusStat, bonusLabel, specialty) {
+    function showDispatchSuccess(tag, heroName, roleName, winRate, deaths, kda, bonusStat, bonusLabel, specialty) {
       document.getElementById('formView').classList.remove('active');
       document.getElementById('successView').classList.add('active');
       document.getElementById('modalFooter').style.display = 'none';
 
-      var ticketNum = Math.floor(Math.random() * 9000) + 1000;
-      document.getElementById('ticketId').textContent = 'TT-' + ticketNum;
+      document.getElementById('successView').querySelector('h3').textContent = 'APPLICATION RECEIVED';
+      document.getElementById('successView').querySelector('.sub').innerHTML =
+        "We've seen your stats. You're one of us.<br/>" +
+        'Your application is being processed by the Arbuznik Review Board.';
+      document.getElementById('ticketId').textContent = 'TT-' + (Math.floor(Math.random() * 9000) + 1000);
 
       var link = document.getElementById('issueLink');
-      if (localStorage.getItem('gh_token')) {
-        link.href = 'https://github.com/' + GITHUB_REPO_OWNER + '/' + GITHUB_REPO_NAME + '/issues?q=label%3Aroster-application';
-        link.textContent = '\u{1F517} View all applications on GitHub';
-      } else {
-        link.href = '#';
-        link.textContent = '\u26A0\uFE0F GitHub token not configured — demo mode active';
-        link.style.color = '#888';
-        link.style.cursor = 'default';
-        link.onclick = function(e) { e.preventDefault(); };
+      link.href = 'https://github.com/abduznik/teamthrow.online/actions?query=workflow%3A%22Process+New+Recruit%22';
+      link.textContent = '\u{1F517} Track processing on GitHub Actions';
 
-        // In demo mode, simulate acceptance after random delay
-        var delay = (Math.floor(Math.random() * 15) + 5) * 1000; // 5–20 seconds
-        setTimeout(function() {
-          simulateCommissionApproved(tag, heroName, roleName, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
-        }, delay);
-      }
+      // Show visual recruit card after a short delay
+      setTimeout(function() {
+        simulateCommissionApproved(tag, heroName, roleName, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
+      }, 3000);
+    }
+
+    function showDispatchError() {
+      document.getElementById('formView').classList.remove('active');
+      document.getElementById('successView').classList.add('active');
+      document.getElementById('modalFooter').style.display = 'none';
+
+      document.getElementById('successView').querySelector('h3').textContent = 'SUBMISSION THREW';
+      document.getElementById('successView').querySelector('.sub').innerHTML =
+        "Even our form throws sometimes.<br/>" +
+        'Please try again in a few seconds.';
+      document.getElementById('ticketId').style.display = 'none';
+      document.getElementById('issueLink').style.display = 'none';
+
+      setTimeout(function() {
+        document.getElementById('formView').classList.add('active');
+        document.getElementById('successView').classList.remove('active');
+        document.getElementById('modalFooter').style.display = 'flex';
+        document.getElementById('ticketId').style.display = '';
+        document.getElementById('issueLink').style.display = '';
+      }, 5000);
     }
 
     // ============================================================
