@@ -18,8 +18,20 @@ jobs:
           BODY="${{ github.event.issue.body }}"
           TAG=$(echo "$BODY" | grep 'Gamer Tag' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
           ROLE=$(echo "$BODY" | grep '\*\*Role\*\*' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          WINRATE=$(echo "$BODY" | grep 'Win Rate' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          DEATHS=$(echo "$BODY" | grep 'Avg Deaths' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          KDA=$(echo "$BODY" | grep '\*\*KDA\*\*' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          BONUSSTAT=$(echo "$BODY" | grep 'Bonus Stat' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          BONUSLABEL=$(echo "$BODY" | grep 'Bonus Label' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          SPECIALTY=$(echo "$BODY" | grep '\*\*Specialty\*\*' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "role=$ROLE" >> $GITHUB_OUTPUT
+          echo "winRate=$WINRATE" >> $GITHUB_OUTPUT
+          echo "deaths=$DEATHS" >> $GITHUB_OUTPUT
+          echo "kda=$KDA" >> $GITHUB_OUTPUT
+          echo "bonusStat=$BONUSSTAT" >> $GITHUB_OUTPUT
+          echo "bonusLabel=$BONUSLABEL" >> $GITHUB_OUTPUT
+          echo "specialty=$SPECIALTY" >> $GITHUB_OUTPUT
 
       - name: Commission Review (randomized wait)
         run: |
@@ -38,6 +50,10 @@ jobs:
           fi
 
       - name: Add new recruit to roster
+        env:
+          INPUT_BONUS_STAT: ${{ steps.extract.outputs.bonusStat }}
+          INPUT_BONUS_LABEL: ${{ steps.extract.outputs.bonusLabel }}
+          INPUT_SPECIALTY: ${{ steps.extract.outputs.specialty }}
         run: |
           python3 scripts/add-recruit.py \
             "${{ steps.extract.outputs.tag }}" \

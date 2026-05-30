@@ -1760,6 +1760,53 @@
           </div>
 
           <div class="form-group">
+            <label>Throw Stats <span style="color:#555;font-weight:400;">(optional — leave blank for randomized shame stats)</span></label>
+            <div class="help-text" style="margin-bottom:0.5rem;">Brag about how bad you are. Customize your shame.</div>
+            <div class="stats-fields" style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+              <div>
+                <input type="text" id="f-winRate" placeholder="Win Rate (e.g. 3%)" style="width:100%;font-family:var(--font-body);padding:0.8rem 1rem;background:var(--gray-mid);border:1px solid rgba(255,255,255,0.05);color:var(--white);font-size:0.95rem;outline:none;" />
+                <div class="help-text">Leave empty for random %</div>
+              </div>
+              <div>
+                <input type="text" id="f-deaths" placeholder="Avg Deaths (e.g. 22)" style="width:100%;font-family:var(--font-body);padding:0.8rem 1rem;background:var(--gray-mid);border:1px solid rgba(255,255,255,0.05);color:var(--white);font-size:0.95rem;outline:none;" />
+                <div class="help-text">Per game. Be honest.</div>
+              </div>
+              <div>
+                <input type="text" id="f-kda" placeholder="KDA (e.g. 0.05)" style="width:100%;font-family:var(--font-body);padding:0.8rem 1rem;background:var(--gray-mid);border:1px solid rgba(255,255,255,0.05);color:var(--white);font-size:0.95rem;outline:none;" />
+                <div class="help-text">Lower is better (for us)</div>
+              </div>
+              <div>
+                <input type="text" id="f-bonusStat" placeholder="Bonus stat value (e.g. 0)" style="width:100%;font-family:var(--font-body);padding:0.8rem 1rem;background:var(--gray-mid);border:1px solid rgba(255,255,255,0.05);color:var(--white);font-size:0.95rem;outline:none;" />
+                <div class="help-text">Number for your bonus stat</div>
+              </div>
+              <div style="grid-column:1/-1;">
+                <select id="f-bonusLabel" style="width:100%;font-family:var(--font-body);padding:0.8rem 1rem;background:var(--gray-mid);border:1px solid rgba(255,255,255,0.05);color:var(--white);font-size:0.95rem;outline:none;">
+                  <option value="">Pick a bonus stat label (optional)...</option>
+                  <option value="Headshots (Career)">Headshots (Career)</option>
+                  <option value="Flashbang Hit Rate">Flashbang Hit Rate</option>
+                  <option value="Riptire Suicide Rate">Riptire Suicide Rate</option>
+                  <option value="I Need Healing Spam">I Need Healing Spam</option>
+                  <option value="TP to Cliff/Game">TP to Cliff/Game</option>
+                  <option value="Seconds on Point">Seconds on Point</option>
+                  <option value="Teammate Avoids">Teammate Avoids</option>
+                  <option value="Match Chat Bans">Match Chat Bans</option>
+                  <option value="Ultimates Wasted">Ultimates Wasted</option>
+                  <option value="Times Blamed Supports">Times Blamed Supports</option>
+                  <option value="Suicides per Game">Suicides per Game</option>
+                  <option value="Walls Bumped Into">Walls Bumped Into</option>
+                  <option value="Ults into Walls">Ults into Walls</option>
+                  <option value="GG EZ After Loss">GG EZ After Loss</option>
+                </select>
+                <div class="help-text">What's the bonus stat measuring?</div>
+              </div>
+              <div style="grid-column:1/-1;">
+                <input type="text" id="f-specialty" placeholder="Specialty (e.g. Missing every shot with confidence)" style="width:100%;font-family:var(--font-body);padding:0.8rem 1rem;background:var(--gray-mid);border:1px solid rgba(255,255,255,0.05);color:var(--white);font-size:0.95rem;outline:none;" />
+                <div class="help-text">What makes you special? In a bad way.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="f-story">Your Worst Throw</label>
             <textarea id="f-story" placeholder="Tell us about the time you ulted into a wall, walked your Symmetra teleporter off the cliff, or blamed your team so hard they all reported you. We want details. We want pain. We want art." required></textarea>
             <div class="help-text">The more embarrassing, the better your chances.</div>
@@ -2066,9 +2113,15 @@
       var hero    = document.getElementById('f-mainHero').value.trim();
       var sr      = document.getElementById('f-sr').value.trim();
       var hours   = document.getElementById('f-hours').value.trim();
+      var winRate = document.getElementById('f-winRate').value.trim();
+      var deaths  = document.getElementById('f-deaths').value.trim();
+      var kda     = document.getElementById('f-kda').value.trim();
+      var bonusStat = document.getElementById('f-bonusStat').value.trim();
+      var bonusLabel = document.getElementById('f-bonusLabel').value;
+      var specialty  = document.getElementById('f-specialty').value.trim();
       var story   = document.getElementById('f-story').value.trim();
 
-      // Validate
+      // Validate (only required fields)
       if (!tag || !role || !hero || !sr || !hours || !story) {
         // Pulse the empty fields
         document.querySelectorAll('#formView input, #formView select, #formView textarea').forEach(function(f) {
@@ -2095,6 +2148,12 @@
         + '| **Main Hero** | ' + hero + ' |\n'
         + '| **Current SR** | ' + sr + ' |\n'
         + '| **Hours Played** | ' + hours + ' |\n'
+        + '| **Win Rate** | ' + (winRate || '(random)') + ' |\n'
+        + '| **Avg Deaths** | ' + (deaths || '(random)') + ' |\n'
+        + '| **KDA** | ' + (kda || '(random)') + ' |\n'
+        + '| **Bonus Stat** | ' + (bonusStat || '???') + ' |\n'
+        + '| **Bonus Label** | ' + (bonusLabel || '(random)') + ' |\n'
+        + '| **Specialty** | ' + (specialty || '(random)') + ' |\n'
         + '| **Worst Throw** | ' + story + ' |\n\n'
         + '---\n\n'
         + '_This application was automatically submitted via teamthrow.online._\n'
@@ -2113,11 +2172,11 @@
             showSuccess(tag, issue.number, issue.html_url);
           } else {
             console.warn('GitHub API error:', xhr.status, xhr.responseText);
-            showDemoSuccess(tag, hero, role);
+            showDemoSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
           }
         };
         xhr.onerror = function() {
-          showDemoSuccess(tag, hero, role);
+          showDemoSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
         };
         xhr.send(JSON.stringify({
           title: 'Roster Application: ' + tag,
@@ -2126,7 +2185,7 @@
         }));
       } else {
         // No token — demo mode with simulated acceptance
-        showDemoSuccess(tag, hero, role);
+        showDemoSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
       }
     }
 
@@ -2140,7 +2199,7 @@
       link.textContent = '\u{1F517} View your application on GitHub';
     }
 
-    function showDemoSuccess(tag, heroName, roleName) {
+    function showDemoSuccess(tag, heroName, roleName, winRate, deaths, kda, bonusStat, bonusLabel, specialty) {
       document.getElementById('formView').classList.remove('active');
       document.getElementById('successView').classList.add('active');
       document.getElementById('modalFooter').style.display = 'none';
@@ -2162,7 +2221,7 @@
         // In demo mode, simulate acceptance after random delay
         var delay = (Math.floor(Math.random() * 15) + 5) * 1000; // 5–20 seconds
         setTimeout(function() {
-          simulateCommissionApproved(tag, heroName, roleName);
+          simulateCommissionApproved(tag, heroName, roleName, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
         }, delay);
       }
     }
@@ -2170,7 +2229,7 @@
     // ============================================================
     // SIMULATE COMMISSION ACCEPTANCE (demo mode)
     // ============================================================
-    function simulateCommissionApproved(tag, heroName, roleName) {
+    function simulateCommissionApproved(tag, heroName, roleName, winRate, deaths, kda, bonusStat, bonusLabel, specialty) {
       var grid = document.getElementById('rosterGrid');
       if (!grid) return;
 
@@ -2186,17 +2245,21 @@
 
       var role = roleName || 'DPS';
 
+      // Bonus stats pools for randomization
+      var bonusLabels = ['Headshots (Career)','Flashbang Hit Rate','Riptire Suicide Rate','I Need Healing Spam','TP to Cliff/Game','Seconds on Point','Teammate Avoids','Match Chat Bans','Ultimates Wasted','Times Blamed Supports','Suicides per Game','Walls Bumped Into','Ults into Walls','GG EZ After Loss'];
+      var specialties = ['Fresh meat, still learning to feed','Promising thrower, needs seasoning','Natural talent for underperformance','Consistently inconsistent','Master of the accidental feed','Ultimate economy: always wasted','Positionally challenged','Professional stagger artist','Gold damage (to his own team)','World record: most deaths per minute'];
+
       var recruit = {
         tag: tag,
         role: role,
         hero: chosen.name,
         heroImg: chosen.render,
-        winRate: (Math.floor(Math.random() * 5) + 1) + '%',
-        deaths: String(Math.floor(Math.random() * 15) + 10),
-        kda: (Math.random() * 0.3).toFixed(2),
-        bonusStat: '???',
-        bonusLabel: 'Seriously?',
-        specialty: 'Fresh meat, still learning to feed'
+        winRate: winRate || (Math.floor(Math.random() * 5) + 1) + '%',
+        deaths: deaths || String(Math.floor(Math.random() * 15) + 10),
+        kda: kda || (Math.random() * 0.3).toFixed(2),
+        bonusStat: bonusStat || '???',
+        bonusLabel: bonusLabel || bonusLabels[Math.floor(Math.random() * bonusLabels.length)],
+        specialty: specialty || specialties[Math.floor(Math.random() * specialties.length)]
       };
 
       var card = renderRecruitCard(recruit, true);
