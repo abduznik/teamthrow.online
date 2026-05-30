@@ -1,0 +1,26 @@
+name: Fetch YouTube Feed
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-youtube:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RECRUIT_TOKEN }}
+
+      - name: Fetch and parse YouTube RSS feed
+        run: python3 scripts/fetch-youtube.py
+
+      - name: Commit and push
+        run: |
+          git config user.email "teamthrow-bot@users.noreply.github.com"
+          git config user.name "Team Throw Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.RECRUIT_TOKEN }}@github.com/abduznik/teamthrow.online.git
+          git add youtube-videos.json
+          git commit -m "📺 Update YouTube feed" || echo "Nothing to commit"
+          git push
