@@ -147,6 +147,11 @@
         </div>
         <div class="video-grid" id="ytGrid"></div>
         <div id="ytLoading" style="text-align:center;padding:2rem;color:#555;font-family:var(--font-display);font-size:1.2rem;letter-spacing:2px;">Loading YouTube videos...</div>
+        <div style="text-align:center;margin-top:1.5rem;">
+          <a href="https://www.youtube.com/channel/UCyZesfM1i6yY5lSDG9v7UVg" target="_blank" style="font-family:var(--font-body);font-weight:600;font-size:0.85rem;letter-spacing:1.5px;text-transform:uppercase;padding:0.6rem 1.5rem;border:1px solid var(--red);color:var(--red);transition:all 0.3s;display:inline-block;">
+            VIEW ALL ON YOUTUBE &#8599;
+          </a>
+        </div>
       </div>
 
       <!-- ============================================================
@@ -156,6 +161,12 @@
         <div class="section-label" style="margin-bottom:0.5rem;">Community Submissions</div>
         <div class="video-grid" id="videoGrid"></div>
         <div id="loadingGallery" style="text-align:center;padding:2rem;color:#555;font-family:var(--font-display);font-size:1.2rem;letter-spacing:2px;">Loading community videos...</div>
+
+        <div id="loadMoreWrap" style="text-align:center;margin-top:1.5rem;display:none;">
+          <button id="loadMoreBtn" onclick="loadMoreVideos()" style="font-family:var(--font-body);font-weight:600;font-size:0.85rem;letter-spacing:1.5px;text-transform:uppercase;padding:0.6rem 1.5rem;background:transparent;border:1px solid var(--red);color:var(--red);cursor:pointer;transition:all 0.3s;">
+            LOAD MORE
+          </button>
+        </div>
 
       <div class="submit-area" id="submitArea">
         <h3>Submit a Video</h3>
@@ -196,7 +207,7 @@
             grid.innerHTML = '<div class="empty-gallery"><h3>No Uploads Yet</h3></div>';
             return;
           }
-          videos.forEach(function(item) {
+          videos.slice(0, 6).forEach(function(item) {
             var videoId = item.videoId;
             var title = item.title;
             var channelTitle = item.author;
@@ -277,10 +288,55 @@
     }
 
     // ============================================================
-    // LOAD VIDEO GALLERY
+    // LOAD VIDEO GALLERY (paginated: show 6, then load more)
     // ============================================================
-    (function loadVideos() {
+    var allCommunityVideos = [];
+    var communityDisplayCount = 0;
+    var COMMUNITY_PAGE_SIZE = 6;
+
+    function renderCommunityVideos() {
       var grid = document.getElementById('videoGrid');
+      var wrap = document.getElementById('loadMoreWrap');
+      var count = Math.min(communityDisplayCount, allCommunityVideos.length);
+      grid.innerHTML = '';
+      for (var i = 0; i < count; i++) {
+        var v = allCommunityVideos[i];
+        var embedUrl = getEmbedUrl(v.url, v.platform);
+        var embedHtml = '';
+        if (embedUrl) {
+          embedHtml = '<div class="video-embed"><iframe src="' + embedUrl + '" allowfullscreen loading="lazy" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>';
+        } else {
+          embedHtml = '<div class="video-embed" style="display:flex;align-items:center;justify-content:center;padding-top:0;min-height:200px;"><a href="' + v.url + '" target="_blank" style="color:var(--red);font-family:var(--font-display);font-size:1.2rem;letter-spacing:2px;">OPEN VIDEO &#8599;</a></div>';
+        }
+        var dateStr = '';
+        if (v.date) {
+          var d = new Date(v.date);
+          dateStr = d.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+        }
+        var card = document.createElement('div');
+        card.className = 'video-card';
+        card.innerHTML = ''
+          + embedHtml
+          + '<div class="video-body">'
+          +   '<div class="video-title">' + v.title + '</div>'
+          +   '<div class="video-uploader">thrown by <strong>' + v.uploader + '</strong></div>'
+          +   '<div class="video-meta">'
+          +     '<span class="video-platform">' + getPlatformLabel(v.platform) + '</span>'
+          +     (dateStr ? '<span class="video-date">' + dateStr + '</span>' : '')
+          +   '</div>'
+          +   '<a href="' + v.url + '" target="_blank" class="video-link">Watch original &#8599;</a>'
+          + '</div>';
+        grid.appendChild(card);
+      }
+      wrap.style.display = count < allCommunityVideos.length ? 'block' : 'none';
+    }
+
+    function loadMoreVideos() {
+      communityDisplayCount += COMMUNITY_PAGE_SIZE;
+      renderCommunityVideos();
+    }
+
+    (function loadVideos() {
       var loading = document.getElementById('loadingGallery');
       var xhr = new XMLHttpRequest();
       xhr.open('GET', 'videos.json?v=' + Date.now(), true);
@@ -288,42 +344,13 @@
         loading.style.display = 'none';
         if (xhr.status !== 200) { return; }
         try {
-          var videos = JSON.parse(xhr.responseText);
-          if (!videos || !videos.length) {
-            grid.innerHTML = '<div class="empty-gallery"><h3>No Videos Yet</h3><p>Be the first to submit a clip below!</p></div>';
+          allCommunityVideos = JSON.parse(xhr.responseText).reverse();
+          if (!allCommunityVideos.length) {
+            document.getElementById('videoGrid').innerHTML = '<div class="empty-gallery"><h3>No Videos Yet</h3><p>Be the first to submit a clip below!</p></div>';
             return;
           }
-          videos.slice().reverse().forEach(function(v) {
-            var card = document.createElement('div');
-            card.className = 'video-card';
-
-            var embedUrl = getEmbedUrl(v.url, v.platform);
-            var embedHtml = '';
-            if (embedUrl) {
-              embedHtml = '<div class="video-embed"><iframe src="' + embedUrl + '" allowfullscreen loading="lazy" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>';
-            } else {
-              embedHtml = '<div class="video-embed" style="display:flex;align-items:center;justify-content:center;padding-top:0;min-height:200px;"><a href="' + v.url + '" target="_blank" style="color:var(--red);font-family:var(--font-display);font-size:1.2rem;letter-spacing:2px;">OPEN VIDEO &#8599;</a></div>';
-            }
-
-            var dateStr = '';
-            if (v.date) {
-              var d = new Date(v.date);
-              dateStr = d.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
-            }
-
-            card.innerHTML = ''
-              + embedHtml
-              + '<div class="video-body">'
-              +   '<div class="video-title">' + v.title + '</div>'
-              +   '<div class="video-uploader">thrown by <strong>' + v.uploader + '</strong></div>'
-              +   '<div class="video-meta">'
-              +     '<span class="video-platform">' + getPlatformLabel(v.platform) + '</span>'
-              +     (dateStr ? '<span class="video-date">' + dateStr + '</span>' : '')
-              +   '</div>'
-              +   '<a href="' + v.url + '" target="_blank" class="video-link">Watch original &#8599;</a>'
-              + '</div>';
-            grid.appendChild(card);
-          });
+          communityDisplayCount = COMMUNITY_PAGE_SIZE;
+          renderCommunityVideos();
         } catch(e) {}
       };
       xhr.send();
@@ -401,31 +428,9 @@
       document.getElementById('v-preview').style.display = 'none';
       document.getElementById('v-preview').innerHTML = '';
 
-      var grid = document.getElementById('videoGrid');
-      var empty = grid.querySelector('.empty-gallery');
-      if (empty) empty.remove();
-
-      var platform = detectPlatform(url);
-      var embedUrl = getEmbedUrl(url, platform);
-      var card = document.createElement('div');
-      card.className = 'video-card';
-      var embedHtml = '';
-      if (embedUrl) {
-        embedHtml = '<div class="video-embed"><iframe src="' + embedUrl + '" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe></div>';
-      } else {
-        embedHtml = '<div class="video-embed" style="display:flex;align-items:center;justify-content:center;padding-top:0;min-height:200px;"><a href="' + url + '" target="_blank" style="color:var(--red);font-family:var(--font-display);font-size:1.2rem;letter-spacing:2px;">OPEN VIDEO &#8599;</a></div>';
-      }
-      card.innerHTML = ''
-        + embedHtml
-        + '<div class="video-body">'
-        +   '<div class="video-title">' + title + '</div>'
-        +   '<div class="video-uploader">thrown by <strong>' + uploader + '</strong></div>'
-        +   '<div class="video-meta">'
-        +     '<span class="video-platform">' + getPlatformLabel(platform) + '</span>'
-        +   '</div>'
-        +   '<a href="' + url + '" target="_blank" class="video-link">Watch original &#8599;</a>'
-        + '</div>';
-      grid.insertBefore(card, grid.firstChild);
+      allCommunityVideos.unshift({ title: title, uploader: uploader, url: url, platform: detectPlatform(url), date: new Date().toISOString() });
+      communityDisplayCount = Math.max(communityDisplayCount, COMMUNITY_PAGE_SIZE);
+      renderCommunityVideos();
 
       var banner = document.createElement('div');
       banner.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:#27ae60;color:white;padding:1rem 1.5rem;z-index:3000;font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.9rem;animation:modalIn 0.3s ease-out;border:1px solid rgba(255,255,255,0.1);';
