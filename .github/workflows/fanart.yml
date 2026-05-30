@@ -12,6 +12,18 @@ jobs:
         with:
           token: ${{ secrets.RECRUIT_TOKEN }}
 
+      - name: Debug payload
+        run: |
+          echo "=== DEBUG: RAW CLIENT PAYLOAD ==="
+          echo '${{ toJson(github.event.client_payload) }}'
+          echo "=== DEBUG: FIELD BY FIELD ==="
+          echo "title: ${{ github.event.client_payload.title }}"
+          echo "artist: ${{ github.event.client_payload.artist }}"
+          echo "artistLink: ${{ github.event.client_payload.artistLink }}"
+          echo "description: ${{ github.event.client_payload.description }}"
+          echo "image: ${{ github.event.client_payload.image }}"
+          echo "timestamp: ${{ github.event.client_payload.timestamp }}"
+
       - name: Append fanart to fanarts.json
         run: |
           PAYLOAD='${{ toJson(github.event.client_payload) }}'

@@ -12,6 +12,19 @@ jobs:
         with:
           token: ${{ secrets.RECRUIT_TOKEN }}
 
+      - name: Debug payload
+        run: |
+          echo "=== DEBUG: RAW CLIENT PAYLOAD ==="
+          echo '${{ toJson(github.event.client_payload) }}'
+          echo "=== DEBUG: FIELD BY FIELD ==="
+          echo "battletag: ${{ github.event.client_payload.battletag }}"
+          echo "hero: ${{ github.event.client_payload.hero }}"
+          echo "winRate: ${{ github.event.client_payload.winRate }}"
+          echo "winrate: ${{ github.event.client_payload.winrate }}"
+          echo "story: ${{ github.event.client_payload.story }}"
+          echo "timestamp: ${{ github.event.client_payload.timestamp }}"
+          echo "role: ${{ github.event.client_payload.role }}"
+
       - name: Append recruit to roster
         run: |
           mkdir -p data
