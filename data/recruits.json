@@ -70,5 +70,18 @@
     "bonusStat": "100%",
     "bonusLabel": "I Need Healing Spam",
     "specialty": "Blading into 1v6, blaming supports"
+  },
+  {
+    "tag": "Test",
+    "hero": "Ana",
+    "role": "",
+    "heroImg": "assets/heroes/render/render_Ana.webp",
+    "winRate": "4%",
+    "deaths": "",
+    "kda": "",
+    "bonusStat": "",
+    "bonusLabel": "",
+    "specialty": "",
+    "timestamp": "2026-05-30T11:09:06.343Z"
   }
 ]
