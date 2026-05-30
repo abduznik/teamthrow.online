@@ -83,5 +83,18 @@
     "bonusLabel": "Stat",
     "specialty": "",
     "timestamp": "2026-05-30T09:56:11.007Z"
+  },
+  {
+    "tag": "",
+    "hero": "",
+    "role": "DPS",
+    "heroImg": "assets/heroes/render/render_.webp",
+    "winRate": "",
+    "deaths": "12",
+    "kda": "0.07",
+    "bonusStat": "???",
+    "bonusLabel": "Stat",
+    "specialty": "",
+    "timestamp": "2026-05-30T10:04:43.308Z"
   }
 ]
