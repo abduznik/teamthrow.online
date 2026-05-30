@@ -142,7 +142,7 @@
       var grid = document.getElementById('fanartGrid');
       var loading = document.getElementById('loadingGallery');
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'fanarts.json', true);
+      xhr.open('GET', 'fanarts.json?v=' + Date.now(), true);
       xhr.onload = function() {
         loading.style.display = 'none';
         if (xhr.status !== 200) { return; }
