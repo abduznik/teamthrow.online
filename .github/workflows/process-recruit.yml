@@ -49,7 +49,7 @@ jobs:
           TIMESTAMP="${{ github.event.client_payload.timestamp }}"
 
           # Build hero image path
-          SAFE_HERO=$(echo "$HERO" | sed 's/[^a-zA-Z0-9]//g')
+          SAFE_HERO=$(echo "$HERO" | sed 's/ /_/g' | sed 's/[^a-zA-Z0-9_]//g')
           HEROIMG="assets/heroes/render/render_${SAFE_HERO}.webp"
 
           # --- ENRICHMENT: fill empty optional fields with funny random values ---
