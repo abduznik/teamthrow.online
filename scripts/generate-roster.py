@@ -19,7 +19,7 @@ ROLE_CLASS = {"DPS": "role-damage", "Tank": "role-tank", "Support": "role-suppor
 
 for r in reversed(recruits[-50:]):
     rc = ROLE_CLASS.get(r.get("role", "DPS"), "role-damage")
-    tag = r.get("battletag", "Unknown")
+    tag = r.get("tag", "Unknown")
     hero = r.get("hero", "?")
     hero_img = r.get("heroImg", "")
     wr = r.get("winRate", "?%")

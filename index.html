@@ -2238,7 +2238,7 @@
       // Fallback if hero not found
       if (!chosen) chosen = HEROES[Math.floor(Math.random() * HEROES.length)];
 
-      var role = roleName || 'DPS';
+      var role = roleName || (['DPS', 'Tank', 'Support'])[Math.floor(Math.random() * 3)];
 
       // Bonus stats pools for randomization
       var bonusLabels = ['Headshots (Career)','Flashbang Hit Rate','Riptire Suicide Rate','I Need Healing Spam','TP to Cliff/Game','Seconds on Point','Teammate Avoids','Match Chat Bans','Ultimates Wasted','Times Blamed Supports','Suicides per Game','Walls Bumped Into','Ults into Walls','GG EZ After Loss'];
