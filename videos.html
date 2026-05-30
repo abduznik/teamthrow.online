@@ -80,6 +80,18 @@
     .empty-gallery h3{font-family:var(--font-display);font-size:1.5rem;letter-spacing:2px}
     .empty-gallery p{margin-top:0.5rem}
 
+    .yt-section{border-top:1px solid rgba(255,255,255,0.05);padding-top:3rem;margin-bottom:2rem}
+    .yt-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:0.5rem}
+    .yt-header-left{display:flex;align-items:center;gap:0.75rem}
+    .yt-badge{font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;padding:0.25rem 0.5rem;background:var(--red);color:var(--white)}
+    .yt-channel-link{display:inline-flex;align-items:center;gap:0.4rem;color:var(--gray);font-size:0.8rem;transition:color 0.3s;letter-spacing:0.5px}
+    .yt-channel-link:hover{color:var(--red)}
+    .yt-btn{font-family:var(--font-body);font-weight:600;font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;padding:0.5rem 1.2rem;background:transparent;border:1px solid var(--red);color:var(--red);cursor:pointer;transition:all 0.3s}
+    .yt-btn:hover{background:var(--red);color:var(--white)}
+    .yt-btn:disabled{opacity:0.4;cursor:not-allowed}
+    .yt-error{color:#c0392b;font-size:0.85rem;margin-top:0.5rem;display:none;padding:0.5rem;background:rgba(192,57,43,0.1)}
+    .yt-loading{text-align:center;padding:2rem;color:#555;font-family:var(--font-display);font-size:1rem;letter-spacing:2px}
+
     @keyframes modalIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
     @media(max-width:768px){nav ul{gap:1rem}nav ul li a{font-size:0.75rem}.video-grid{grid-template-columns:1fr}}
@@ -121,6 +133,27 @@
 
   <section>
     <div class="section-container">
+
+      <!-- ============================================================
+           TEAM THROW YOUTUBE CHANNEL
+           ============================================================ -->
+      <div class="yt-section">
+        <div class="yt-header">
+          <div class="yt-header-left">
+            <span class="yt-badge">Channel</span>
+            <h3 style="font-family:var(--font-display);font-size:1.3rem;letter-spacing:2px;color:var(--white);">Team Throw <span style="color:var(--red);">YouTube</span></h3>
+          </div>
+          <button class="yt-btn" id="ytLoadBtn" onclick="loadYouTubeVideos()">LOAD VIDEOS</button>
+        </div>
+        <a href="https://www.youtube.com/channel/UCyZesfM1i6yY5lSDG9v7UVg" target="_blank" class="yt-channel-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          youtube.com/@TeamThrow
+        </a>
+        <div class="yt-error" id="ytError"></div>
+        <div class="yt-loading" id="ytLoading" style="display:none;">Loading from YouTube...</div>
+        <div class="video-grid" id="ytGrid"></div>
+      </div>
+
       <div class="video-grid" id="videoGrid"></div>
       <div id="loadingGallery" style="text-align:center;padding:2rem;color:#555;font-family:var(--font-display);font-size:1.2rem;letter-spacing:2px;">Loading videos...</div>
 
@@ -144,6 +177,95 @@
 
   <script>
     var WORKER_URL = 'https://teamthrow.bacholate.workers.dev/video';
+
+    // ============================================================
+    // YOUTUBE CHANNEL — Team Throw official channel
+    // ============================================================
+    // HOW TO GET A YOUTUBE API KEY (free, takes 2 minutes):
+    // 1. Go to https://console.cloud.google.com/
+    // 2. Create a new project (or select existing)
+    // 3. Go to "APIs & Services" → "Library"
+    // 4. Search for "YouTube Data API v3" and enable it
+    // 5. Go to "APIs & Services" → "Credentials"
+    // 6. Click "Create Credentials" → "API Key"
+    // 7. Copy the key and paste it below
+    var YOUTUBE_API_KEY = ''; // <-- PASTE YOUR API KEY HERE
+    var YOUTUBE_CHANNEL_ID = 'UCyZesfM1i6yY5lSDG9v7UVg';
+
+    function loadYouTubeVideos() {
+      var btn = document.getElementById('ytLoadBtn');
+      var grid = document.getElementById('ytGrid');
+      var error = document.getElementById('ytError');
+      var loading = document.getElementById('ytLoading');
+
+      if (!YOUTUBE_API_KEY) {
+        error.textContent = 'YouTube API key not set. Open the page source and add your key at line ~160.';
+        error.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'LOADING...';
+      loading.style.display = 'block';
+      error.style.display = 'none';
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + YOUTUBE_CHANNEL_ID + '&maxResults=12&order=date&type=video&key=' + YOUTUBE_API_KEY, true);
+      xhr.onload = function() {
+        loading.style.display = 'none';
+        btn.disabled = false;
+        btn.textContent = 'REFRESH VIDEOS';
+        if (xhr.status !== 200) {
+          error.textContent = 'Failed to load videos. Check your API key or quota.';
+          error.style.display = 'block';
+          return;
+        }
+        try {
+          var data = JSON.parse(xhr.responseText);
+          if (!data.items || !data.items.length) {
+            grid.innerHTML = '<div class="empty-gallery"><h3>No Uploads Yet</h3></div>';
+            return;
+          }
+          grid.innerHTML = '';
+          data.items.forEach(function(item) {
+            var videoId = item.id.videoId;
+            var title = item.snippet.title;
+            var channelTitle = item.snippet.channelTitle;
+            var date = item.snippet.publishedAt;
+            var card = document.createElement('div');
+            card.className = 'video-card';
+            var dateStr = '';
+            if (date) {
+              var d = new Date(date);
+              dateStr = d.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+            }
+            card.innerHTML = ''
+              + '<div class="video-embed"><iframe src="https://www.youtube.com/embed/' + videoId + '" allowfullscreen loading="lazy" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>'
+              + '<div class="video-body">'
+              +   '<div class="video-title">' + title + '</div>'
+              +   '<div class="video-uploader">from <strong>' + channelTitle + '</strong></div>'
+              +   '<div class="video-meta">'
+              +     '<span class="video-platform">YouTube</span>'
+              +     (dateStr ? '<span class="video-date">' + dateStr + '</span>' : '')
+              +   '</div>'
+              +   '<a href="https://www.youtube.com/watch?v=' + videoId + '" target="_blank" class="video-link">Watch on YouTube &#8599;</a>'
+              + '</div>';
+            grid.appendChild(card);
+          });
+        } catch(e) {
+          error.textContent = 'Error parsing response.';
+          error.style.display = 'block';
+        }
+      };
+      xhr.onerror = function() {
+        loading.style.display = 'none';
+        btn.disabled = false;
+        btn.textContent = 'REFRESH VIDEOS';
+        error.textContent = 'Network error. Try again.';
+        error.style.display = 'block';
+      };
+      xhr.send();
+    }
 
     // ============================================================
     // PLATFORM DETECTION & EMBED URL GENERATION
