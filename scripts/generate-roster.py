@@ -4,7 +4,7 @@ import json
 import os
 
 script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-json_path = os.path.join(script_dir, "recruits.json")
+json_path = os.path.join(script_dir, "data", "recruits.json")
 html_path = os.path.join(script_dir, "roster.html")
 
 with open(json_path) as f:

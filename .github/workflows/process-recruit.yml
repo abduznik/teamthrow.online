@@ -14,20 +14,40 @@ jobs:
 
       - name: Append recruit to roster
         run: |
-          PAYLOAD='${{ toJson(github.event.client_payload) }}'
-          if [ ! -f recruits.json ] || [ ! -s recruits.json ]; then
-            echo "[]" > recruits.json
+          mkdir -p data
+          if [ ! -f data/recruits.json ]; then
+            echo "[]" > data/recruits.json
           fi
-          echo "$PAYLOAD" > /tmp/new_recruit.json
-          jq ". += [$(cat /tmp/new_recruit.json)]" recruits.json > tmp.json && mv tmp.json recruits.json
-          rm -f /tmp/new_recruit.json tmp.json
-          echo "Recruit added: $(jq '.[-1].battletag' recruits.json)"
+
+          BATTLETAG="${{ github.event.client_payload.battletag }}"
+          HERO="${{ github.event.client_payload.hero }}"
+          WINRATE="${{ github.event.client_payload.winrate }}"
+          STORY="${{ github.event.client_payload.story }}"
+          TIMESTAMP="${{ github.event.client_payload.timestamp }}"
+
+          # Map form fields to roster-card fields + enrich with random stats
+          PAYLOAD=$(jq -n \
+            --arg tag "$BATTLETAG" \
+            --arg hero "$HERO" \
+            --arg role "DPS" \
+            --arg heroImg "assets/heroes/render/render_${HERO}.webp" \
+            --arg winRate "$WINRATE" \
+            --arg deaths "$(echo $((RANDOM % 16 + 10)))" \
+            --arg kda "0.0$(echo $((RANDOM % 9 + 1)))" \
+            --arg bonusStat "???" \
+            --arg bonusLabel "Stat" \
+            --arg specialty "$STORY" \
+            --arg timestamp "$TIMESTAMP" \
+            '{tag:$tag,hero:$hero,role:$role,heroImg:$heroImg,winRate:$winRate,deaths:$deaths,kda:$kda,bonusStat:$bonusStat,bonusLabel:$bonusLabel,specialty:$specialty,timestamp:$timestamp}')
+
+          jq ". += [$PAYLOAD]" data/recruits.json > tmp.json && mv tmp.json data/recruits.json
+          echo "Recruit added: $BATTLETAG ($HERO, $WINRATE win rate)"
 
       - name: Commit new recruit
         run: |
           git config user.email "teamthrow-bot@users.noreply.github.com"
           git config user.name "Team Throw Bot"
           git remote set-url origin https://x-access-token:${{ secrets.RECRUIT_TOKEN }}@github.com/abduznik/teamthrow.online.git
-          git add recruits.json
+          git add data/recruits.json
           git commit -m "🎮 New recruit: ${{ github.event.client_payload.battletag }}" || echo "Nothing to commit"
           git push

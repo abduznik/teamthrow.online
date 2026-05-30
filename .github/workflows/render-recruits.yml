@@ -23,6 +23,6 @@ jobs:
           git config user.email "teamthrow-bot@users.noreply.github.com"
           git config user.name "Team Throw Bot"
           git remote set-url origin https://x-access-token:${{ secrets.RECRUIT_TOKEN }}@github.com/abduznik/teamthrow.online.git
-          git add roster.html
-          git commit -m "📋 Update roster.html ($(jq length recruits.json) recruits)" || echo "Nothing to commit"
+          git add data/recruits.json roster.html
+          git commit -m "📋 Update roster.html ($(jq length data/recruits.json) recruits)" || echo "Nothing to commit"
           git push
