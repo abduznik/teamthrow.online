@@ -180,16 +180,8 @@
 
     // ============================================================
     // YOUTUBE CHANNEL — Team Throw official channel
+    // Fetches via Cloudflare Worker proxy (no API key needed)
     // ============================================================
-    // HOW TO GET A YOUTUBE API KEY (free, takes 2 minutes):
-    // 1. Go to https://console.cloud.google.com/
-    // 2. Create a new project (or select existing)
-    // 3. Go to "APIs & Services" → "Library"
-    // 4. Search for "YouTube Data API v3" and enable it
-    // 5. Go to "APIs & Services" → "Credentials"
-    // 6. Click "Create Credentials" → "API Key"
-    // 7. Copy the key and paste it below
-    var YOUTUBE_API_KEY = ''; // <-- PASTE YOUR API KEY HERE
     var YOUTUBE_CHANNEL_ID = 'UCyZesfM1i6yY5lSDG9v7UVg';
 
     function loadYouTubeVideos() {
@@ -198,40 +190,34 @@
       var error = document.getElementById('ytError');
       var loading = document.getElementById('ytLoading');
 
-      if (!YOUTUBE_API_KEY) {
-        error.textContent = 'YouTube API key not set. Open the page source and add your key at line ~160.';
-        error.style.display = 'block';
-        return;
-      }
-
       btn.disabled = true;
       btn.textContent = 'LOADING...';
       loading.style.display = 'block';
       error.style.display = 'none';
 
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + YOUTUBE_CHANNEL_ID + '&maxResults=12&order=date&type=video&key=' + YOUTUBE_API_KEY, true);
+      xhr.open('GET', WORKER_URL.replace('/video', '/youtube-feed?channel_id=' + YOUTUBE_CHANNEL_ID), true);
       xhr.onload = function() {
         loading.style.display = 'none';
         btn.disabled = false;
         btn.textContent = 'REFRESH VIDEOS';
         if (xhr.status !== 200) {
-          error.textContent = 'Failed to load videos. Check your API key or quota.';
+          error.textContent = 'Failed to load YouTube feed. Try again later.';
           error.style.display = 'block';
           return;
         }
         try {
           var data = JSON.parse(xhr.responseText);
-          if (!data.items || !data.items.length) {
+          if (!data.videos || !data.videos.length) {
             grid.innerHTML = '<div class="empty-gallery"><h3>No Uploads Yet</h3></div>';
             return;
           }
           grid.innerHTML = '';
-          data.items.forEach(function(item) {
-            var videoId = item.id.videoId;
-            var title = item.snippet.title;
-            var channelTitle = item.snippet.channelTitle;
-            var date = item.snippet.publishedAt;
+          data.videos.forEach(function(item) {
+            var videoId = item.videoId;
+            var title = item.title;
+            var channelTitle = item.author;
+            var date = item.published;
             var card = document.createElement('div');
             card.className = 'video-card';
             var dateStr = '';
