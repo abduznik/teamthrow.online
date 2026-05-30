@@ -83,5 +83,18 @@
     "bonusLabel": "",
     "specialty": "",
     "timestamp": "2026-05-30T11:09:06.343Z"
+  },
+  {
+    "tag": "Arbuznik",
+    "hero": "Roadhog",
+    "role": "",
+    "heroImg": "assets/heroes/render/render_Roadhog.webp",
+    "winRate": "About 2",
+    "deaths": "",
+    "kda": "",
+    "bonusStat": "",
+    "bonusLabel": "",
+    "specialty": "",
+    "timestamp": "2026-05-30T11:13:55.048Z"
   }
 ]
