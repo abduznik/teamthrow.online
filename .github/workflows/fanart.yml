@@ -24,12 +24,12 @@ jobs:
           echo "artist: ${{ github.event.client_payload.artist }}"
           echo "artistLink: ${{ github.event.client_payload.artistLink }}"
           echo "description: ${{ github.event.client_payload.description }}"
-          echo "image: ${{ github.event.client_payload.image }}"
+          echo "imgur_url: ${{ github.event.client_payload.imgur_url }}"
 
       - name: Process fanart
         run: |
           python3 scripts/process-fanart.py \
-            "${{ github.event.client_payload.image }}" \
+            "${{ github.event.client_payload.imgur_url }}" \
             "${{ github.event.client_payload.title }}" \
             "${{ github.event.client_payload.artist }}" \
             "${{ github.event.client_payload.description }}" \
