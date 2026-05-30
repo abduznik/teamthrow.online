@@ -96,5 +96,18 @@
     "bonusLabel": "",
     "specialty": "",
     "timestamp": "2026-05-30T11:13:55.048Z"
+  },
+  {
+    "tag": "Musicegg",
+    "hero": "Baptiste",
+    "role": "",
+    "heroImg": "assets/heroes/render/render_Baptiste.webp",
+    "winRate": "4%",
+    "deaths": "",
+    "kda": "",
+    "bonusStat": "",
+    "bonusLabel": "",
+    "specialty": "",
+    "timestamp": "2026-05-30T11:15:31.998Z"
   }
 ]
