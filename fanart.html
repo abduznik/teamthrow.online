@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fanart — Team Throw</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="logo-web.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--black:#0d0d0d;--red:#c0392b;--red-dark:#8a1e1e;--red-glow:rgba(192,57,43,0.4);--white:#ffffff;--gray:#888888;--gray-dark:#1a1a1a;--gray-mid:#222222;--font-display:'Bebas Neue',sans-serif;--font-body:'Rajdhani',sans-serif}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{font-family:var(--font-body);background:var(--black);color:var(--white);min-height:100vh}
+    a{color:var(--red);text-decoration:none}
+    ::-webkit-scrollbar{width:8px}
+    ::-webkit-scrollbar-track{background:var(--black)}
+    ::-webkit-scrollbar-thumb{background:var(--red-dark);border-radius:4px}
+    ::-webkit-scrollbar-thumb:hover{background:var(--red)}
+
+    nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(13,13,13,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(192,57,43,0.15);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+    nav .logo{display:flex;align-items:center;text-decoration:none;height:100%}
+    nav .logo-img{height:40px;width:auto;display:block}
+    nav ul{list-style:none;display:flex;gap:2rem;align-items:center}
+    nav ul li a{font-family:var(--font-body);font-weight:600;font-size:0.95rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray);transition:color 0.3s;position:relative}
+    nav ul li a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--red);transition:width 0.3s}
+    nav ul li a:hover{color:var(--white)}
+    nav ul li a:hover::after{width:100%}
+    nav ul li a.gh-link::after{display:none}
+    nav ul li a.gh-link{display:flex;align-items:center;color:#555;transition:color 0.3s}
+    nav ul li a.gh-link:hover{color:var(--white)}
+
+    section{padding:6rem 2rem}
+    .section-container{max-width:1200px;margin:0 auto}
+    .section-label{font-family:var(--font-body);font-weight:600;font-size:0.85rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem}
+    .section-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);letter-spacing:4px;text-transform:uppercase;color:var(--white);margin-bottom:1rem}
+    .section-title span{color:var(--red)}
+    .section-divider{width:60px;height:3px;background:var(--red);margin-bottom:2rem}
+
+    .page-header{padding-top:100px;background:linear-gradient(180deg,#0d0d0d 0%,#111111 100%)}
+
+    .fanart-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-top:2rem}
+
+    .fanart-card{background:var(--gray-dark);border:1px solid rgba(255,255,255,0.03);overflow:hidden;transition:all 0.4s}
+    .fanart-card:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 8px 30px rgba(192,57,43,0.1)}
+    .fanart-card .fanart-img{width:100%;max-height:350px;object-fit:contain;background:#111;display:block}
+    .fanart-card .fanart-body{padding:1rem 1.2rem}
+    .fanart-card .fanart-title{font-family:var(--font-display);font-size:1.2rem;letter-spacing:1px;color:var(--white)}
+    .fanart-card .fanart-artist{font-size:0.8rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-top:0.2rem}
+    .fanart-card .fanart-artist strong{color:var(--red)}
+    .fanart-card .fanart-desc{font-size:0.9rem;color:#aaa;line-height:1.5;margin-top:0.5rem;border-top:1px solid rgba(255,255,255,0.03);padding-top:0.5rem}
+
+    .submit-area{background:var(--gray-dark);border:1px solid rgba(255,255,255,0.03);padding:2rem;margin-top:3rem}
+    .submit-area h3{font-family:var(--font-display);font-size:1.3rem;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:1.5rem}
+
+    .fanart-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:600px}
+    .fanart-form input,.fanart-form textarea{font-family:var(--font-body);padding:0.8rem 1rem;background:var(--gray-mid);border:1px solid rgba(255,255,255,0.05);color:var(--white);font-size:0.95rem;outline:none;transition:border 0.3s}
+    .fanart-form input:focus,.fanart-form textarea:focus{border-color:var(--red)}
+    .fanart-form input::placeholder,.fanart-form textarea::placeholder{color:#555}
+    .fanart-form textarea{resize:vertical;min-height:80px}
+    .fanart-form .full{grid-column:1/-1}
+    .fanart-form .file-input-wrap{grid-column:1/-1;position:relative}
+    .fanart-form .file-input-wrap input[type=file]{position:absolute;opacity:0;width:0.1px;height:0.1px}
+    .fanart-form .file-label{display:flex;align-items:center;gap:0.5rem;padding:0.8rem 1rem;background:var(--gray-mid);border:1px solid rgba(255,255,255,0.05);color:var(--gray);font-size:0.9rem;cursor:pointer;transition:all 0.3s}
+    .fanart-form .file-label:hover{border-color:var(--red);color:var(--white)}
+    .fanart-form .file-label.has-file{color:var(--white);border-color:var(--red)}
+    .fanart-form button{grid-column:1/-1;padding:1rem;background:var(--red);color:var(--white);font-family:var(--font-display);font-size:1.1rem;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s}
+    .fanart-form button:hover{background:#e74c3c;box-shadow:0 0 30px var(--red-glow)}
+    .fanart-form button:disabled{opacity:0.5;cursor:not-allowed}
+
+    .preview-img{max-width:200px;max-height:200px;margin-top:0.5rem;border:1px solid rgba(255,255,255,0.05)}
+
+    .empty-gallery{text-align:center;padding:3rem;color:#555}
+    .empty-gallery h3{font-family:var(--font-display);font-size:1.5rem;letter-spacing:2px}
+    .empty-gallery p{margin-top:0.5rem}
+
+    @media(max-width:768px){nav ul{gap:1rem}nav ul li a{font-size:0.75rem}.fanart-grid{grid-template-columns:1fr}}
+    @media(max-width:480px){section{padding:4rem 1rem}nav{padding:0 1rem}nav ul{gap:0.8rem}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo" aria-label="Team Throw Home">
+      <img src="logo-nav.png" alt="TEAM THROW" class="logo-img" />
+    </a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="recruits.html">Full Roster</a></li>
+      <li><a href="fanart.html" style="color:var(--white);">Fanart</a></li>
+      <li><a href="index.html#recruit">Join</a></li>
+      <li><a href="https://github.com/abduznik/teamthrow.online" target="_blank" rel="noopener noreferrer" class="gh-link" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a></li>
+    </ul>
+  </nav>
+
+  <section class="page-header">
+    <div class="section-container">
+      <div class="section-label">Community Creations</div>
+      <h2 class="section-title">Team Throw <span>Fanart</span></h2>
+      <div class="section-divider"></div>
+      <p style="color:#888;font-size:1rem;">Throw your art at us. We'll put it on the wall. Literally.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-container">
+      <div class="fanart-grid" id="fanartGrid"></div>
+      <div id="loadingGallery" style="text-align:center;padding:2rem;color:#555;font-family:var(--font-display);font-size:1.2rem;letter-spacing:2px;">Loading gallery...</div>
+
+      <div class="submit-area" id="submitArea">
+        <h3>&#9998; Submit Your Art</h3>
+        <form class="fanart-form" id="fanartForm" onsubmit="return submitFanart(event)">
+          <input type="text" id="f-artTitle" placeholder="Art Title" required class="full" />
+          <input type="text" id="f-artist" placeholder="Your Name / Artist Tag" required />
+          <input type="text" id="f-artistLink" placeholder="Social / Portfolio Link (optional)" />
+          <textarea id="f-artDesc" placeholder="Tell us about your piece. What inspired this masterpiece of failure?" class="full"></textarea>
+          <div class="file-input-wrap full">
+            <input type="file" id="f-artImage" accept="image/*" required onchange="previewFanartFile(event)" />
+            <label for="f-artImage" class="file-label" id="fileLabel">&#128444; Choose your art file...</label>
+            <div id="previewContainer"></div>
+          </div>
+          <button type="submit" id="fanartSubmitBtn">THROW YOUR ART</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#080808;border-top:1px solid rgba(192,57,43,0.1);padding:2rem;text-align:center;color:#444;font-size:0.8rem;letter-spacing:1px;">
+    &copy; 2024 Team Throw. Professionally bad since 2024.
+  </footer>
+
+  <script>
+    // ============================================================
+    // LOAD FANART GALLERY
+    // ============================================================
+    (function loadFanarts() {
+      var grid = document.getElementById('fanartGrid');
+      var loading = document.getElementById('loadingGallery');
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'fanarts.json', true);
+      xhr.onload = function() {
+        loading.style.display = 'none';
+        if (xhr.status !== 200) { return; }
+        try {
+          var arts = JSON.parse(xhr.responseText);
+          if (!arts || !arts.length) {
+            grid.innerHTML = '<div class="empty-gallery"><h3>No Fanart Yet</h3><p>Be the first to submit your masterpiece below!</p></div>';
+            return;
+          }
+          arts.slice().reverse().forEach(function(a) {
+            var card = document.createElement('div');
+            card.className = 'fanart-card';
+            card.innerHTML = ''
+              + '<img class="fanart-img" src="' + a.image + '" alt="' + a.title + '" loading="lazy" />'
+              + '<div class="fanart-body">'
+              +   '<div class="fanart-title">' + a.title + '</div>'
+              +   '<div class="fanart-artist">by <strong>' + a.artist + '</strong>' + (a.artistLink ? ' &middot; <a href="' + a.artistLink + '" target="_blank">link</a>' : '') + '</div>'
+              +   (a.description ? '<div class="fanart-desc">' + a.description + '</div>' : '')
+              + '</div>';
+            grid.appendChild(card);
+          });
+        } catch(e) {}
+      };
+      xhr.send();
+    })();
+
+    // ============================================================
+    // FANART FILE PREVIEW
+    // ============================================================
+    function previewFanartFile(e) {
+      var file = e.target.files[0];
+      var label = document.getElementById('fileLabel');
+      var container = document.getElementById('previewContainer');
+      if (!file) {
+        label.textContent = '\u{1F444} Choose your art file...';
+        label.classList.remove('has-file');
+        container.innerHTML = '';
+        return;
+      }
+      label.textContent = '\u2705 ' + file.name + ' (' + (file.size / 1024 / 1024).toFixed(1) + 'MB)';
+      label.classList.add('has-file');
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        container.innerHTML = '<img src="' + ev.target.result + '" class="preview-img" alt="Preview" />';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ============================================================
+    // SUBMIT FANART
+    // ============================================================
+    var GITHUB_REPO_OWNER = 'abduznik';
+    var GITHUB_REPO_NAME  = 'teamthrow.online';
+
+    function submitFanart(e) {
+      e.preventDefault();
+      var title = document.getElementById('f-artTitle').value.trim();
+      var artist = document.getElementById('f-artist').value.trim();
+      var artistLink = document.getElementById('f-artistLink').value.trim();
+      var desc = document.getElementById('f-artDesc').value.trim();
+      var fileInput = document.getElementById('f-artImage');
+      var file = fileInput.files[0];
+
+      if (!title || !artist || !file) {
+        document.querySelectorAll('#fanartForm input, #fanartForm textarea').forEach(function(f) {
+          if (f.type !== 'file' && !f.value.trim()) {
+            f.style.borderColor = '#c0392b';
+            setTimeout(function() { f.style.borderColor = ''; }, 2000);
+          }
+        });
+        if (!file) {
+          document.getElementById('fileLabel').style.borderColor = '#c0392b';
+          setTimeout(function() { document.getElementById('fileLabel').style.borderColor = ''; }, 2000);
+        }
+        return;
+      }
+
+      var btn = document.getElementById('fanartSubmitBtn');
+      btn.disabled = true;
+      btn.textContent = 'THROWING...';
+
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        var imageData = ev.target.result;
+        var token = localStorage.getItem('gh_token');
+
+        var body = '## Fanart Submission\n\n'
+          + '| Field | Value |\n'
+          + '|-------|-------|\n'
+          + '| **Title** | ' + title + ' |\n'
+          + '| **Artist** | ' + artist + ' |\n'
+          + (artistLink ? '| **Link** | ' + artistLink + ' |\n' : '')
+          + (desc ? '| **Description** | ' + desc + ' |\n' : '')
+          + '\n---\n'
+          + '![Art](' + imageData + ')\n'
+          + '\n_Submitted via teamthrow.online/fanart_';
+
+        if (token) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://api.github.com/repos/' + GITHUB_REPO_OWNER + '/' + GITHUB_REPO_NAME + '/issues', true);
+          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
+          xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              showFanartSuccess(title);
+            } else {
+              showFanartDemoSuccess(title, imageData, artist, desc, artistLink);
+            }
+          };
+          xhr.onerror = function() {
+            showFanartDemoSuccess(title, imageData, artist, desc, artistLink);
+          };
+          xhr.send(JSON.stringify({
+            title: 'Fanart: ' + title + ' by ' + artist,
+            body: body,
+            labels: ['fanart']
+          }));
+        } else {
+          showFanartDemoSuccess(title, imageData, artist, desc, artistLink);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function showFanartSuccess(title) {
+      var btn = document.getElementById('fanartSubmitBtn');
+      btn.textContent = '\u2705 THROWN!';
+      btn.style.background = '#27ae60';
+      document.getElementById('fanartForm').reset();
+      document.getElementById('fileLabel').textContent = '\u{1F444} Choose your art file...';
+      document.getElementById('previewContainer').innerHTML = '';
+      setTimeout(function() {
+        btn.textContent = 'THROW YOUR ART';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    }
+
+    function showFanartDemoSuccess(title, imageData, artist, desc, artistLink) {
+      showFanartSuccess(title);
+
+      // Save to localStorage for demo persistence
+      var existing = JSON.parse(localStorage.getItem('tt_fanarts') || '[]');
+      existing.push({
+        title: title,
+        artist: artist,
+        artistLink: artistLink,
+        description: desc,
+        image: imageData,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem('tt_fanarts', JSON.stringify(existing));
+
+      // Add to gallery immediately
+      var grid = document.getElementById('fanartGrid');
+      var empty = grid.querySelector('.empty-gallery');
+      if (empty) empty.remove();
+
+      var card = document.createElement('div');
+      card.className = 'fanart-card';
+      card.innerHTML = ''
+        + '<img class="fanart-img" src="' + imageData + '" alt="' + title + '" loading="lazy" />'
+        + '<div class="fanart-body">'
+        +   '<div class="fanart-title">' + title + '</div>'
+        +   '<div class="fanart-artist">by <strong>' + artist + '</strong></div>'
+        +   (desc ? '<div class="fanart-desc">' + desc + '</div>' : '')
+        + '</div>';
+      grid.insertBefore(card, grid.firstChild);
+
+      // Notification
+      var banner = document.createElement('div');
+      banner.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:#27ae60;color:white;padding:1rem 1.5rem;z-index:3000;font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.9rem;animation:modalIn 0.3s ease-out;border:1px solid rgba(255,255,255,0.1);';
+      banner.innerHTML = '\u2705 FANART SUBMITTED!<br/><span style="font-family:Bebas Neue;font-size:1.1rem;letter-spacing:2px;">' + title + '</span>';
+      document.body.appendChild(banner);
+      setTimeout(function() { banner.style.opacity = '0'; banner.style.transition = 'opacity 0.5s'; }, 5000);
+      setTimeout(function() { banner.remove(); }, 6000);
+    }
+
+    // ============================================================
+    // LOAD DEMO FANARTS FROM localStorage
+    // ============================================================
+    (function loadLocalFanarts() {
+      try {
+        var saved = JSON.parse(localStorage.getItem('tt_fanarts') || '[]');
+        if (!saved.length) return;
+        var grid = document.getElementById('fanartGrid');
+        var loading = document.getElementById('loadingGallery');
+        // Check if server already rendered anything
+        if (grid.children.length > 0 && grid.querySelector('.fanart-card')) return;
+        loading.style.display = 'none';
+        saved.slice().reverse().forEach(function(a) {
+          var card = document.createElement('div');
+          card.className = 'fanart-card';
+          card.innerHTML = ''
+            + '<img class="fanart-img" src="' + a.image + '" alt="' + a.title + '" loading="lazy" />'
+            + '<div class="fanart-body">'
+            +   '<div class="fanart-title">' + a.title + '</div>'
+            +   '<div class="fanart-artist">by <strong>' + a.artist + '</strong></div>'
+            +   (a.description ? '<div class="fanart-desc">' + a.description + '</div>' : '')
+            + '</div>';
+          grid.appendChild(card);
+        });
+      } catch(e) {}
+    })();
+  </script>
+</body>
+</html>

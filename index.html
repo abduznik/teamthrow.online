@@ -1,0 +1,2303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TEAM THROW — Professionally Bad Since 2026</title>
+  <meta name="description" content="Team Throw: the premier Overwatch esports organization specializing in competitive underperformance." />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="logo-web.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #0d0d0d;
+      --red: #c0392b;
+      --red-dark: #8a1e1e;
+      --red-glow: rgba(192, 57, 43, 0.4);
+      --white: #ffffff;
+      --gray: #888888;
+      --gray-dark: #1a1a1a;
+      --gray-mid: #222222;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Rajdhani', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: var(--red);
+      text-decoration: none;
+    }
+
+    /* ============================================================
+       SCROLLBAR
+       ============================================================ */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--red-dark); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+    /* ============================================================
+       NAV
+       ============================================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(13, 13, 13, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(192, 57, 43, 0.15);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      height: 100%;
+    }
+
+    nav .logo-img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav ul li a {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gray);
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--red);
+      transition: width 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: var(--white);
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    /* GitHub icon link — no underline indicator */
+    nav ul li a.gh-link::after {
+      display: none;
+    }
+
+    nav ul li a.gh-link {
+      display: flex;
+      align-items: center;
+      color: #555;
+      transition: color 0.3s;
+    }
+
+    nav ul li a.gh-link:hover {
+      color: var(--white);
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a0808 40%, #0d0d0d 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 120px 2rem 80px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-render {
+      position: absolute;
+      z-index: 2;
+      pointer-events: none;
+      height: 65vh;
+      max-height: 700px;
+      filter: drop-shadow(0 0 40px rgba(192,57,43,0.15));
+      opacity: 0.85;
+    }
+
+    .hero-render.left-a {
+      left: 2%;
+      bottom: 5%;
+      animation: floatHero 6s ease-in-out infinite;
+    }
+    .hero-render.left-b {
+      left: -5%;
+      bottom: 0%;
+      animation: floatHero 7.5s ease-in-out infinite 0.5s;
+      height: 45vh;
+      opacity: 0.4;
+    }
+    .hero-render.right-a {
+      right: 2%;
+      bottom: 5%;
+      animation: floatHero 5.5s ease-in-out infinite 0.8s;
+    }
+    .hero-render.right-b {
+      right: -5%;
+      bottom: 0%;
+      animation: floatHero 8s ease-in-out infinite 1.2s;
+      height: 45vh;
+      opacity: 0.4;
+    }
+
+    @keyframes floatHero {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      25%      { transform: translateY(-15px) rotate(1deg); }
+      50%      { transform: translateY(-8px) rotate(-0.5deg); }
+      75%      { transform: translateY(-18px) rotate(1.5deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid var(--red);
+      padding: 0.4rem 1.2rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 12vw, 10rem);
+      letter-spacing: 8px;
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--white);
+      text-shadow: 0 0 60px var(--red-glow), 0 0 120px rgba(192,57,43,0.15);
+    }
+
+    .hero h1 span {
+      color: var(--red);
+    }
+
+    .hero .tagline {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .hero .cta {
+      display: inline-block;
+      margin-top: 2.5rem;
+      padding: 1rem 3rem;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .hero .cta:hover {
+      background: #e74c3c;
+      box-shadow: 0 0 40px var(--red-glow);
+      transform: translateY(-2px);
+    }
+
+    .hero-edge-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 15%;
+      background: linear-gradient(to right, #0d0d0d 0%, transparent 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .hero-edge-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 15%;
+      background: linear-gradient(to left, #0d0d0d 0%, transparent 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       STATS BAR
+       ============================================================ */
+    .stats-bar {
+      background: var(--gray-dark);
+      border-top: 1px solid rgba(192, 57, 43, 0.2);
+      border-bottom: 1px solid rgba(192, 57, 43, 0.2);
+      padding: 1.2rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stats-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: scrollStats 30s linear infinite;
+    }
+
+    .stats-track:hover {
+      animation-play-state: paused;
+    }
+
+    .stats-track-2 {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      margin-left: 70vw;
+      animation: scrollStats2 30s linear infinite;
+    }
+
+    .stats-track-2:hover {
+      animation-play-state: paused;
+    }
+
+    .stat-item {
+      flex-shrink: 0;
+      padding: 0 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      white-space: nowrap;
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stat-item .stat-value {
+      color: var(--red);
+      font-size: 1.6rem;
+    }
+
+    .stat-item .stat-label {
+      color: var(--gray);
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+
+    @keyframes scrollStats {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes scrollStats2 {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ============================================================
+       SECTION BASE
+       ============================================================ */
+    section {
+      padding: 6rem 2rem;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .section-title span {
+      color: var(--red);
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 3px;
+      background: var(--red);
+      margin-bottom: 2rem;
+    }
+
+    /* ============================================================
+       ABOUT / PHILOSOPHY
+       ============================================================ */
+    .about {
+      background: linear-gradient(180deg, #0d0d0d 0%, #111111 100%);
+      position: relative;
+    }
+
+    .about::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #cccccc;
+    }
+
+    .about-text p {
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text .highlight {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .about-text .mission-quote {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      line-height: 1.4;
+      color: var(--white);
+      padding: 2rem;
+      border-left: 3px solid var(--red);
+      background: rgba(192, 57, 43, 0.05);
+      margin: 1.5rem 0;
+    }
+
+    .about-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .about-stat-card {
+      background: var(--gray-dark);
+      padding: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.03);
+      text-align: center;
+    }
+
+    .about-stat-card .num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: var(--red);
+    }
+
+    .about-stat-card .desc {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 0.3rem;
+    }
+
+    /* ============================================================
+       CEO SECTION
+       ============================================================ */
+    .ceo {
+      background: linear-gradient(180deg, #111111 0%, #0a0a0a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ceo::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(192,57,43,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .ceo-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .ceo-portrait {
+      position: relative;
+    }
+
+    .ceo-portrait img {
+      width: 100%;
+      max-width: 350px;
+      border: 2px solid rgba(192,57,43,0.2);
+      filter: grayscale(0.3) contrast(1.1);
+      transition: filter 0.4s;
+    }
+
+    .ceo-portrait:hover img {
+      filter: grayscale(0) contrast(1.2);
+    }
+
+    .ceo-portrait .ceo-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-top: 1rem;
+    }
+
+    .ceo-portrait .ceo-title {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      font-weight: 600;
+    }
+
+    .ceo-speech {
+      position: relative;
+    }
+
+    .ceo-speech blockquote {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #cccccc;
+      position: relative;
+      padding-left: 2rem;
+      border-left: 2px solid var(--red);
+    }
+
+    .ceo-speech blockquote p {
+      margin-bottom: 1.2rem;
+    }
+
+    .ceo-speech blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    .ceo-speech blockquote .highlight {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .ceo-signature {
+      margin-top: 2rem;
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      color: var(--red);
+    }
+
+    .ceo-signature-sub {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      color: var(--gray);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       ROSTER
+       ============================================================ */
+    .roster {
+      background: linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 100%);
+    }
+
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .roster-card {
+      background: var(--gray-dark);
+      border: 1px solid rgba(255,255,255,0.03);
+      overflow: hidden;
+      transition: all 0.4s;
+      position: relative;
+    }
+
+    .roster-card:hover {
+      border-color: var(--red);
+      transform: translateY(-6px);
+      box-shadow: 0 10px 40px rgba(192, 57, 43, 0.15);
+    }
+
+    .roster-card .card-img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      object-position: center top;
+      background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+      opacity: 0.85;
+      transition: opacity 0.4s;
+    }
+
+    .roster-card:hover .card-img {
+      opacity: 1;
+    }
+
+    .roster-card .card-body {
+      padding: 1.5rem;
+    }
+
+    .roster-card .player-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: var(--white);
+    }
+
+    .roster-card .player-role {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      background: rgba(255,255,255,0.03);
+      padding: 0.2rem 0.8rem;
+      margin-top: 0.3rem;
+    }
+
+    .roster-card .player-stats {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .roster-card .player-stats .ps-item {
+      font-size: 0.8rem;
+      color: var(--gray);
+      letter-spacing: 0.5px;
+    }
+
+    .roster-card .player-stats .ps-item strong {
+      color: var(--red);
+      font-weight: 600;
+      display: block;
+      font-size: 1rem;
+    }
+
+    .roster-card .specialty {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .roster-card .specialty span {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .role-damage  { border-left: 3px solid #e74c3c; }
+    .role-tank    { border-left: 3px solid #3498db; }
+    .role-support { border-left: 3px solid #f1c40f; }
+
+    .roster-card .recruit-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--red);
+      color: white;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .roster-card .recruit-badge.show {
+      opacity: 1;
+    }
+
+    /* ============================================================
+       RECRUITMENT
+       ============================================================ */
+    .recruit {
+      position: relative;
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a0808 60%, #0d0d0d 100%);
+      overflow: hidden;
+    }
+
+    .recruit::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(192,57,43,0.03) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    .recruit .section-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .recruit-content {
+      max-width: 700px;
+    }
+
+    .recruit-content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .recruit-content h2 span {
+      color: var(--red);
+    }
+
+    .recruit-content p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #bbbbbb;
+      margin: 1.5rem 0;
+    }
+
+    .recruit-criteria {
+      background: rgba(192, 57, 43, 0.05);
+      border: 1px solid rgba(192, 57, 43, 0.15);
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .recruit-criteria h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+
+    .recruit-criteria ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .recruit-criteria ul li {
+      font-size: 0.95rem;
+      color: #cccccc;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .recruit-criteria ul li::before {
+      content: '\00BB';
+      position: absolute;
+      left: 0;
+      color: var(--red);
+      font-weight: bold;
+    }
+
+    .recruit .apply-btn {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .recruit .apply-btn:hover {
+      background: #e74c3c;
+      box-shadow: 0 0 40px var(--red-glow);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       APPLICATION MODAL
+       ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #111;
+      border: 1px solid rgba(192,57,43,0.2);
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalIn 0.3s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .modal-header h2 span {
+      color: var(--red);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--gray);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.3rem;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .modal-close:hover {
+      color: var(--red);
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    .modal-body .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .modal-body label {
+      display: block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.4rem;
+    }
+
+    .modal-body input,
+    .modal-body textarea,
+    .modal-body select {
+      width: 100%;
+      font-family: var(--font-body);
+      padding: 0.8rem 1rem;
+      background: var(--gray-mid);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: var(--white);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    .modal-body input:focus,
+    .modal-body textarea:focus,
+    .modal-body select:focus {
+      border-color: var(--red);
+    }
+
+    .modal-body input::placeholder,
+    .modal-body textarea::placeholder {
+      color: #555;
+    }
+
+    .modal-body textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .modal-body select option {
+      background: #111;
+      color: var(--white);
+    }
+
+    .modal-body .help-text {
+      font-size: 0.75rem;
+      color: #555;
+      margin-top: 0.3rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* ============================================================
+       HERO SELECTOR
+       ============================================================ */
+    .hero-selector {
+      position: relative;
+    }
+
+    .hero-search-bar {
+      display: flex;
+      align-items: center;
+      background: var(--gray-mid);
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: border 0.3s;
+    }
+
+    .hero-search-bar:focus-within {
+      border-color: var(--red);
+    }
+
+    .hero-search-bar input {
+      flex: 1;
+      font-family: var(--font-body);
+      padding: 0.8rem 1rem;
+      background: transparent;
+      border: none;
+      color: var(--white);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .hero-search-bar input::placeholder {
+      color: #555;
+    }
+
+    .hero-search-icon {
+      padding: 0 1rem;
+      color: #555;
+      font-size: 1rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding: 8px;
+      background: #0a0a0a;
+      border: 1px solid rgba(255,255,255,0.03);
+      margin-top: 8px;
+      border-radius: 0;
+    }
+
+    .hero-grid:empty {
+      display: none;
+    }
+
+    .hero-grid::-webkit-scrollbar { width: 4px; }
+    .hero-grid::-webkit-scrollbar-track { background: #0a0a0a; }
+    .hero-grid::-webkit-scrollbar-thumb { background: #333; }
+
+    .hero-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .hero-item:hover {
+      border-color: var(--red);
+      background: rgba(192,57,43,0.08);
+    }
+
+    .hero-item.selected {
+      border-color: var(--red);
+      background: rgba(192,57,43,0.12);
+    }
+
+    .hero-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      image-rendering: auto;
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    .hero-item .hero-item-name {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray);
+      text-align: left;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hero-item:hover .hero-item-name {
+      color: var(--white);
+    }
+
+    .hero-selected {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: rgba(192,57,43,0.05);
+      border: 1px solid rgba(192,57,43,0.15);
+      min-height: 44px;
+    }
+
+    .hero-selected .hero-selected-label {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: #666;
+      font-style: italic;
+    }
+
+    .hero-selected.has-hero .hero-selected-label {
+      color: var(--white);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .hero-selected img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    .modal-footer {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+
+    .modal-footer button {
+      padding: 0.8rem 2rem;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .modal-footer .btn-cancel {
+      background: transparent;
+      color: var(--gray);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .modal-footer .btn-cancel:hover {
+      color: var(--white);
+      border-color: var(--gray);
+    }
+
+    .modal-footer .btn-submit {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .modal-footer .btn-submit:hover {
+      background: #e74c3c;
+      box-shadow: 0 0 30px var(--red-glow);
+    }
+
+    .modal-footer .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Commission status inside modal */
+    .commission-status {
+      display: none;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    .commission-status.active {
+      display: block;
+    }
+
+    .commission-status .commission-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .commission-status h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    .commission-status p {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .commission-status .commission-id {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: #555;
+      margin-top: 1rem;
+    }
+
+    /* Status dots */
+    .status-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gray-mid);
+      transition: all 0.5s;
+    }
+
+    .status-dot.pending {
+      background: var(--gray-mid);
+    }
+
+    .status-dot.active {
+      background: var(--red);
+      box-shadow: 0 0 10px var(--red-glow);
+      animation: pulseDot 1s ease-in-out infinite;
+    }
+
+    .status-dot.done {
+      background: #27ae60;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    .modal-body .form-view,
+    .modal-body .success-view,
+    .modal-body .view-commission {
+      display: none;
+    }
+
+    .modal-body .form-view.active,
+    .modal-body .success-view.active,
+    .modal-body .view-commission.active {
+      display: block;
+    }
+
+    .success-view {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .success-view h3 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 3px;
+      color: #27ae60;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-view .sub {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .success-view .sub strong {
+      color: var(--white);
+    }
+
+    .success-view .ticket-id {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 3px;
+      color: var(--red);
+      background: rgba(192,57,43,0.1);
+      border: 1px solid rgba(192,57,43,0.2);
+      padding: 0.5rem 2rem;
+      margin-top: 1rem;
+    }
+
+    .view-commission {
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .view-commission h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .view-commission .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--red);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      transition: color 0.3s;
+    }
+
+    .view-commission .github-link:hover {
+      color: #e74c3c;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      background: #080808;
+      border-top: 1px solid rgba(192, 57, 43, 0.1);
+      padding: 4rem 2rem 2rem;
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-brand span {
+      color: var(--gray);
+    }
+
+    .footer-desc {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-top: 0.5rem;
+    }
+
+    footer h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links li a {
+      color: #666;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links li a:hover {
+      color: var(--red);
+    }
+
+    .sponsor-logos {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .sponsor {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .sponsor strong {
+      color: var(--gray);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      text-align: center;
+      color: #444;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      nav ul { gap: 1rem; }
+      nav ul li a { font-size: 0.75rem; letter-spacing: 1px; }
+
+      .hero h1 { font-size: clamp(3rem, 15vw, 5rem); letter-spacing: 4px; }
+      .hero-render { width: 100px; height: 100px; }
+      .hero-render.left-b, .hero-render.right-b { display: none; }
+      .hero-render.left-a { left: -18%; width: 90px; height: 90px; }
+      .hero-render.right-a { right: -18%; width: 90px; height: 90px; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-stats-grid { grid-template-columns: 1fr 1fr; }
+
+      .ceo-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+      .ceo-portrait img { margin: 0 auto; }
+      .ceo-speech blockquote { padding-left: 1rem; }
+
+      .recruit-criteria ul { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+      .modal { max-height: 85vh; }
+      .modal-body { padding: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 4rem 1rem; }
+      .roster-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 1rem; }
+      nav ul { gap: 0.8rem; }
+    }
+
+    /* ============================================================
+       SCROLL ANIMATIONS
+       ============================================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+       ============================================================ -->
+  <nav>
+    <a href="#hero" class="logo" aria-label="Team Throw Home">
+      <img src="logo-nav.png" alt="TEAM THROW" class="logo-img" />
+    </a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#ceo">CEO</a></li>
+      <li><a href="#roster">Roster</a></li>
+      <li><a href="recruits.html">Full Roster</a></li>
+      <li><a href="fanart.html">Fanart</a></li>
+      <li><a href="#recruit">Join</a></li>
+      <li><a href="https://github.com/abduznik/teamthrow.online" target="_blank" rel="noopener noreferrer" class="gh-link" aria-label="GitHub repository">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a></li>
+      <li><a href="https://discord.gg/y73pxj37yT" target="_blank" rel="noopener noreferrer" class="gh-link" aria-label="Discord server">
+        <svg width="20" height="20" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
+      </a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero" id="hero">
+
+    <div class="hero-edge-left"></div>
+    <div class="hero-edge-right"></div>
+
+    <!-- Floating hero renders -->
+    <img class="hero-render left-a" src="https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/8c/OW2_Reaper.png/revision/latest?cb=20241108201455"
+         alt="Reaper" data-speed="0.3" />
+    <img class="hero-render left-b" src="https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1e/OW2_Doomfist_render.png/revision/latest?cb=20241102135923"
+         alt="Doomfist" data-speed="0.2" />
+    <img class="hero-render right-a" src="https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/17/OW2_Genji.png/revision/latest?cb=20241102133634"
+         alt="Genji" data-speed="0.25" />
+    <img class="hero-render right-b" src="https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/ab/OW2_Widowmaker.png/revision/latest?cb=20241108201530"
+         alt="Widowmaker" data-speed="0.35" />
+
+    <!-- Hero content -->
+    <div class="hero-content">
+      <div class="hero-badge">Overwatch Competitive Team</div>
+      <h1>TEAM <span>THROW</span></h1>
+      <p class="tagline">We Don't Choke. We Commit.</p>
+      <a href="#recruit" class="cta">JOIN THE ROSTER</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS BAR
+       ============================================================ -->
+  <div class="stats-bar">
+    <div class="stats-track" id="statsTrack1">
+      <div class="stat-item"><span class="stat-value">97%</span><span class="stat-label">Loss Rate</span></div>
+      <div class="stat-item"><span class="stat-value">0.3</span><span class="stat-label">Average KDA</span></div>
+      <div class="stat-item"><span class="stat-value">#1</span><span class="stat-label">In Feeding</span></div>
+      <div class="stat-item"><span class="stat-value">14</span><span class="stat-label">Consecutive Last Places</span></div>
+      <div class="stat-item"><span class="stat-value">-2400</span><span class="stat-label">Est. SR</span></div>
+      <div class="stat-item"><span class="stat-value">0%</span><span class="stat-label">Ultimate Accuracy</span></div>
+      <div class="stat-item"><span class="stat-value">∞</span><span class="stat-label">Reports Received</span></div>
+      <div class="stat-item"><span class="stat-value">18</span><span class="stat-label">Avg Deaths/Game</span></div>
+      <div class="stat-item"><span class="stat-value">Bronze 5</span><span class="stat-label">Peak Rank</span></div>
+      <div class="stat-item"><span class="stat-value">0</span><span class="stat-label">Tournament Wins</span></div>
+      <div class="stat-item"><span class="stat-value">-10</span><span class="stat-label">Positive Karma</span></div>
+      <div class="stat-item"><span class="stat-value">2.4K</span><span class="stat-label">Avoids as Teammate</span></div>
+      <div class="stat-item"><span class="stat-value">0%</span><span class="stat-label">Objective Time</span></div>
+      <div class="stat-item"><span class="stat-value">100%</span><span class="stat-label">Tilt Rate</span></div>
+      <div class="stat-item"><span class="stat-value">Bronze 5</span><span class="stat-label">Peak Endorsement</span></div>
+      <div class="stat-item"><span class="stat-value">47K</span><span class="stat-label">Match Chat Bans</span></div>
+      <div class="stat-item"><span class="stat-value">-3</span><span class="stat-label">Win/Loss Diff</span></div>
+      <div class="stat-item"><span class="stat-value">99%</span><span class="stat-label">Teammate Report Rate</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ABOUT / PHILOSOPHY
+       ============================================================ -->
+  <section class="about" id="about">
+    <div class="section-container">
+      <div class="about-grid">
+        <div class="about-text fade-in">
+          <div class="section-label">Our Philosophy</div>
+          <h2 class="section-title">Professionally <span>Bad</span></h2>
+          <div class="section-divider"></div>
+
+          <div class="mission-quote">
+            "When you throw, YOU decide how the match ends! "
+          </div>
+
+          <p>
+            <span class="highlight">About team throw:</span>
+
+			Do you enjoy playing Overwatch? Do you feel like <span class="highlight">competitive is too hard on your own?</span> Would you like to be among like-minded gamers to <span class="highlight">never expect you to carry?</span>
+
+			Or in short, WOULD YOU LIKE TO JOIN TEAM THROW?
+          </p>
+          <p>
+            We are a growing community of gamers that want to have fun first and foremost - but almost never do, because we <span class="highlight">throw.</span>
+          </p>
+          <p>
+            When you get tilted, when you're too tired, when your team just honestly sucks: <span class="highlight">just throw!</span>
+
+			It's funnier to try-hard when you know your teammate is playing only with <span class="highlight">one foot.</span>
+          </p>
+		  <p>
+            Come one, come all and <span class="highlight">join TEAM THROW!</span> Where everyone is a loser - and so everybody wins!
+          </p>
+        </div>
+
+        <div class="about-stats-grid fade-in fade-in-delay-1">
+          <div class="about-stat-card">
+            <div class="num">14</div>
+            <div class="desc">Seasons Without a Win</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="num">47K+</div>
+            <div class="desc">Hours of Film Study<br/>(of our worst games)</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="num">3.2M</div>
+            <div class="desc">Total Deaths (Team)</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="num">0</div>
+            <div class="desc">Career Playoff Appearances</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CEO — ARBUZNIK
+       ============================================================ -->
+  <section class="ceo" id="ceo">
+    <div class="section-container">
+      <div class="section-label fade-in">From the Desk of the CEO</div>
+      <h2 class="section-title fade-in fade-in-delay-1">The <span>Vision</span></h2>
+      <div class="section-divider fade-in fade-in-delay-2"></div>
+
+      <div class="ceo-grid">
+        <div class="ceo-portrait fade-in fade-in-delay-1">
+          <img src="https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/34/OW2_Roadhog.png/revision/latest?cb=20260213114356"
+               alt="Arbuznik, CEO of Team Throw" />
+          <div class="ceo-name">Arbuznik</div>
+          <div class="ceo-title">Founder &amp; Chief Executive Thrower</div>
+        </div>
+
+        <div class="ceo-speech fade-in fade-in-delay-2">
+          <blockquote>
+            <p>
+              When I founded Team Throw in 2026 I didn't care what people thought, I had a vision, one day while taking a poo I had a spark, a vision so to say from <span class="highlight">Jeff Kaplan himself.</span>
+            </p>
+            <p>
+              This vision has given me the power and the reason to be the founder of this team, a team that doesn't show off with their high K/D Ratio but <span class="highlight">the opposite</span>
+			  it made us fearful and known fast, so fast actually I was interviewed by my neighbors dog and was endorsed with many licks.
+            </p>
+            <p>
+              I saw those poor souls, trying their best to show who they are, to become the legends they desire to be, and me? I'm the visionary that can make their dreams come true.
+			  A Mei blocking D.va bomb? That's honesty, D.va players we're always a show off, but blocking a bomb like that? That requires <span class="highlight">real skill</span>.
+            </p>
+            <p>
+              Winning is a sin, we all know that, no one remembers the person who lost but has created something <span class="highlight">stronger than a win</span>.
+			  Friends, Family, The people along the way, that's who matter the most, and throwing with them gives the strongest synergy than any other team.
+            </p>
+            <p>
+              <span class="highlight">Throwalonians 4:20</span> — "And the Lord looked upon the battlefield and saw those who sought victory, and he was disappointed. For it is written that the true path is not of wins, but of throws so magnificent, so breathtaking, that thine enemies shall queue dodge at the mere sight of thy username. Blessed are the feeders, for they shall inherit the bronze lobby."
+			  — <span class="highlight">The Book of Throw, Chapter 4, Verse 20</span>
+            </p>
+          </blockquote>
+
+          <div class="ceo-signature">Arbuznik</div>
+          <div class="ceo-signature-sub">CEO, Team Throw — Professionally Bad Since 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ROSTER
+       ============================================================ -->
+  <section class="roster" id="roster">
+    <div class="section-container">
+      <div class="section-label fade-in">The Lineup</div>
+      <h2 class="section-title fade-in fade-in-delay-1">Meet the <span>Roster</span></h2>
+      <div class="section-divider fade-in fade-in-delay-2"></div>
+
+      <div class="roster-grid" id="rosterGrid"></div>
+
+      <div style="text-align:center;margin-top:2rem;">
+        <a href="recruits.html" class="cta" style="display:inline-block;padding:0.8rem 2.5rem;background:var(--red);color:var(--white);font-family:var(--font-display);font-size:1.1rem;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;">VIEW FULL ROSTER</a>
+      </div>
+
+      <!-- Recruited players container (appended by GitHub Action) -->
+      <div id="recruitedPlayers" class="roster-grid" style="margin-top:1rem;display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RECRUITMENT
+       ============================================================ -->
+  <section class="recruit" id="recruit">
+    <div class="section-container">
+      <div class="recruit-content fade-in">
+        <div class="section-label">Join the Cause</div>
+        <h2>You Belong <span>Here</span></h2>
+        <div class="section-divider"></div>
+
+        <p>
+          Team Throw isn't looking for players. We're looking for <strong>believers</strong>. 
+          Do you have what it takes to be <em>the worst</em>? Our scouts are watching. 
+          Every missed shot, every wasted ultimate, every "report [you]" in match chat — 
+          that's your audition tape.
+        </p>
+
+        <div class="recruit-criteria">
+          <h3>» Do You Qualify?</h3>
+          <ul>
+            <li>Did you ult into a wall today?</li>
+            <li>Did you swap to Torbjörn in overtime?</li>
+            <li>Did your entire team report you?</li>
+            <li>Do you blame your supports for your positioning?</li>
+            <li>Have you ever said "gg ez" after a loss?</li>
+            <li>Do you hold your ultimate for the perfect moment that never comes?</li>
+            <li>Is Bronze 5 your true rank ceiling?</li>
+          </ul>
+        </div>
+
+        <p>
+          If you answered <strong>yes</strong> to any of the above, pick up that controller, 
+          lock in your worst hero, and <span style="color: var(--red); font-weight: 600;">throw your way to glory</span>.
+          Your commission will be reviewed by our board of directors. <strong>Arbuznik</strong> himself
+          will evaluate your application.
+        </p>
+
+        <button class="apply-btn" onclick="openModal()">SUBMIT APPLICATION</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       APPLICATION MODAL
+       ============================================================ -->
+  <div class="modal-overlay" id="applyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Roster <span>Application</span></h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+
+      <!-- Application Form View -->
+      <div class="modal-body" id="modalFormView">
+        <div class="form-view active" id="formView">
+          <p style="color: #888; margin-bottom: 1.5rem; font-size: 0.9rem; letter-spacing: 1px;">
+            COMMISSION APPLICATION — All fields required. Failure is optional.
+          </p>
+
+          <div class="form-group">
+            <label for="f-gamerTag">Gamer Tag</label>
+            <input type="text" id="f-gamerTag" placeholder="xX_YourTag_Xx" required />
+            <div class="help-text">Must be at least mildly embarrassing.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="f-role">Role / Hero Pool</label>
+            <select id="f-role" required>
+              <option value="">Select your worst role...</option>
+              <option value="DPS">DPS — I can't aim but I lock Widow anyway</option>
+              <option value="Tank">Tank — I push W and never look back</option>
+              <option value="Support">Support — I dps Moira, always</option>
+              <option value="Flex">Flex — I'm terrible at everything equally</option>
+            </select>
+            <div class="help-text">Be honest. We'll know if you're lying.</div>
+          </div>
+
+          <div class="form-group">
+            <label>Main Hero</label>
+            <div class="hero-selector" id="heroSelector">
+              <div class="hero-search-bar">
+                <input type="text" id="f-heroSearch" placeholder="Search heroes..." autocomplete="off" />
+                <span class="hero-search-icon">&#128269;</span>
+              </div>
+              <div class="hero-grid" id="heroGrid"></div>
+              <div class="hero-selected" id="heroSelected">
+                <span class="hero-selected-label">No hero selected</span>
+              </div>
+              <input type="hidden" id="f-mainHero" value="" />
+            </div>
+            <div class="help-text">Click a hero portrait to select. The hero you instalock and refuse to swap off.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="f-sr">Current SR</label>
+            <input type="text" id="f-sr" placeholder="e.g., Bronze 5 (be honest...)" required />
+            <div class="help-text">We have ways of verifying. Just kidding. We don't care.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="f-hours">Hours Played</label>
+            <input type="text" id="f-hours" placeholder="e.g., 2,000+ hours of feeding" required />
+            <div class="help-text">Total career hours. Mentally subtract 80% for queue time.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="f-story">Your Worst Throw</label>
+            <textarea id="f-story" placeholder="Tell us about the time you ulted into a wall, walked your Symmetra teleporter off the cliff, or blamed your team so hard they all reported you. We want details. We want pain. We want art." required></textarea>
+            <div class="help-text">The more embarrassing, the better your chances.</div>
+          </div>
+        </div>
+
+        <!-- Success view -->
+        <div class="success-view" id="successView">
+          <h3>APPLICATION THROWN</h3>
+          <div class="sub">
+            Your commission has been submitted to the <strong>Arbuznik Review Board</strong>.<br />
+            Our GitHub Action is processing your application right now.<br /><br />
+            Wait time: <strong>randomized between 30 seconds and never</strong>.<br />
+            Check the <strong>Roster</strong> section periodically for updates.
+          </div>
+          <div class="ticket-id" id="ticketId">TT-XXXX</div>
+          <div class="view-commission">
+            <a class="github-link" id="issueLink" href="#" target="_blank">
+              &#128279; View your application on GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Footer -->
+      <div class="modal-footer" id="modalFooter">
+        <button class="btn-cancel" onclick="closeModal()">CANCEL</button>
+        <button class="btn-submit" id="submitBtn" onclick="submitApplication()">SUBMIT COMMISSION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <a href="#hero" style="text-decoration:none;display:inline-block;">
+          <img src="logo-nav.png" alt="TEAM THROW" style="height:50px;width:auto;" />
+        </a>
+        <p class="footer-desc">
+          The world's premier Overwatch esports organization for competitive underperformance. 
+          Professionally bad since 2026.
+        </p>
+        <div class="sponsor-logos" style="margin-top: 1.5rem;">
+          <div class="sponsor">Presented by <strong>Respawn Point Clinic</strong></div>
+          <div class="sponsor">Fueled by <strong>Tilt Fuel Energy Drink</strong></div>
+        </div>
+        <div class="sponsor-logos" style="margin-top: 0.5rem;">
+          <div class="sponsor">Sponsored by <strong>Walmart Wi-Fi</strong></div>
+          <div class="sponsor">Official Chair: <strong>Folding</strong></div>
+        </div>
+      </div>
+      <div>
+        <h4>Navigate</h4>
+        <ul class="footer-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">Philosophy</a></li>
+          <li><a href="#ceo">CEO</a></li>
+          <li><a href="#roster">Roster</a></li>
+          <li><a href="#recruit">Recruitment</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="#">Match History</a></li>
+          <li><a href="#">Highlight Reel (of failures)</a></li>
+          <li><a href="#">Merch Store (coming never)</a></li>
+          <li><a href="#">Report a Teammate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Team Throw. All rights reserved. None of them are winning rights.
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    // ============================================================
+    // SCROLL-TRIGGERED FADE-IN
+    // ============================================================
+    (function initFadeIn() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ============================================================
+    // HERO PARALLAX
+    // ============================================================
+    (function heroParallax() {
+      var renders = document.querySelectorAll('.hero-render');
+      if (!renders.length) return;
+      window.addEventListener('scroll', function() {
+        var scrollY = window.pageYOffset;
+        renders.forEach(function(el) {
+          var speed = parseFloat(el.getAttribute('data-speed')) || 0.3;
+          el.style.marginTop = (scrollY * speed * 0.15) + 'px';
+        });
+      });
+    })();
+
+    // ============================================================
+    // SMOOTH SCROLL FOR NAV
+    // ============================================================
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ============================================================
+    // MODAL
+    // ============================================================
+    var modal = document.getElementById('applyModal');
+
+    function openModal() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // Reset to form view
+      document.getElementById('formView').classList.add('active');
+      document.getElementById('successView').classList.remove('active');
+      document.getElementById('modalFooter').style.display = 'flex';
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').textContent = 'SUBMIT COMMISSION';
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close on overlay click
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    });
+
+    // ============================================================
+    // HERO SELECTOR — full Overwatch roster with portraits
+    // ============================================================
+    var HEROES = [
+      {name:'Ana',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/3d/Icon-Ana.png/revision/latest?cb=20221005160847',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/5e/OW2_Ana.png/revision/latest?cb=20241102141052'},
+      {name:'Anran',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/07/Icon-Anran.png/revision/latest?cb=20260418122337',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/07/OW2_Anran.png/revision/latest?cb=20260216113236'},
+      {name:'Ashe',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/b/be/Icon-Ashe.png/revision/latest?cb=20221005165904',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/89/OW2_Ashe.png/revision/latest?cb=20250329135344'},
+      {name:'Baptiste',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/fb/Icon-Baptiste.png/revision/latest?cb=20221005160910',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/00/OW2_Baptiste.png/revision/latest?cb=20241108201237'},
+      {name:'Bastion',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/Icon-Bastion.png/revision/latest?cb=20221005165909',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/OW2_Bastion.png/revision/latest?cb=20221005165909'},
+      {name:'Brigitte',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a6/Icon-Brigitte.png/revision/latest?cb=20221005160917',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/83/OW2_Brigitte.png/revision/latest?cb=20220930191642'},
+      {name:'Cassidy',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/05/Icon-Cassidy.png/revision/latest?cb=20221005165914',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a0/OW2_Cassidy.png/revision/latest?cb=20241108201305'},
+      {name:'D.Va',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/19/Icon-D.Va.png/revision/latest?cb=20221005161600',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1a/OW2_Dva.png/revision/latest?cb=20241108201346'},
+      {name:'Doomfist',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a1/Icon-Doomfist.png/revision/latest?cb=20221005161638',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1e/OW2_Doomfist_render.png/revision/latest?cb=20241102135923'},
+      {name:'Domina',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/76/Icon-Domina.png/revision/latest?cb=20260210210928',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/d7/OW2_Domina.png/revision/latest?cb=20260213022447'},
+      {name:'Echo',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/d6/Icon-Echo.png/revision/latest?cb=20221005165920',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/d6/OW2_Echo.png/revision/latest?cb=20221005165920'},
+      {name:'Emre',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/34/Icon-Emre.png/revision/latest?cb=20260210210951',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/c/c7/OW2_Emre.png/revision/latest?cb=20260213003055'},
+      {name:'Freja',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/04/Icon-Freja.png/revision/latest?cb=20250422191741',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/31/OW2_Freja.png/revision/latest?cb=20250322151231'},
+      {name:'Genji',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1c/Icon-Genji.png/revision/latest?cb=20221005165931',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/17/OW2_Genji.png/revision/latest?cb=20241102133634'},
+      {name:'Hanzo',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/71/Icon-Hanzo.png/revision/latest?cb=20221005165925',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/6/66/OW2_Hanzo.png/revision/latest?cb=20241220134913'},
+      {name:'Hazard',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/54/Icon-Hazard.png/revision/latest?cb=20250211163319',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/6/63/OW2_Hazard.png/revision/latest?cb=20241124152149'},
+      {name:'Illari',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/86/Icon-Illari.png/revision/latest?cb=20230811015354',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/2b/OW2_Illari.png/revision/latest?cb=20260304090158'},
+      {name:'Jetpack Cat',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/12/Icon-Jetpack_Cat.png/revision/latest?cb=20260210211110',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/27/OW2_Jetpack_Cat.png/revision/latest?cb=20260206154545'},
+      {name:'Junker Queen',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/2b/Icon-Junker_Queen.png/revision/latest?cb=20250426235748',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/50/OW2_JunkerQueen.png/revision/latest?cb=20241101134259'},
+      {name:'Junkrat',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/9/99/Icon-Junkrat.png/revision/latest?cb=20221005170201',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f2/OW2_Junkrat.png/revision/latest?cb=20260214122743'},
+      {name:'Juno',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/c/c7/Icon-Juno.png/revision/latest?cb=20240822214309',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/21/OW2_Juno.png/revision/latest?cb=20260213110336'},
+      {name:'Kiriko',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/c/ca/Icon-kiriko.png/revision/latest?cb=20221004202610',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/16/OW2_Kiriko.png/revision/latest?cb=20241102132938'},
+      {name:'Lifeweaver',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/86/Icon-Lifeweaver.png/revision/latest?cb=20230411181321',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/7e/OW2_Lifeweaver.png/revision/latest?cb=20241123123936'},
+      {name:'L\u00facio',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/Icon-L%C3%BAcio.png/revision/latest?cb=20221004204914',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/4/44/OW2_L%C3%BAcio.png/revision/latest?cb=20241102140611'},
+      {name:'Mauga',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/39/Icon-Mauga.png/revision/latest?cb=20231205235708',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/78/OW2_Mauga.png/revision/latest?cb=20260304093509'},
+      {name:'Mei',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/9/99/Icon-Mei.png/revision/latest?cb=20221005170206',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/7e/OW2_Mei.png/revision/latest?cb=20241102134134'},
+      {name:'Mercy',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/03/Icon-Mercy.png/revision/latest?cb=20221005160926',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/11/OW2_Mercy.png/revision/latest?cb=20241102143122'},
+      {name:'Mizuki',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/36/Icon-Mizuki.png/revision/latest?cb=20260210211030',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/83/OW2_Mizuki.png/revision/latest?cb=20260215135742'},
+      {name:'Moira',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/55/Icon-Moira.png/revision/latest?cb=20221005160935',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/5a/OW2_Moira.png/revision/latest?cb=20240404082150'},
+      {name:'Orisa',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/11/Icon-Orisa.png/revision/latest?cb=20221005161652',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/34/OW2_Orisa.png/revision/latest?cb=20240404155812'},
+      {name:'Pharah',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/29/Icon-Pharah.png/revision/latest?cb=20221005170211',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/b/b3/OW2_Pharah.png/revision/latest?cb=20241108201144'},
+      {name:'Ramattra',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/6/6f/Icon-Ramattra.png/revision/latest?cb=20221206190323',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/e/ef/OW2_Ramattra.png/revision/latest?cb=20260304093912'},
+      {name:'Reaper',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a9/Icon-Reaper.png/revision/latest?cb=20221005170219',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/8c/OW2_Reaper.png/revision/latest?cb=20241108201455'},
+      {name:'Reinhardt',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/8/83/Icon-Reinhardt.png/revision/latest?cb=20221005161659',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/27/OW2_Reinhardt.png/revision/latest?cb=20220409014723'},
+      {name:'Roadhog',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/16/Icon-Roadhog.png/revision/latest?cb=20221005161706',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/34/OW2_Roadhog.png/revision/latest?cb=20260213114356'},
+      {name:'Sigma',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/e/e0/Icon-Sigma.png/revision/latest?cb=20221005161714',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/c/c9/OW2_Sigma.png/revision/latest?cb=20240404193956'},
+      {name:'Sierra',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/32/Icon-Sierra.png/revision/latest?cb=20260414184738',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1c/OW2_Sierra.png/revision/latest?cb=20260415005653'},
+      {name:'Sojourn',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/e/e0/Icon-Sojourn.png/revision/latest?cb=20221005170226',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/ae/OW2_Sojourn.png/revision/latest?cb=20240928162620'},
+      {name:'Soldier: 76',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/10/Icon-Soldier76.png/revision/latest?cb=20221005170231',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/b/bf/OW2_S76.png/revision/latest?cb=20260208153542'},
+      {name:'Sombra',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/70/Icon-Sombra.png/revision/latest?cb=20221005170556',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/d7/OW2_Sombra.png/revision/latest?cb=20241108201559'},
+      {name:'Symmetra',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/06/Icon-Symmetra.png/revision/latest?cb=20221005170604',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/OW2_Symmetra.png/revision/latest?cb=20240130124019'},
+      {name:'Tracer',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/2/29/Icon-Tracer.png/revision/latest?cb=20221005170620',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/6/63/OW2_Tracer.png/revision/latest?cb=20241102134907'},
+      {name:'Vendetta',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/dd/Icon-Vendetta.png/revision/latest?cb=20251127231802',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/9/96/OW2_Vendetta.png/revision/latest?cb=20260304090759'},
+      {name:'Venture',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a0/Icon-Venture.png/revision/latest?cb=20250324005446',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/c/c7/OW2_Venture.png/revision/latest?cb=20241102122834'},
+      {name:'Widowmaker',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/54/Icon-Widowmaker.png/revision/latest?cb=20221005170629',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/ab/OW2_Widowmaker.png/revision/latest?cb=20241108201530'},
+      {name:'Winston',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f8/Icon-Winston.png/revision/latest?cb=20221005161721',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/3/39/OW2_Winston.png/revision/latest?cb=20241102142153'},
+      {name:'Wrecking Ball',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/c/ca/Icon-Wrecking_Ball.png/revision/latest?cb=20221005161727',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/03/OW2_Wrecking_Ball.png/revision/latest?cb=20260304093441'},
+      {name:'Wuyang',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/6/6c/Icon-Wuyang.png/revision/latest?cb=20250826195208',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/d/d4/OW2_Wuyang.png/revision/latest?cb=20260305234200'},
+      {name:'Zarya',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/7/75/Icon-Zarya.png/revision/latest?cb=20221005161732',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/0/02/OW2_Zarya.png/revision/latest?cb=20241108201623'},
+      {name:'Zenyatta',icon:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f7/Icon-Zenyatta.png/revision/latest?cb=20221005160943',render:'https://static.wikia.nocookie.net/overwatch_gamepedia/images/4/44/OW2_Zenyatta.png/revision/latest?cb=20260324055645'},
+    ];
+
+    function buildHeroGrid() {
+      var grid = document.getElementById('heroGrid');
+      var search = document.getElementById('f-heroSearch');
+      var hidden = document.getElementById('f-mainHero');
+      var selected = document.getElementById('heroSelected');
+
+      function renderHeroes(filter) {
+        var q = (filter || '').toLowerCase();
+        grid.innerHTML = '';
+        HEROES.forEach(function(h) {
+          if (q && h.name.toLowerCase().indexOf(q) === -1 && h.name.toLowerCase().replace(/[^a-z0-9]/g,'').indexOf(q.replace(/[^a-z0-9]/g,'')) === -1) return;
+          var el = document.createElement('div');
+          el.className = 'hero-item';
+          if (h.name === hidden.value) el.classList.add('selected');
+          el.innerHTML = '<img src="' + h.icon + '" alt="' + h.name + '" loading="lazy" /><span class="hero-item-name">' + h.name + '</span>';
+          el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            selectHero(h.name);
+          });
+          grid.appendChild(el);
+        });
+        if (!grid.children.length) {
+          grid.innerHTML = '<div style="padding:1rem;color:#555;text-align:center;font-size:0.85rem;grid-column:1/-1;">No heroes match your search</div>';
+        }
+      }
+
+      function selectHero(name) {
+        hidden.value = name;
+        var hero = null;
+        for (var i = 0; i < HEROES.length; i++) {
+          if (HEROES[i].name === name) { hero = HEROES[i]; break; }
+        }
+        if (hero) {
+          selected.innerHTML = '<img src="' + hero.icon + '" alt="' + hero.name + '" /><span class="hero-selected-label">' + hero.name + '</span>';
+          selected.classList.add('has-hero');
+        }
+        // Update selection highlights
+        Array.from(grid.children).forEach(function(el) {
+          var nameEl = el.querySelector('.hero-item-name');
+          if (nameEl && nameEl.textContent === name) el.classList.add('selected');
+          else el.classList.remove('selected');
+        });
+        // Clear search
+        search.value = '';
+        renderHeroes('');
+      }
+
+      search.addEventListener('input', function() {
+        renderHeroes(this.value);
+      });
+
+      // Initial render
+      renderHeroes('');
+    }
+
+    // Initialize hero grid when modal first opens
+    var heroGridBuilt = false;
+    var origOpenModal = openModal;
+    openModal = function() {
+      origOpenModal();
+      if (!heroGridBuilt) {
+        buildHeroGrid();
+        heroGridBuilt = true;
+      }
+      // Reset hero selection
+      document.getElementById('f-mainHero').value = '';
+      document.getElementById('heroSelected').innerHTML = '<span class="hero-selected-label">No hero selected</span>';
+      document.getElementById('heroSelected').classList.remove('has-hero');
+      document.getElementById('f-heroSearch').value = '';
+      // Re-render grid
+      var grid = document.getElementById('heroGrid');
+      if (grid) grid.innerHTML = '';
+      if (typeof buildHeroGrid === 'function') buildHeroGrid();
+    };
+
+    // ============================================================
+    // SUBMIT APPLICATION
+    // ============================================================
+    // GitHub repo config — customize these!
+    var GITHUB_REPO_OWNER = 'abduznik';
+    var GITHUB_REPO_NAME  = 'teamthrow.online';
+    // For GitHub Issues submission, set GITHUB_TOKEN in localStorage:
+    //   localStorage.setItem('gh_token', 'github_pat_xxxxxxxxxxxx')
+    // Or leave unset for demo mode (simulated acceptance).
+
+    function submitApplication() {
+      var tag     = document.getElementById('f-gamerTag').value.trim();
+      var role    = document.getElementById('f-role').value;
+      var hero    = document.getElementById('f-mainHero').value.trim();
+      var sr      = document.getElementById('f-sr').value.trim();
+      var hours   = document.getElementById('f-hours').value.trim();
+      var story   = document.getElementById('f-story').value.trim();
+
+      // Validate
+      if (!tag || !role || !hero || !sr || !hours || !story) {
+        // Pulse the empty fields
+        document.querySelectorAll('#formView input, #formView select, #formView textarea').forEach(function(f) {
+          if (!f.value.trim()) {
+            f.style.borderColor = '#c0392b';
+            setTimeout(function() { f.style.borderColor = ''; }, 2000);
+          }
+        });
+        return;
+      }
+
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'SUBMITTING...';
+
+      var token = localStorage.getItem('gh_token');
+
+      // Build issue body
+      var body = '## Roster Application — Commission Review\n\n'
+        + '| Field | Value |\n'
+        + '|-------|-------|\n'
+        + '| **Gamer Tag** | ' + tag + ' |\n'
+        + '| **Role** | ' + role + ' |\n'
+        + '| **Main Hero** | ' + hero + ' |\n'
+        + '| **Current SR** | ' + sr + ' |\n'
+        + '| **Hours Played** | ' + hours + ' |\n'
+        + '| **Worst Throw** | ' + story + ' |\n\n'
+        + '---\n\n'
+        + '_This application was automatically submitted via teamthrow.online._\n'
+        + '_Labels: `roster-application`_';
+
+      // Try to submit via GitHub Issues API
+      if (token) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'https://api.github.com/repos/' + GITHUB_REPO_OWNER + '/' + GITHUB_REPO_NAME + '/issues', true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
+        xhr.onload = function() {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            var issue = JSON.parse(xhr.responseText);
+            showSuccess(tag, issue.number, issue.html_url);
+          } else {
+            console.warn('GitHub API error:', xhr.status, xhr.responseText);
+            showDemoSuccess(tag, hero, role);
+          }
+        };
+        xhr.onerror = function() {
+          showDemoSuccess(tag, hero, role);
+        };
+        xhr.send(JSON.stringify({
+          title: 'Roster Application: ' + tag,
+          body: body,
+          labels: ['roster-application']
+        }));
+      } else {
+        // No token — demo mode with simulated acceptance
+        showDemoSuccess(tag, hero, role);
+      }
+    }
+
+    function showSuccess(tag, issueNumber, issueUrl) {
+      document.getElementById('formView').classList.remove('active');
+      document.getElementById('successView').classList.add('active');
+      document.getElementById('modalFooter').style.display = 'none';
+      document.getElementById('ticketId').textContent = 'TT-' + String(issueNumber).padStart(4, '0');
+      var link = document.getElementById('issueLink');
+      link.href = issueUrl;
+      link.textContent = '\u{1F517} View your application on GitHub';
+    }
+
+    function showDemoSuccess(tag, heroName, roleName) {
+      document.getElementById('formView').classList.remove('active');
+      document.getElementById('successView').classList.add('active');
+      document.getElementById('modalFooter').style.display = 'none';
+
+      var ticketNum = Math.floor(Math.random() * 9000) + 1000;
+      document.getElementById('ticketId').textContent = 'TT-' + ticketNum;
+
+      var link = document.getElementById('issueLink');
+      if (localStorage.getItem('gh_token')) {
+        link.href = 'https://github.com/' + GITHUB_REPO_OWNER + '/' + GITHUB_REPO_NAME + '/issues?q=label%3Aroster-application';
+        link.textContent = '\u{1F517} View all applications on GitHub';
+      } else {
+        link.href = '#';
+        link.textContent = '\u26A0\uFE0F GitHub token not configured — demo mode active';
+        link.style.color = '#888';
+        link.style.cursor = 'default';
+        link.onclick = function(e) { e.preventDefault(); };
+
+        // In demo mode, simulate acceptance after random delay
+        var delay = (Math.floor(Math.random() * 15) + 5) * 1000; // 5–20 seconds
+        setTimeout(function() {
+          simulateCommissionApproved(tag, heroName, roleName);
+        }, delay);
+      }
+    }
+
+    // ============================================================
+    // SIMULATE COMMISSION ACCEPTANCE (demo mode)
+    // ============================================================
+    function simulateCommissionApproved(tag, heroName, roleName) {
+      var grid = document.getElementById('rosterGrid');
+      if (!grid) return;
+
+      // Find the selected hero in HEROES dict to get full-body render URL
+      var chosen = null;
+      if (heroName) {
+        for (var i = 0; i < HEROES.length; i++) {
+          if (HEROES[i].name === heroName) { chosen = HEROES[i]; break; }
+        }
+      }
+      // Fallback if hero not found
+      if (!chosen) chosen = HEROES[Math.floor(Math.random() * HEROES.length)];
+
+      var role = roleName || 'DPS';
+
+      var recruit = {
+        tag: tag,
+        role: role,
+        hero: chosen.name,
+        heroImg: chosen.render,
+        winRate: (Math.floor(Math.random() * 5) + 1) + '%',
+        deaths: String(Math.floor(Math.random() * 15) + 10),
+        kda: (Math.random() * 0.3).toFixed(2),
+        bonusStat: '???',
+        bonusLabel: 'Seriously?',
+        specialty: 'Fresh meat, still learning to feed'
+      };
+
+      var card = renderRecruitCard(recruit, true);
+      card.querySelector('.recruit-badge').textContent = '\u2605 FRESH RECRUIT';
+      grid.appendChild(card);
+      setTimeout(function() { card.classList.add('visible'); }, 50);
+
+      // Trigger fade-in
+      setTimeout(function() {
+        card.classList.add('visible');
+      }, 50);
+
+      // Show a notification banner
+      var banner = document.createElement('div');
+      banner.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:#27ae60;color:white;font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.9rem;padding:1rem 1.5rem;z-index:3000;animation:modalIn 0.3s ease-out;border:1px solid rgba(255,255,255,0.1);max-width:350px;letter-spacing:1px;text-transform:uppercase;';
+      banner.innerHTML = '\u2705 COMMISSION APPROVED<br/><span style="font-family:Bebas Neue;font-size:1.2rem;letter-spacing:2px;">' + tag + '</span><br/><span style="font-size:0.75rem;opacity:0.8;">has been added to the roster</span>';
+      document.body.appendChild(banner);
+      setTimeout(function() { banner.style.opacity = '0'; banner.style.transition = 'opacity 0.5s'; }, 5000);
+      setTimeout(function() { banner.remove(); }, 6000);
+    }
+
+    // ============================================================
+    // RENDER A SINGLE ROSTER CARD FROM RECRUIT DATA
+    // ============================================================
+    function renderRecruitCard(r, showBadge) {
+      var roleMap = {dps:'role-damage', tank:'role-tank', support:'role-support'};
+      var roleClass = roleMap[(r.role || 'damage').toLowerCase()] || 'role-damage';
+      var badgeHtml = showBadge ? '<span class="recruit-badge show">\u2605 RECRUITED</span>' : '';
+      var card = document.createElement('div');
+      card.className = 'roster-card ' + roleClass + ' fade-in';
+      card.innerHTML = badgeHtml
+        + '<img class="card-img" src="' + r.heroImg + '" alt="' + r.hero + '" loading="lazy" />'
+        + '<div class="card-body">'
+        +   '<div class="player-name">' + r.tag + '</div>'
+        +   '<div class="player-role">' + (r.role || 'DPS') + ' \u2014 ' + r.hero + '</div>'
+        +   '<div class="player-stats">'
+        +     '<div class="ps-item"><strong>' + (r.winRate || '?%') + '</strong>Win Rate</div>'
+        +     '<div class="ps-item"><strong>' + (r.deaths || '?') + '</strong>Avg Deaths</div>'
+        +     '<div class="ps-item"><strong>' + (r.kda || '?') + '</strong>KDA</div>'
+        +     '<div class="ps-item"><strong>' + (r.bonusStat || '???') + '</strong>' + (r.bonusLabel || 'Stat') + '</div>'
+        +   '</div>'
+        +   '<div class="specialty"><span>Specialty:</span> ' + (r.specialty || 'Fresh meat') + '</div>'
+        + '</div>';
+      return card;
+    }
+
+    // ============================================================
+    // LOAD ROSTER — shows recent 6 on home page
+    // ============================================================
+    // Embedded fallback data for static file:// loading
+    var FALLBACK_RECRUITS = [
+      {"tag":"xX_Feeder69_Xx","role":"DPS","hero":"Cassidy","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a0/OW2_Cassidy.png/revision/latest?cb=20241108201305","winRate":"3%","deaths":"22","kda":"0.10","bonusStat":"0%","bonusLabel":"Flashbang Hit Rate","specialty":"Feeding on cooldown"},
+      {"tag":"SoloUltBot","role":"DPS","hero":"Junkrat","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f2/OW2_Junkrat.png/revision/latest?cb=20260214122743","winRate":"5%","deaths":"18","kda":"0.02","bonusStat":"100%","bonusLabel":"Riptire Suicide Rate","specialty":"Ulting alone into 1v5"},
+      {"tag":"xX_NoScope_NoBrain_Xx","role":"DPS","hero":"Widowmaker","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/ab/OW2_Widowmaker.png/revision/latest?cb=20241108201530","winRate":"1%","deaths":"20","kda":"0.05","bonusStat":"0","bonusLabel":"Headshots (Career)","specialty":"Missing every shot with confidence"},
+      {"tag":"RolloutWho?","role":"Tank","hero":"Doomfist","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1e/OW2_Doomfist_render.png/revision/latest?cb=20241102135923","winRate":"2%","deaths":"15","kda":"0.08","bonusStat":"0","bonusLabel":"Seconds on Point","specialty":"Punching into the enemy backline solo"},
+      {"tag":"WallStreetBets","role":"DPS","hero":"Symmetra","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/OW2_Symmetra.png/revision/latest?cb=20240130124019","winRate":"4%","deaths":"15","kda":"0.30","bonusStat":"15","bonusLabel":"TP to Cliff/Game","specialty":"Teleporting team off the map"},
+      {"tag":"xX_NerfThis_Xx","role":"DPS","hero":"Genji","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/17/OW2_Genji.png/revision/latest?cb=20241102133634","winRate":"3%","deaths":"18","kda":"0.10","bonusStat":"100%","bonusLabel":"I Need Healing Spam","specialty":"Blading into 1v6, blaming supports"}
+    ];
+
+    (function loadRoster() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'recruits.json', true);
+      xhr.onload = function() {
+        var recruits = null;
+        if (xhr.status === 200) {
+          try { recruits = JSON.parse(xhr.responseText); } catch(e) {}
+        }
+        // Fallback to embedded data if XHR failed or returned empty
+        if (!recruits || !recruits.length) recruits = FALLBACK_RECRUITS;
+
+        renderRoster(recruits);
+      };
+      xhr.onerror = function() {
+        renderRoster(FALLBACK_RECRUITS);
+      };
+      xhr.send();
+
+      function renderRoster(recruits) {
+        if (!recruits || !recruits.length) return;
+        var grid = document.getElementById('rosterGrid');
+        var extraContainer = document.getElementById('recruitedPlayers');
+
+        var recent = recruits.slice(-6).reverse();
+        recent.forEach(function(r) { grid.appendChild(renderRecruitCard(r, false)); });
+
+        setTimeout(function() {
+          grid.querySelectorAll('.fade-in').forEach(function(el) { el.classList.add('visible'); });
+        }, 50);
+
+        var extras = recruits.slice(0, -6);
+        if (extras.length && extraContainer) {
+          extraContainer.style.display = '';
+          extras.reverse().forEach(function(r) { extraContainer.appendChild(renderRecruitCard(r, true)); });
+          setTimeout(function() {
+            extraContainer.querySelectorAll('.fade-in').forEach(function(el) { el.classList.add('visible'); });
+          }, 100);
+        }
+      }
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+[
+  {
+    "tag": "xX_Feeder69_Xx",
+    "role": "DPS",
+    "hero": "Cassidy",
+    "heroImg": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a0/OW2_Cassidy.png/revision/latest?cb=20241108201305",
+    "winRate": "3%",
+    "deaths": "22",
+    "kda": "0.10",
+    "bonusStat": "0%",
+    "bonusLabel": "Flashbang Hit Rate",
+    "specialty": "Feeding on cooldown"
+  },
+  {
+    "tag": "SoloUltBot",
+    "role": "DPS",
+    "hero": "Junkrat",
+    "heroImg": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f2/OW2_Junkrat.png/revision/latest?cb=20260214122743",
+    "winRate": "5%",
+    "deaths": "18",
+    "kda": "0.02",
+    "bonusStat": "100%",
+    "bonusLabel": "Riptire Suicide Rate",
+    "specialty": "Ulting alone into 1v5"
+  },
+  {
+    "tag": "xX_NoScope_NoBrain_Xx",
+    "role": "DPS",
+    "hero": "Widowmaker",
+    "heroImg": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/ab/OW2_Widowmaker.png/revision/latest?cb=20241108201530",
+    "winRate": "1%",
+    "deaths": "20",
+    "kda": "0.05",
+    "bonusStat": "0",
+    "bonusLabel": "Headshots (Career)",
+    "specialty": "Missing every shot with confidence"
+  },
+  {
+    "tag": "RolloutWho?",
+    "role": "Tank",
+    "hero": "Doomfist",
+    "heroImg": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1e/OW2_Doomfist_render.png/revision/latest?cb=20241102135923",
+    "winRate": "2%",
+    "deaths": "15",
+    "kda": "0.08",
+    "bonusStat": "0",
+    "bonusLabel": "Seconds on Point",
+    "specialty": "Punching into the enemy backline solo"
+  },
+  {
+    "tag": "WallStreetBets",
+    "role": "DPS",
+    "hero": "Symmetra",
+    "heroImg": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/OW2_Symmetra.png/revision/latest?cb=20240130124019",
+    "winRate": "4%",
+    "deaths": "15",
+    "kda": "0.30",
+    "bonusStat": "15",
+    "bonusLabel": "TP to Cliff/Game",
+    "specialty": "Teleporting team off the map"
+  },
+  {
+    "tag": "xX_NerfThis_Xx",
+    "role": "DPS",
+    "hero": "Genji",
+    "heroImg": "https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/17/OW2_Genji.png/revision/latest?cb=20241102133634",
+    "winRate": "3%",
+    "deaths": "18",
+    "kda": "0.10",
+    "bonusStat": "100%",
+    "bonusLabel": "I Need Healing Spam",
+    "specialty": "Blading into 1v6, blaming supports"
+  }
+]

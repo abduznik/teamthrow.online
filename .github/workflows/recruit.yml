@@ -1,0 +1,97 @@
+name: Roster Commission Review
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  review-application:
+    if: github.event.label.name == 'roster-application'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract application data
+        id: extract
+        run: |
+          BODY="${{ github.event.issue.body }}"
+          TAG=$(echo "$BODY" | grep 'Gamer Tag' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          ROLE=$(echo "$BODY" | grep '\*\*Role\*\*' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "role=$ROLE" >> $GITHUB_OUTPUT
+
+      - name: Commission Review (randomized wait)
+        run: |
+          WAIT_TIME=$(( (RANDOM % 270) + 30 ))
+          echo "Commission review in progress... estimated ${WAIT_TIME}s"
+          for i in 1 2 3 4 5; do
+            sleep $(( WAIT_TIME / 5 ))
+            echo "Progress: $(( i * 20 ))%"
+          done
+          echo "Commission review complete!"
+
+      - name: Initialize recruits.json if missing
+        run: |
+          if [ ! -f recruits.json ]; then
+            echo '[]' > recruits.json
+          fi
+
+      - name: Add new recruit to roster
+        run: |
+          python3 scripts/add-recruit.py \
+            "${{ steps.extract.outputs.tag }}" \
+            "${{ steps.extract.outputs.role }}"
+
+      - name: Commit and push
+        run: |
+          git config user.name "Team Throw Bot"
+          git config user.email "bot@teamthrow.online"
+          git add recruits.json
+          git commit -m "roster: add ${{ steps.extract.outputs.tag }}" || echo "Nothing to commit"
+          git push
+
+      - name: Comment on issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const tag = '${{ steps.extract.outputs.tag }}';
+            const body = [
+              '## ✅ Commission Approved!',
+              '',
+              `**${tag}** has been accepted into Team Throw.`,
+              '',
+              `Dear ${tag},`,
+              '',
+              'After careful review by our board of directors (and a brief nap by Arbuznik), we are thrilled to inform you that you have been selected to join our roster.',
+              '',
+              '### Your Onboarding Checklist:',
+              '- [ ] Instalock your hero immediately',
+              '- [ ] Spam "I Need Healing" at least 50 times per match',
+              '- [ ] Blame your supports for every death',
+              '- [ ] Ult into a wall at least once per game',
+              '- [ ] Never, ever swap',
+              '',
+              'Welcome to the family. We don\'t choke. We commit.',
+              '',
+              '— Arbuznik & The Team Throw Board'
+            ].join('\n');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Close the application
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.update({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              state_reason: 'completed'
+            });

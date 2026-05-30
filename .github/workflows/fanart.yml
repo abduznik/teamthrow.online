@@ -1,0 +1,79 @@
+name: Fanart Processor
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  process-fanart:
+    if: github.event.label.name == 'fanart'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Pillow
+        run: pip install Pillow
+
+      - name: Extract fanart data from issue
+        id: extract
+        run: |
+          BODY="${{ github.event.issue.body }}"
+          TITLE=$(echo "$BODY" | grep '| \*\*Title\*\*' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          ARTIST=$(echo "$BODY" | grep '| \*\*Artist\*\*' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          LINK=$(echo "$BODY" | grep '| \*\*Link\*\*' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          DESC=$(echo "$BODY" | grep '| \*\*Description\*\*' | sed 's/.*| \([^|]*\) |/\1/' | xargs)
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
+          echo "artist=$ARTIST" >> $GITHUB_OUTPUT
+          echo "link=$LINK" >> $GITHUB_OUTPUT
+          echo "desc=$DESC" >> $GITHUB_OUTPUT
+
+      - name: Extract image from issue body
+        run: |
+          BODY="${{ github.event.issue.body }}"
+          # Extract the first markdown image (data URL)
+          IMG_DATA=$(echo "$BODY" | grep -oP '!\[Art\]\(\K[^)]+' | head -1)
+          echo "$IMG_DATA" > image_data.txt
+          echo "Image data extracted ($(wc -c < image_data.txt) bytes)"
+
+      - name: Process fanart
+        run: |
+          python3 scripts/process-fanart.py \
+            image_data.txt \
+            "${{ steps.extract.outputs.title }}" \
+            "${{ steps.extract.outputs.artist }}" \
+            "${{ steps.extract.outputs.desc }}" \
+            "${{ steps.extract.outputs.link }}"
+
+      - name: Commit and push
+        run: |
+          git config user.name "Team Throw Bot"
+          git config user.email "bot@teamthrow.online"
+          git add fanarts.json assets/fanart/
+          git commit -m "fanart: ${{ steps.extract.outputs.title }} by ${{ steps.extract.outputs.artist }}" || echo "Nothing to commit"
+          git push
+
+      - name: Comment on issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '${{ steps.extract.outputs.title }}';
+            const artist = '${{ steps.extract.outputs.artist }}';
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## ✅ Fanart Processed!\n\nYour artwork **' + title + '** by **' + artist + '** has been added to the gallery.\n\nIt will appear on the fanart page on the next deployment.\n\n— Team Throw Bot'
+            });
+
+      - name: Close issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.update({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              state_reason: 'completed'
+            });

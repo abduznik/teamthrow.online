@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Full Roster — Team Throw</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="logo-web.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--black:#0d0d0d;--red:#c0392b;--red-dark:#8a1e1e;--red-glow:rgba(192,57,43,0.4);--white:#ffffff;--gray:#888888;--gray-dark:#1a1a1a;--gray-mid:#222222;--font-display:'Bebas Neue',sans-serif;--font-body:'Rajdhani',sans-serif}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{font-family:var(--font-body);background:var(--black);color:var(--white);min-height:100vh}
+    a{color:var(--red);text-decoration:none}
+    ::-webkit-scrollbar{width:8px}
+    ::-webkit-scrollbar-track{background:var(--black)}
+    ::-webkit-scrollbar-thumb{background:var(--red-dark);border-radius:4px}
+    ::-webkit-scrollbar-thumb:hover{background:var(--red)}
+
+    nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(13,13,13,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(192,57,43,0.15);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+    nav .logo{display:flex;align-items:center;text-decoration:none;height:100%}
+    nav .logo-img{height:40px;width:auto;display:block}
+    nav ul{list-style:none;display:flex;gap:2rem;align-items:center}
+    nav ul li a{font-family:var(--font-body);font-weight:600;font-size:0.95rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray);transition:color 0.3s;position:relative}
+    nav ul li a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--red);transition:width 0.3s}
+    nav ul li a:hover{color:var(--white)}
+    nav ul li a:hover::after{width:100%}
+    nav ul li a.gh-link::after{display:none}
+    nav ul li a.gh-link{display:flex;align-items:center;color:#555;transition:color 0.3s}
+    nav ul li a.gh-link:hover{color:var(--white)}
+
+    section{padding:6rem 2rem}
+    .section-container{max-width:1200px;margin:0 auto}
+    .section-label{font-family:var(--font-body);font-weight:600;font-size:0.85rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem}
+    .section-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);letter-spacing:4px;text-transform:uppercase;color:var(--white);margin-bottom:1rem}
+    .section-title span{color:var(--red)}
+    .section-divider{width:60px;height:3px;background:var(--red);margin-bottom:2rem}
+
+    .page-header{padding-top:100px;background:linear-gradient(180deg,#0d0d0d 0%,#111111 100%)}
+
+    .roster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:3rem}
+    .roster-card{background:var(--gray-dark);border:1px solid rgba(255,255,255,0.03);overflow:hidden;transition:all 0.4s;position:relative}
+    .roster-card:hover{border-color:var(--red);transform:translateY(-6px);box-shadow:0 10px 40px rgba(192,57,43,0.15)}
+    .roster-card .card-img{width:100%;height:260px;object-fit:cover;object-position:center top;background:linear-gradient(180deg,#1a1a1a 0%,#0d0d0d 100%);opacity:0.85;transition:opacity 0.4s}
+    .roster-card:hover .card-img{opacity:1}
+    .roster-card .card-body{padding:1.5rem}
+    .roster-card .player-name{font-family:var(--font-display);font-size:1.8rem;letter-spacing:2px;color:var(--white)}
+    .roster-card .player-role{display:inline-block;font-family:var(--font-body);font-weight:600;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--gray);background:rgba(255,255,255,0.03);padding:0.2rem 0.8rem;margin-top:0.3rem}
+    .roster-card .player-stats{margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+    .roster-card .player-stats .ps-item{font-size:0.8rem;color:var(--gray);letter-spacing:0.5px}
+    .roster-card .player-stats .ps-item strong{color:var(--red);font-weight:600;display:block;font-size:1rem}
+    .roster-card .specialty{margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.05);font-size:0.85rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px}
+    .roster-card .specialty span{color:var(--red);font-weight:600}
+    .role-damage{border-left:3px solid #e74c3c}
+    .role-tank{border-left:3px solid #3498db}
+    .role-support{border-left:3px solid #f1c40f}
+
+    .empty-state{text-align:center;padding:4rem 2rem;color:var(--gray)}
+    .empty-state h3{font-family:var(--font-display);font-size:2rem;letter-spacing:3px;color:#555;margin-bottom:0.5rem}
+    .empty-state p{font-size:1rem}
+
+    .back-link{display:inline-block;margin-top:1rem;font-family:var(--font-body);font-weight:600;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase;color:var(--red);transition:color 0.3s}
+    .back-link:hover{color:#e74c3c}
+
+    .loading{text-align:center;padding:4rem;color:#555;font-family:var(--font-display);font-size:1.5rem;letter-spacing:3px}
+
+    @media(max-width:768px){nav ul{gap:1rem}nav ul li a{font-size:0.75rem;letter-spacing:1px}.roster-grid{grid-template-columns:1fr}}
+    @media(max-width:480px){section{padding:4rem 1rem}nav{padding:0 1rem}nav ul{gap:0.8rem}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo" aria-label="Team Throw Home">
+      <img src="logo-nav.png" alt="TEAM THROW" class="logo-img" />
+    </a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#ceo">CEO</a></li>
+      <li><a href="recruits.html" style="color:var(--white);">Full Roster</a></li>
+      <li><a href="fanart.html">Fanart</a></li>
+      <li><a href="index.html#recruit">Join</a></li>
+      <li><a href="https://github.com/abduznik/teamthrow.online" target="_blank" rel="noopener noreferrer" class="gh-link" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a></li>
+    </ul>
+  </nav>
+
+  <section class="page-header">
+    <div class="section-container">
+      <div class="section-label">The Complete Lineup</div>
+      <h2 class="section-title">Full <span>Roster</span></h2>
+      <div class="section-divider"></div>
+      <p style="color:#888;font-size:1rem;">Every current Team Throw member. Each one is a specialist in competitive underperformance.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-container">
+      <div class="roster-grid" id="rosterGrid"></div>
+      <div class="loading" id="loadingState">Loading roster...</div>
+    </div>
+  </section>
+
+  <footer style="background:#080808;border-top:1px solid rgba(192,57,43,0.1);padding:2rem;text-align:center;color:#444;font-size:0.8rem;letter-spacing:1px;">
+    &copy; 2024 Team Throw. Professionally bad since 2024.
+  </footer>
+
+  <script>
+    // Embedded fallback data for static file:// loading
+    var FALLBACK_RECRUITS = [
+      {"tag":"xX_Feeder69_Xx","role":"DPS","hero":"Cassidy","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/a0/OW2_Cassidy.png/revision/latest?cb=20241108201305","winRate":"3%","deaths":"22","kda":"0.10","bonusStat":"0%","bonusLabel":"Flashbang Hit Rate","specialty":"Feeding on cooldown"},
+      {"tag":"SoloUltBot","role":"DPS","hero":"Junkrat","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/f/f2/OW2_Junkrat.png/revision/latest?cb=20260214122743","winRate":"5%","deaths":"18","kda":"0.02","bonusStat":"100%","bonusLabel":"Riptire Suicide Rate","specialty":"Ulting alone into 1v5"},
+      {"tag":"xX_NoScope_NoBrain_Xx","role":"DPS","hero":"Widowmaker","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/a/ab/OW2_Widowmaker.png/revision/latest?cb=20241108201530","winRate":"1%","deaths":"20","kda":"0.05","bonusStat":"0","bonusLabel":"Headshots (Career)","specialty":"Missing every shot with confidence"},
+      {"tag":"RolloutWho?","role":"Tank","hero":"Doomfist","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/1e/OW2_Doomfist_render.png/revision/latest?cb=20241102135923","winRate":"2%","deaths":"15","kda":"0.08","bonusStat":"0","bonusLabel":"Seconds on Point","specialty":"Punching into the enemy backline solo"},
+      {"tag":"WallStreetBets","role":"DPS","hero":"Symmetra","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/5/51/OW2_Symmetra.png/revision/latest?cb=20240130124019","winRate":"4%","deaths":"15","kda":"0.30","bonusStat":"15","bonusLabel":"TP to Cliff/Game","specialty":"Teleporting team off the map"},
+      {"tag":"xX_NerfThis_Xx","role":"DPS","hero":"Genji","heroImg":"https://static.wikia.nocookie.net/overwatch_gamepedia/images/1/17/OW2_Genji.png/revision/latest?cb=20241102133634","winRate":"3%","deaths":"18","kda":"0.10","bonusStat":"100%","bonusLabel":"I Need Healing Spam","specialty":"Blading into 1v6, blaming supports"}
+    ];
+
+    (function() {
+      var grid = document.getElementById('rosterGrid');
+      var loading = document.getElementById('loadingState');
+
+      function renderAll(recruits) {
+        loading.style.display = 'none';
+        if (!recruits || !recruits.length) {
+          grid.innerHTML = '<div class="empty-state"><h3>Empty Roster</h3><p>No players have been recruited yet. Be the first!</p></div>';
+          return;
+        }
+        // Show in reverse order (newest first)
+        recruits.slice().reverse().forEach(function(r) {
+          var roleMap = {dps:'role-damage', tank:'role-tank', support:'role-support'};
+          var roleClass = roleMap[(r.role||'damage').toLowerCase()]||'role-damage';
+          var card = document.createElement('div');
+          card.className = 'roster-card ' + roleClass;
+          card.innerHTML = ''
+            + '<img class="card-img" src="' + r.heroImg + '" alt="' + r.hero + '" loading="lazy" />'
+            + '<div class="card-body">'
+            +   '<div class="player-name">' + r.tag + '</div>'
+            +   '<div class="player-role">' + (r.role||'DPS') + ' \u2014 ' + r.hero + '</div>'
+            +   '<div class="player-stats">'
+            +     '<div class="ps-item"><strong>' + (r.winRate||'?%') + '</strong>Win Rate</div>'
+            +     '<div class="ps-item"><strong>' + (r.deaths||'?') + '</strong>Avg Deaths</div>'
+            +     '<div class="ps-item"><strong>' + (r.kda||'?') + '</strong>KDA</div>'
+            +     '<div class="ps-item"><strong>' + (r.bonusStat||'???') + '</strong>' + (r.bonusLabel||'Stat') + '</div>'
+            +   '</div>'
+            +   '<div class="specialty"><span>Specialty:</span> ' + (r.specialty||'Fresh meat') + '</div>'
+            + '</div>';
+          grid.appendChild(card);
+        });
+      }
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'recruits.json', true);
+      xhr.onload = function() {
+        var recruits = null;
+        if (xhr.status === 200) {
+          try { recruits = JSON.parse(xhr.responseText); } catch(e) {}
+        }
+        renderAll(recruits || FALLBACK_RECRUITS);
+      };
+      xhr.onerror = function() {
+        renderAll(FALLBACK_RECRUITS);
+      };
+      xhr.send();
+    })();
+  </script>
+</body>
+</html>
