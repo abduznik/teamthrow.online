@@ -191,16 +191,9 @@
     }
 
     // ============================================================
-    // SUBMIT FANART — via repository_dispatch
+    // SUBMIT FANART — via Cloudflare Worker
     // ============================================================
-    /*
-     * GitHub Token Info:
-     * Type: Fine-grained personal access token
-     * Scope: abduznik/teamthrow.online ONLY (single repo)
-     * Permissions: Actions (read/write), Contents (read/write)
-     */
-    var GH_PAT = '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';
-    var GH_PAT_FANART = GH_PAT;
+    var WORKER_URL = 'https://teamthrow.bacholate.workers.dev/';
 
     function submitFanart(e) {
       e.preventDefault();
@@ -233,7 +226,20 @@
       reader.onload = function(ev) {
         var imageData = ev.target.result;
 
-        var payload = {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', WORKER_URL, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+          if (xhr.status === 200 || xhr.status === 204) {
+            showFanartSuccess(title, imageData, artist, desc, artistLink);
+          } else {
+            showFanartError();
+          }
+        };
+        xhr.onerror = function() {
+          showFanartError();
+        };
+        xhr.send(JSON.stringify({
           event_type: 'new_fanart',
           client_payload: {
             title: title,
@@ -243,24 +249,7 @@
             image: imageData,
             timestamp: new Date().toISOString()
           }
-        };
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://api.github.com/repos/abduznik/teamthrow.online/dispatches', true);
-        xhr.setRequestHeader('Authorization', 'token ' + GH_PAT_FANART);
-        xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-          if (xhr.status === 204) {
-            showFanartSuccess(title, imageData, artist, desc, artistLink);
-          } else {
-            showFanartError();
-          }
-        };
-        xhr.onerror = function() {
-          showFanartError();
-        };
-        xhr.send(JSON.stringify(payload));
+        }));
 
         // Rate limit: 10 second cooldown
         setTimeout(function() {

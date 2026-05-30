@@ -2098,20 +2098,9 @@
     };
 
     // ============================================================
-    // SUBMIT APPLICATION — via repository_dispatch
+    // SUBMIT APPLICATION — via Cloudflare Worker
     // ============================================================
-    /*
-     * GitHub Token Info:
-     * Type: Fine-grained personal access token
-     * Scope: abduznik/teamthrow.online ONLY (single repo)
-     * Permissions: Actions (read/write), Contents (read/write)
-     * Cannot: access any other repo, read private data,
-     *          manage account, delete repo, or do anything
-     *          outside this one repo.
-     * Worst case abuse: spam fake recruits into a JSON file.
-     * We consider that on-brand.
-     */
-    var GH_PAT = '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';
+    var WORKER_URL = 'https://teamthrow.bacholate.workers.dev/';
 
     function sanitize(str, maxLen) {
       return String(str).replace(/<[^>]*>|<\/[^>]*>/g, '').replace(/[<>]/g, '').slice(0, maxLen || 200);
@@ -2146,7 +2135,20 @@
       btn.disabled = true;
       btn.textContent = 'THROWING...';
 
-      var payload = {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', WORKER_URL, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+        if (xhr.status === 200 || xhr.status === 204) {
+          showDispatchSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
+        } else {
+          showDispatchError();
+        }
+      };
+      xhr.onerror = function() {
+        showDispatchError();
+      };
+      xhr.send(JSON.stringify({
         event_type: 'new_recruit',
         client_payload: {
           battletag: tag,
@@ -2163,24 +2165,7 @@
           story: story,
           timestamp: new Date().toISOString()
         }
-      };
-
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://api.github.com/repos/abduznik/teamthrow.online/dispatches', true);
-      xhr.setRequestHeader('Authorization', 'token ' + GH_PAT);
-      xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json');
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onload = function() {
-        if (xhr.status === 204) {
-          showDispatchSuccess(tag, hero, role, winRate, deaths, kda, bonusStat, bonusLabel, specialty);
-        } else {
-          showDispatchError();
-        }
-      };
-      xhr.onerror = function() {
-        showDispatchError();
-      };
-      xhr.send(JSON.stringify(payload));
+      }));
 
       // Rate limit: disable button for 10 seconds
       setTimeout(function() {
