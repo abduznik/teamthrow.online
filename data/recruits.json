@@ -109,5 +109,18 @@
     "bonusLabel": "",
     "specialty": "",
     "timestamp": "2026-05-30T10:08:58.348Z"
+  },
+  {
+    "tag": "test",
+    "hero": "Bastion",
+    "role": "",
+    "heroImg": "assets/heroes/render/render_Bastion.webp",
+    "winRate": "5%",
+    "deaths": "",
+    "kda": "",
+    "bonusStat": "",
+    "bonusLabel": "",
+    "specialty": "",
+    "timestamp": "2026-05-30T10:11:57.497Z"
   }
 ]
