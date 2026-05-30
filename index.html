@@ -2140,6 +2140,10 @@
       if (!kda) kda = (Math.random() * 0.3).toFixed(2);
       if (!bonusStat) bonusStat = '???';
       if (!bonusLabel) bonusLabel = bonusLabels[Math.floor(Math.random() * bonusLabels.length)];
+      if (!role) {
+        var roles = ['DPS', 'Tank', 'Support'];
+        role = roles[Math.floor(Math.random() * roles.length)];
+      }
       if (!specialty) specialty = specialties[Math.floor(Math.random() * specialties.length)];
 
       var xhr = new XMLHttpRequest();

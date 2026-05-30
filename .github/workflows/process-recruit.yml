@@ -52,6 +52,48 @@ jobs:
           SAFE_HERO=$(echo "$HERO" | sed 's/[^a-zA-Z0-9]//g')
           HEROIMG="assets/heroes/render/render_${SAFE_HERO}.webp"
 
+          # --- ENRICHMENT: fill empty optional fields with funny random values ---
+          # If the JS auto-fill didn't run (cached page, etc.), the workflow catches it
+
+          # Role - random if empty
+          if [ -z "$ROLE" ]; then
+            ROLES=("DPS" "Tank" "Support")
+            ROLE=${ROLES[$RANDOM % ${#ROLES[@]}]}
+          fi
+
+          # Win rate - random 1-5% if empty
+          if [ -z "$WINRATE" ]; then
+            WINRATE="$((RANDOM % 5 + 1))%"
+          fi
+
+          # Deaths - random 10-25 if empty
+          if [ -z "$DEATHS" ]; then
+            DEATHS="$((RANDOM % 16 + 10))"
+          fi
+
+          # KDA - random 0.00-0.30 if empty
+          if [ -z "$KDA" ]; then
+            KDA="$(python3 -c "import random; print(f'{random.random()*0.3:.2f}')")"
+          fi
+
+          # Bonus stat - random between '???' and '0%' and '100%'
+          if [ -z "$BONUSSTAT" ]; then
+            BONUS_OPTS=("???" "0%" "100%" "0" "1" "15")
+            BONUSSTAT=${BONUS_OPTS[$RANDOM % ${#BONUS_OPTS[@]}]}
+          fi
+
+          # Bonus label - random from funny list
+          if [ -z "$BONUSLABEL" ]; then
+            LABELS=("Headshots (Career)" "Flashbang Hit Rate" "Riptire Suicide Rate" "I Need Healing Spam" "TP to Cliff/Game" "Seconds on Point" "Teammate Avoids" "Match Chat Bans" "Ultimates Wasted" "Times Blamed Supports" "Suicides per Game" "Walls Bumped Into" "Ults into Walls" "GG EZ After Loss")
+            BONUSLABEL=${LABELS[$RANDOM % ${#LABELS[@]}]}
+          fi
+
+          # Specialty - random from funny list
+          if [ -z "$SPECIALTY" ]; then
+            SPECS=("Fresh meat, still learning to feed" "Promising thrower, needs seasoning" "Natural talent for underperformance" "Consistently inconsistent" "Master of the accidental feed" "Ultimate economy: always wasted" "Positionally challenged" "Professional stagger artist" "Gold damage (to his own team)" "World record: most deaths per minute")
+            SPECIALTY=${SPECS[$RANDOM % ${#SPECS[@]}]}
+          fi
+
           # Map form fields to roster-card fields
           PAYLOAD=$(jq -n \
             --arg tag "$BATTLETAG" \
