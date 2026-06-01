@@ -1,0 +1,81 @@
+# Team Throw — LLM Content Map
+
+## About
+
+Team Throw is a parody Overwatch esports organization at https://teamthrow.online. Tagline: "Professionally Bad Since 2026". Dark-themed site with red accent (--red: #c0392b), fonts Bebas Neue (display) and Rajdhani (body). GitHub: abduznik/teamthrow.online.
+
+## Site Structure
+
+| Path | Content |
+|---|---|
+| / | Landing page: hero, stats bar, about, CEO speech / lore, community rules / "throw code", clip highlight, fanart gallery, team skill-calc widget, AI team-throw chatbot, team-roster section, recruit-CTAs, footer |
+| /roster.html | Auto-generated roster table from data/recruits.json (full parody player stats) |
+| /fanart.html | Fan-submitted art gallery (one currently: Medal of Honor) |
+| /recruits.html | Application / recruit form for joining Team Throw |
+| /videos.html | Video highlight reel (page exists, route in nav) |
+| /data/recruits.json | Structured roster data with winRate, deaths, kda, bonusStat, specialty per player |
+| /data/recruits.jsonl | Line-delimited recruit logs |
+| /fanarts.json | Fan art submissions (id, title, artist, image path, date) |
+| /videos.json | Video entries (id, title, uploader, url, platform, date) |
+
+## Parody Roster — 9 Players
+
+All stats are joke-low (1-5% win rates, double-digit deaths, near-zero KDA).
+
+### Support
+- **xjustajokex** — Support / Jetpack Cat — Win rate: bottom 500, Deaths: 13, KDA: 0.10, Headshots (Career): 1, Specialty: Positionally challenged
+- **Musicegg** — Support / Baptiste — Win rate: 4%, Deaths: 14, KDA: 0.19, Ults into Walls: 100%, Specialty: Consistently inconsistent
+
+### Tank
+- **Arbuznik** — Tank / Roadhog — Win rate: 2%, Deaths: 22, KDA: 0.04, Walls Bumped Into: 0%, Specialty: Hook accuracy 100% into enemy team
+- **RolloutWho?** — Tank / Doomfist — Win rate: 2%, Deaths: 15, KDA: 0.08, Seconds on Point: 0, Specialty: Punching into enemy backline solo
+
+### DPS
+- **xX_NerfThis_Xx** — DPS / Genji — Win rate: 3%, Deaths: 18, KDA: 0.10, I Need Healing Spam: 100%, Specialty: Blading into 1v6, blaming supports
+- **xX_NoScope_NoBrain_Xx** — DPS / Widowmaker — Win rate: 1%, Deaths: 20, KDA: 0.05, Headshots (Career): 0, Specialty: Missing every shot with confidence
+- **WallStreetBets** — DPS / Symmetra — Win rate: 4%, Deaths: 15, KDA: 0.30, TP to Cliff/Game: 15, Specialty: Teleporting team off the map
+- **SoloUltBot** — DPS / Junkrat — Win rate: 5%, Deaths: 18, KDA: 0.02, Riptire Suicide Rate: 100%, Specialty: Ulting alone into 1v5
+- **xX_Feeder69_Xx** — DPS / Cassidy — Win rate: 3%, Deaths: 22, KDA: 0.10, Flashbang Hit Rate: 0%, Specialty: Feeding on cooldown
+
+## Lore & Humor
+
+- **Founder origin**: Inspired by a vision from Jeff Kaplan himself while taking a poo
+- **Team philosophy**: "Winning is a sin," "everyone is a loser — so everybody wins"
+- **Throwalonians 4:20** — Parody scripture: "Blessed are the feeders, for they shall inherit the bronze lobby"
+- **Community "throw code"**: tilt, fatigue, bad teams — "just throw!"; shame reports as badges of honor
+- **D.va bomb block by Mei** cited as "real skill" moment
+- Tagline parody: "every missed shot, every wasted ultimate, every report in match chat — art"
+
+## Visual Design
+
+- Color: black (#0d0d0d), red (#c0392b), white, gray (#888)
+- Hero: gradient background with floating Overwatch hero renders (filter: drop-shadow with red glow), noise texture overlay
+- Stats bar: auto-scrolling parody stats (e.g. "24% Win Rate", "17 Avg Deaths", "0.04 KDA", "15K Reports", "19 Bronzes", "0.01% Playoffs")
+- Cards: dark gray background, red border on hover, translateY lift + shadow effect
+- Font: Bebas Neue for headers, Rajdhani for body — aggressive sporty esthetic
+- Scrollbar: custom thin red
+- Nav: glassmorphism (rgba black + backdrop-filter blur), red underline hover
+
+## Interactive Features
+
+- **AI Chatbot** (in-page): Team-throw themed AI assistant (toggle panel with slide-in animation, message history, themed input)
+- **Skill Calculator** (team-calc.js): widget estimating performance
+- **Recruit form**: sign-up flow with hero/role selection and stats customization
+- **Fanart gallery**: lightbox viewer on click
+- **Highlight reel**: embedded YouTube iframe player
+
+## CI/CD (GitHub Actions)
+
+- `.github/workflows/fanart.yml` — fan art processing pipeline
+- `.github/workflows/process-recruit.yml` — recruit submission processing
+- `.github/workflows/render-recruits.yml` — roster page rendering from recruit data
+- `.github/workflows/video.yml` — video content pipeline
+- `.github/workflows/youtube-feed.yml` — YouTube feed integration
+
+## External Resources
+
+- GitHub: https://github.com/abduznik/teamthrow.online
+- YouTube: https://www.youtube.com/@TeamThrowOW (parody Overwatch content)
+- Fonts: Google Fonts Bebas Neue + Rajdhani
+- Asset Renders: Overwatch hero renders in assets/heroes/(icon|render)/*.webp
+- Fanart: one asset in assets/fanart/Medal_of_Honor_*.jpg (Junkrat fan art)
