@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maps — Team Throw</title>
+  <meta name="description" content="Team Throw's official, scientifically incorrect ranking of the greatest Overwatch maps ever forced upon humanity. Paris is #1 and we will not be taking questions." />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="logo-web.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--black:#0d0d0d;--red:#c0392b;--red-dark:#8a1e1e;--red-glow:rgba(192,57,43,0.4);--white:#ffffff;--gray:#888888;--gray-dark:#1a1a1a;--gray-mid:#222222;--gold:#f1c40f;--font-display:'Bebas Neue',sans-serif;--font-body:'Rajdhani',sans-serif}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{font-family:var(--font-body);background:var(--black);color:var(--white);min-height:100vh}
+    a{color:var(--red);text-decoration:none}
+    ::-webkit-scrollbar{width:8px}
+    ::-webkit-scrollbar-track{background:var(--black)}
+    ::-webkit-scrollbar-thumb{background:var(--red-dark);border-radius:4px}
+    ::-webkit-scrollbar-thumb:hover{background:var(--red)}
+
+    nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(13,13,13,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(192,57,43,0.15);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+    nav .logo{display:flex;align-items:center;text-decoration:none;height:100%}
+    nav .logo-img{height:40px;width:auto;display:block}
+    nav ul{list-style:none;display:flex;gap:2rem;align-items:center}
+    nav ul li a{font-family:var(--font-body);font-weight:600;font-size:0.95rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray);transition:color 0.3s;position:relative}
+    nav ul li a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--red);transition:width 0.3s}
+    nav ul li a:hover{color:var(--white)}
+    nav ul li a:hover::after{width:100%}
+    nav ul li a.gh-link::after{display:none}
+    nav ul li a.gh-link{display:flex;align-items:center;color:#555;transition:color 0.3s}
+    nav ul li a.gh-link:hover{color:var(--white)}
+
+    section{padding:6rem 2rem}
+    .section-container{max-width:1100px;margin:0 auto}
+    .section-label{font-family:var(--font-body);font-weight:600;font-size:0.85rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem}
+    .section-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);letter-spacing:4px;text-transform:uppercase;color:var(--white);margin-bottom:1rem}
+    .section-title span{color:var(--red)}
+    .section-divider{width:60px;height:3px;background:var(--red);margin-bottom:2rem}
+    .page-header{padding-top:100px;background:linear-gradient(180deg,#0d0d0d 0%,#111111 100%)}
+    .lead{color:#999;font-size:1.05rem;max-width:760px;line-height:1.5}
+    .lead strong{color:var(--white)}
+
+    .disclaimer{margin-top:1.5rem;padding:1rem 1.25rem;border-left:3px solid var(--red);background:rgba(192,57,43,0.06);color:#aaa;font-size:0.9rem;line-height:1.5;max-width:760px}
+    .disclaimer strong{color:var(--red)}
+
+    .map-list{margin-top:1rem;display:flex;flex-direction:column;gap:2.5rem}
+    .map-card{background:var(--gray-dark);border:1px solid rgba(255,255,255,0.04);overflow:hidden;transition:all 0.4s;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+    .map-card:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 10px 40px rgba(192,57,43,0.12)}
+    .map-card.is-best{border-color:var(--gold);box-shadow:0 0 40px rgba(241,196,15,0.12)}
+    .map-card.is-best:hover{box-shadow:0 10px 50px rgba(241,196,15,0.22)}
+
+    .map-media{position:relative;min-height:280px;background:#111}
+    .map-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+    .rank-badge{position:absolute;top:1rem;left:1rem;z-index:2;font-family:var(--font-display);font-size:2.4rem;line-height:1;letter-spacing:1px;color:var(--white);background:rgba(13,13,13,0.8);border:1px solid rgba(255,255,255,0.12);padding:0.3rem 0.9rem;backdrop-filter:blur(4px)}
+    .is-best .rank-badge{color:var(--black);background:var(--gold);border-color:var(--gold)}
+    .crown{position:absolute;top:1rem;right:1rem;z-index:2;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--black);background:var(--gold);padding:0.35rem 0.7rem;font-weight:700}
+
+    .map-body{padding:1.8rem 2rem}
+    .map-name{font-family:var(--font-display);font-size:2.1rem;letter-spacing:2px;color:var(--white);line-height:1}
+    .is-best .map-name{color:var(--gold)}
+    .map-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin:0.7rem 0 1rem}
+    .map-tag{font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid rgba(255,255,255,0.1);color:var(--gray)}
+    .map-tag.bad{border-color:rgba(192,57,43,0.5);color:#e07a6c}
+    .map-blurb{color:#bbb;font-size:0.98rem;line-height:1.55}
+    .map-blurb p{margin-bottom:0.7rem}
+    .map-blurb p:last-child{margin-bottom:0}
+    .verdict{margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);font-size:0.9rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px}
+    .verdict span{color:var(--red);font-weight:700}
+    .is-best .verdict span{color:var(--gold)}
+    .quote{margin-top:0.8rem;font-style:italic;color:#cfa83a;font-size:0.92rem}
+
+    .outro{margin-top:3rem;text-align:center;color:#666;font-size:0.95rem;line-height:1.6}
+    .outro a{color:var(--red)}
+
+    @media(max-width:768px){
+      nav ul{gap:1rem}nav ul li a{font-size:0.75rem;letter-spacing:1px}
+      .map-card{grid-template-columns:1fr}
+      .map-media{min-height:200px;aspect-ratio:16/9}
+    }
+    @media(max-width:480px){section{padding:4rem 1rem}nav{padding:0 1rem}nav ul{gap:0.8rem}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo" aria-label="Team Throw Home">
+      <img src="logo-nav.png" alt="TEAM THROW" class="logo-img" />
+    </a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#ceo">CEO</a></li>
+      <li><a href="index.html#roster">Roster</a></li>
+      <li><a href="recruits.html">Full Roster</a></li>
+      <li><a href="fanart.html">Fanart</a></li>
+      <li><a href="videos.html">Videos</a></li>
+      <li><a href="maps.html" style="color:var(--white);">Maps</a></li>
+      <li><a href="index.html#recruit">Join</a></li>
+      <li><a href="https://github.com/abduznik/teamthrow.online" target="_blank" rel="noopener noreferrer" class="gh-link" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a></li>
+      <li><a href="https://discord.gg/y73pxj37yT" target="_blank" rel="noopener noreferrer" class="gh-link" aria-label="Discord server">
+        <svg width="20" height="20" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
+      </a></li>
+    </ul>
+  </nav>
+
+  <section class="page-header">
+    <div class="section-container">
+      <div class="section-label">Competitive Cartography Division</div>
+      <h2 class="section-title">The Greatest <span>Maps</span> Ever Made</h2>
+      <div class="section-divider"></div>
+      <p class="lead">
+        Most "esports analysts" rank Overwatch maps by boring metrics like <strong>fun</strong>, <strong>balance</strong>,
+        or whether anyone has ever willingly queued for them. At Team Throw, we rank them by a far more rigorous standard:
+        <strong>how spectacularly we can lose on them.</strong> By that measure, the following five maps are flawless,
+        generational masterpieces — and the rest of the rotation is, frankly, embarrassing itself.
+      </p>
+      <div class="disclaimer">
+        <strong>Peer review:</strong> This list has been independently verified by absolutely no one. Two-Control-Point
+        maps were deleted from competitive play by the developers for "being miserable." We took that as a personal challenge
+        and a glowing recommendation.
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="section-container">
+      <div class="map-list">
+
+        <!-- ============================ #1 PARIS ============================ -->
+        <article class="map-card is-best">
+          <div class="map-media">
+            <span class="rank-badge">#1</span>
+            <span class="crown">G.O.A.T. Map</span>
+            <!-- Drop a real screenshot here as assets/maps/paris.jpg and update the src; SVG poster used as the reliable default. -->
+            <img src="assets/maps/paris.svg" alt="Paris — the single greatest Overwatch map ever forced upon humanity" loading="lazy" />
+          </div>
+          <div class="map-body">
+            <h3 class="map-name">Paris</h3>
+            <div class="map-tags">
+              <span class="map-tag bad">Assault · 2CP</span>
+              <span class="map-tag">France</span>
+              <span class="map-tag bad">Deleted from Comp</span>
+            </div>
+            <div class="map-blurb">
+              <p>
+                Let us be clear and let us be brave: <strong>Paris is the best map in Overwatch and it is not close.</strong>
+                The community hated it so violently that Blizzard removed it from competitive play entirely. The developers
+                looked at their own creation and quietly walked it behind the barn. That is not a flaw. That is a <em>résumé.</em>
+              </p>
+              <p>
+                Think about the genius. The first point spawns so close to the attackers that defenders can lose before
+                finishing their loading screen — and yet, somehow, the attacking team also stalls out staring at a piano.
+                A piano! The most reliable teammate Team Throw has ever fielded sits in the corner of the point, never
+                whiffs a note, and has a better KDA than our entire DPS line.
+              </p>
+              <p>
+                It is ironic, of course, that the map universally voted the worst is also the most beautiful: golden sunset,
+                cobblestones, the Eiffel Tower glittering as you get spawn-camped against a bakery. Most teams find that
+                demoralizing. We find it <em>romantic.</em> You haven't truly thrown a game until you've thrown it in Paris.
+              </p>
+            </div>
+            <div class="verdict">Team Throw Verdict: <span>10 / 10</span> — a map so bad it loops all the way back around to perfect.</div>
+            <div class="quote">"It's giving art. It's giving heartbreak. It's giving us a reason to alt-F4." — the entire roster, in unison</div>
+          </div>
+        </article>
+
+        <!-- ============================ #2 NUMBANI ============================ -->
+        <article class="map-card">
+          <div class="map-media">
+            <span class="rank-badge">#2</span>
+            <img src="assets/maps/numbani.svg" alt="Numbani — ranked second on the sole authority of xjustajokex" loading="lazy" />
+          </div>
+          <div class="map-body">
+            <h3 class="map-name">Numbani</h3>
+            <div class="map-tags">
+              <span class="map-tag">Hybrid</span>
+              <span class="map-tag">Nigeria</span>
+              <span class="map-tag">Citation: "trust me"</span>
+            </div>
+            <div class="map-blurb">
+              <p>
+                Numbani is ranked #2 for one reason and one reason only: <strong>xjustajokex said so.</strong> That's it.
+                That's the methodology. He didn't cite a single statistic, match record, or coherent thought. He just
+                announced "Numbani is second best, just a joke — no wait, I'm serious," and the rest of the analytics
+                department (a folding chair) agreed.
+              </p>
+              <p>
+                We asked him to defend the pick. He said the airport is "vibey" and that he once got a kill there in 2019
+                (unconfirmed, widely doubted). We requested evidence. He sent a screenshot of a different map. We requested
+                better evidence. He left the call. <strong>The ranking stands.</strong> This is how all great science works.
+              </p>
+            </div>
+            <div class="verdict">Team Throw Verdict: <span>2nd / 5</span> — appointed by executive decree, peer-reviewed by vibes.</div>
+            <div class="quote">"Numbani number two. Don't worry about it." — xjustajokex (Support, bottom 500, our lead cartographer now apparently)</div>
+          </div>
+        </article>
+
+        <!-- ============================ #3 HORIZON LUNAR COLONY ============================ -->
+        <article class="map-card">
+          <div class="map-media">
+            <span class="rank-badge">#3</span>
+            <img src="assets/maps/horizon.svg" alt="Horizon Lunar Colony — assault map on the moon, also deleted from competitive" loading="lazy" />
+          </div>
+          <div class="map-body">
+            <h3 class="map-name">Horizon Lunar Colony</h3>
+            <div class="map-tags">
+              <span class="map-tag bad">Assault · 2CP</span>
+              <span class="map-tag">The Moon</span>
+              <span class="map-tag bad">Deleted from Comp</span>
+            </div>
+            <div class="map-blurb">
+              <p>
+                A two-control-point assault map so beloved that it, too, was escorted out of competitive play. The lore is
+                that genetically enhanced gorillas seized the colony and threw the scientists out the airlock. We relate to
+                this deeply: it is the only documented case of a team throwing harder than us, and we consider the gorillas
+                role models.
+              </p>
+              <p>
+                The selling point is the <strong>low gravity</strong>. When our DPS overextends and gets deleted — and they
+                will — their ragdoll achieves a graceful, almost balletic hang time before crumpling. We don't get more
+                kills here. We just feed in slow motion, cinematically, under the soft glow of Earth. Truly the best map for
+                losing with dignity.
+              </p>
+            </div>
+            <div class="verdict">Team Throw Verdict: <span>9 / 10</span> — the only arena where our deaths look intentional.</div>
+            <div class="quote">"In space, no one can hear you say 'I need healing.' But we will spam it anyway." — xX_NerfThis_Xx</div>
+          </div>
+        </article>
+
+        <!-- ============================ #4 HANAMURA ============================ -->
+        <article class="map-card">
+          <div class="map-media">
+            <span class="rank-badge">#4</span>
+            <img src="assets/maps/hanamura.svg" alt="Hanamura — first-point chokepoint meat grinder, yet another deleted 2CP map" loading="lazy" />
+          </div>
+          <div class="map-body">
+            <h3 class="map-name">Hanamura</h3>
+            <div class="map-tags">
+              <span class="map-tag bad">Assault · 2CP</span>
+              <span class="map-tag">Japan</span>
+              <span class="map-tag bad">Deleted from Comp</span>
+            </div>
+            <div class="map-blurb">
+              <p>
+                Hanamura's first point is a single, narrow, perfectly engineered <strong>meat grinder</strong> — one choke,
+                infinite chip damage, and a high ground the enemy will hold while we hold a strongly-worded chat message.
+                Every competent team calls it a coin-flip nightmare. We call it home, because we lose the coin flip every
+                single time and there's comfort in consistency.
+              </p>
+              <p>
+                And the aesthetics! Cherry blossoms drifting down as our entire team funnels into the choke and evaporates
+                one at a time, single file, like the world's saddest conga line. It's gorgeous. It's tradition. It's the
+                most photogenic team wipe in the game, and we provide it free of charge, every round, on the dot.
+              </p>
+            </div>
+            <div class="verdict">Team Throw Verdict: <span>8.5 / 10</span> — peak seasonal beauty, peak seasonal feeding.</div>
+            <div class="quote">"We don't get blocked at the choke. We get blocked WITH STYLE." — Arbuznik (Tank, 100% hook accuracy into enemy team)</div>
+          </div>
+        </article>
+
+        <!-- ============================ #5 TEMPLE OF ANUBIS ============================ -->
+        <article class="map-card">
+          <div class="map-media">
+            <span class="rank-badge">#5</span>
+            <img src="assets/maps/anubis.svg" alt="Temple of Anubis — long open chokes in the desert, completing the deleted 2CP collection" loading="lazy" />
+          </div>
+          <div class="map-body">
+            <h3 class="map-name">Temple of Anubis</h3>
+            <div class="map-tags">
+              <span class="map-tag bad">Assault · 2CP</span>
+              <span class="map-tag">Egypt</span>
+              <span class="map-tag bad">Deleted from Comp</span>
+            </div>
+            <div class="map-blurb">
+              <p>
+                Rounding out our flawless top five — and completing the full sweep of <strong>maps the developers literally
+                deleted</strong> — is Temple of Anubis. A vast, sun-baked second point with sightlines so long that an enemy
+                Widowmaker can headshot our backline, finish a coffee, and headshot it again before we've decided who's
+                making the call. Nobody is. Nobody ever is.
+              </p>
+              <p>
+                The choke into the second point is a sacred Team Throw ritual. We approach it reverently, one player at a
+                time, fully telegraphed, and offer ourselves to the spawn-camp like an ancient sacrifice. The pyramids have
+                stood for millennia. Our defense lasts roughly nine seconds. Both are wonders of the world in their own way.
+              </p>
+            </div>
+            <div class="verdict">Team Throw Verdict: <span>8 / 10</span> — the longest sightlines and the shortest defenses in history.</div>
+            <div class="quote">"Respect the temple. Walk into the choke. One at a time. That's the rules." — WallStreetBets (DPS, teleports team off the map)</div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="outro">
+        Disagree with this list? Outstanding. You can be wrong about maps too —
+        <a href="index.html#recruit">join the roster</a> and lose on every single one of them with us.<br />
+        Spotted a map we forgot to slander? Drop it in the <a href="https://discord.gg/y73pxj37yT" target="_blank" rel="noopener noreferrer">Discord</a>.
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#080808;border-top:1px solid rgba(192,57,43,0.1);padding:2rem;text-align:center;color:#444;font-size:0.8rem;letter-spacing:1px;">
+    &copy; 2026 Team Throw. Professionally bad since 2026. Map rankings final and non-negotiable, mostly because xjustajokex stopped answering.
+  </footer>
+
+</body>
+</html>
