@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Numbani">
+  <defs>
+    <linearGradient id="nSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c3b3a"/>
+      <stop offset="0.5" stop-color="#1f7a6e"/>
+      <stop offset="1" stop-color="#e8b34a"/>
+    </linearGradient>
+    <linearGradient id="nFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0d0d0d" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#nSky)"/>
+  <circle cx="300" cy="200" r="90" fill="#ffe7a8" opacity="0.8"/>
+  <!-- futuristic skyline -->
+  <g fill="#08312e">
+    <rect x="0" y="430" width="1200" height="245"/>
+    <rect x="120" y="250" width="70" height="200" rx="6"/>
+    <rect x="220" y="180" width="50" height="270" rx="6"/>
+    <rect x="700" y="300" width="60" height="150" rx="6"/>
+    <rect x="800" y="210" width="80" height="240" rx="8"/>
+    <path d="M540 450 L560 200 L600 160 L640 200 L660 450 Z"/>
+    <rect x="930" y="270" width="55" height="180" rx="6"/>
+    <rect x="1010" y="320" width="70" height="130" rx="6"/>
+  </g>
+  <g fill="#3fd6c0" opacity="0.7">
+    <rect x="585" y="220" width="30" height="6"/>
+    <rect x="135" y="290" width="40" height="5"/>
+    <rect x="815" y="250" width="50" height="5"/>
+    <rect x="945" y="310" width="25" height="5"/>
+  </g>
+  <!-- monorail -->
+  <path d="M0 500 Q600 440 1200 500" stroke="#3fd6c0" stroke-width="6" fill="none" opacity="0.5"/>
+  <rect width="1200" height="675" fill="url(#nFade)"/>
+  <text x="60" y="600" font-family="Arial Black, Impact, sans-serif" font-size="86" fill="#ffffff" letter-spacing="5">NUMBANI</text>
+  <text x="64" y="640" font-family="Arial, sans-serif" font-size="26" fill="#3fd6c0" letter-spacing="8">HYBRID · NIGERIA</text>
+</svg>

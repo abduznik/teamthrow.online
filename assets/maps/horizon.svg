@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Horizon Lunar Colony">
+  <defs>
+    <radialGradient id="hzSky" cx="0.5" cy="0.2" r="1">
+      <stop offset="0" stop-color="#1b2540"/>
+      <stop offset="0.6" stop-color="#0a0f1f"/>
+      <stop offset="1" stop-color="#04060d"/>
+    </radialGradient>
+    <linearGradient id="hzFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0d0d0d" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#hzSky)"/>
+  <!-- stars -->
+  <g fill="#ffffff">
+    <circle cx="120" cy="90" r="2"/><circle cx="300" cy="60" r="1.5"/><circle cx="520" cy="120" r="2"/>
+    <circle cx="760" cy="80" r="1.5"/><circle cx="980" cy="140" r="2"/><circle cx="1100" cy="70" r="1.5"/>
+    <circle cx="200" cy="200" r="1.5"/><circle cx="640" cy="40" r="1.5"/><circle cx="880" cy="220" r="2"/>
+  </g>
+  <!-- Earth -->
+  <circle cx="950" cy="180" r="95" fill="#2e6fb0"/>
+  <path d="M880 160 q40 -20 80 5 q30 20 60 0" stroke="#5fae5f" stroke-width="14" fill="none" opacity="0.7"/>
+  <circle cx="950" cy="180" r="95" fill="none" stroke="#7fc8ff" stroke-width="3" opacity="0.5"/>
+  <!-- lunar surface -->
+  <path d="M0 500 Q300 450 600 490 T1200 480 V675 H0 Z" fill="#3a3a44"/>
+  <g fill="#2a2a32">
+    <ellipse cx="250" cy="560" rx="60" ry="18"/>
+    <ellipse cx="700" cy="600" rx="80" ry="22"/>
+  </g>
+  <!-- colony dome -->
+  <g fill="#5a6270">
+    <path d="M380 500 a120 120 0 0 1 240 0 Z"/>
+  </g>
+  <path d="M380 500 a120 120 0 0 1 240 0" fill="none" stroke="#8fa6c4" stroke-width="4" opacity="0.6"/>
+  <rect x="470" y="430" width="60" height="70" fill="#3a4150"/>
+  <rect width="1200" height="675" fill="url(#hzFade)"/>
+  <text x="60" y="595" font-family="Arial Black, Impact, sans-serif" font-size="70" fill="#ffffff" letter-spacing="4">HORIZON</text>
+  <text x="64" y="638" font-family="Arial, sans-serif" font-size="25" fill="#7fc8ff" letter-spacing="6">ASSAULT · 2CP · LUNAR COLONY</text>
+</svg>

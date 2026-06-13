@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Paris">
+  <defs>
+    <linearGradient id="pSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a1d4d"/>
+      <stop offset="0.45" stop-color="#7a3b6e"/>
+      <stop offset="0.75" stop-color="#d76a4a"/>
+      <stop offset="1" stop-color="#f2b35e"/>
+    </linearGradient>
+    <linearGradient id="pFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0d0d0d" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#pSky)"/>
+  <circle cx="880" cy="190" r="70" fill="#ffe7b0" opacity="0.85"/>
+  <!-- city silhouette -->
+  <g fill="#1c0f24" opacity="0.9">
+    <rect x="0" y="470" width="1200" height="205"/>
+    <rect x="60" y="410" width="90" height="80"/>
+    <rect x="180" y="430" width="70" height="60"/>
+    <rect x="980" y="420" width="80" height="70"/>
+    <rect x="1090" y="440" width="70" height="55"/>
+  </g>
+  <!-- Eiffel Tower -->
+  <g fill="#150b1c">
+    <path d="M600 110 L632 470 L568 470 Z"/>
+    <path d="M600 110 L612 250 L588 250 Z" fill="#2a1633"/>
+    <rect x="585" y="300" width="30" height="14"/>
+    <path d="M560 470 L580 400 L620 400 L640 470 Z"/>
+    <rect x="596" y="70" width="8" height="44"/>
+  </g>
+  <path d="M540 470 q60 -40 120 0 v205 h-120 Z" fill="#150b1c" opacity="0.6"/>
+  <rect width="1200" height="675" fill="url(#pFade)"/>
+  <text x="60" y="600" font-family="Arial Black, Impact, sans-serif" font-size="92" fill="#ffffff" letter-spacing="6">PARIS</text>
+  <text x="64" y="640" font-family="Arial, sans-serif" font-size="26" fill="#f2b35e" letter-spacing="8">ASSAULT · 2CP · FRANCE</text>
+</svg>
